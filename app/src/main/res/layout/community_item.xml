@@ -18,7 +18,7 @@
             <TextView
                 android:id="@+id/textView_classification"
                 android:padding="4dp"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:gravity="center_horizontal"
                 android:background="@drawable/border"
                 android:text="전체공지"
@@ -29,7 +29,7 @@
                 android:id="@+id/textView_title"
                 android:text="제목입니다."
                 android:layout_marginLeft="16dp"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:layout_toRightOf="@+id/textView_classification"
                 android:layout_alignBaseline="@+id/textView_classification"
                 android:layout_width="wrap_content"
@@ -58,6 +58,7 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:src="@drawable/ic_comment"
+                android:tint="#B96548"
                 android:layout_toLeftOf="@+id/textView_commentCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

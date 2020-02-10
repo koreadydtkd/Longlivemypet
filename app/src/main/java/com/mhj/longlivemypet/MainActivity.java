@@ -3,8 +3,6 @@ package com.mhj.longlivemypet;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     PetFragment petFragment;
-    LocationFragment locationFragment;
+    MapFragment mapFragment;
     HomeFragment homeFragment;
     CommunityFragment communityFragment;
     SoundFragment soundFragment;
@@ -48,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         petFragment = new PetFragment();
-        locationFragment = new LocationFragment();
+        mapFragment = new MapFragment();
         homeFragment = new HomeFragment();
         communityFragment = new CommunityFragment();
         soundFragment = new SoundFragment();
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.navigation_location:
                         menuItem.setChecked(true);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, locationFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
                         break;
                     case R.id.navigation_home:
                         menuItem.setChecked(true);
@@ -73,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.navigation_community:
                         menuItem.setChecked(true);
-
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, communityFragment).commit();
                         break;
                     case R.id.navigation_sound:

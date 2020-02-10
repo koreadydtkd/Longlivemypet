@@ -27,7 +27,8 @@ public class CommunityFragment extends Fragment {
         mainActivity = (MainActivity) getActivity();
 
         firestore = FirebaseFirestore.getInstance();
-        Query query = firestore.collection("Community").whereEqualTo("cl", "공지사항").orderBy("date", Query.Direction.DESCENDING);
+//        Query query = firestore.collection("Community").whereEqualTo("cl", "공지사항").orderBy("date", Query.Direction.DESCENDING);
+        Query query = firestore.collection("Community").orderBy("date", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<CommunityItem> options = new FirestoreRecyclerOptions.Builder<CommunityItem>().setQuery(query, CommunityItem.class).build();
         adapter = new CommunityAdapter(options);
 
