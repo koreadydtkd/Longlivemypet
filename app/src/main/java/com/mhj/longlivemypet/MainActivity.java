@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                         menuItem.setChecked(true);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, petFragment).commit();
                         break;
-                    case R.id.navigation_location:
+                    case R.id.navigation_map:
                         menuItem.setChecked(true);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
                         break;
