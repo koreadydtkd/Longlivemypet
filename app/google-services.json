@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "347402090465",
+    "firebase_url": "https://longlivemypet-2851c.firebaseio.com",
+    "project_id": "longlivemypet-2851c",
+    "storage_bucket": "longlivemypet-2851c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347402090465:android:2ac4db031f8b01617604a0",
+        "android_client_info": {
+          "package_name": "com.mhj.longlivemypet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "347402090465-o50hg3omvh1v3vil2oduiu8ouphlq0mh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mhj.longlivemypet",
+            "certificate_hash": "ca8df5b3a1d1dea5f9836bf4c0ca4399b9b3dbb4"
+          }
+        },
+        {
+          "client_id": "347402090465-gqlfnvk5tfj4hvsj97vd0d3h4h2t07er.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHT5qPgvNf1APHAuE7QFKwQqdXdUAk-Hw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "347402090465-gqlfnvk5tfj4hvsj97vd0d3h4h2t07er.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="community_classification">
+        <item>병원추천</item>
+        <item>카페추천</item>
+        <item>맛집추천</item>
+        <item>궁금해요</item>
+    </string-array>
+</resources>

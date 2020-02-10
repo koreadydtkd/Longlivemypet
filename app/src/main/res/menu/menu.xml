@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_pet"
+        android:icon="@drawable/ic_person"
+        android:title="나의펫" />
+
+    <item
+        android:id="@+id/navigation_location"
+        android:icon="@drawable/ic_location"
+        android:title="병원/약국" />
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home"
+        android:title="홈" />
+
+    <item
+        android:id="@+id/navigation_community"
+        android:icon="@drawable/ic_forum"
+        android:title="커뮤니티" />
+
+    <item
+        android:id="@+id/navigation_sound"
+        android:icon="@drawable/ic_music_note"
+        android:title="사운드" />
+</menu>
