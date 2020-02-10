@@ -55,8 +55,7 @@ public class CommunityFragmentWrite extends Fragment {
                 communityItem.setClassification(spinner.getSelectedItem().toString());
                 communityItem.setNick(nick);
                 communityItem.setContent(editText_content.getText().toString());
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                communityItem.setDate(dateFormat.format(System.currentTimeMillis()));
+                communityItem.setDate(System.currentTimeMillis());
                 communityItem.setCommentCount(0);
 
                 firestore.collection("Community").document().set(communityItem);

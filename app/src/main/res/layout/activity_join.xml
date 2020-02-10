@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:hint="이메일"
             android:inputType="textEmailAddress"
-            android:background="@drawable/border"
+            android:background="@drawable/buttonsecond"
             android:padding="8dp" />
 
         <TextView
@@ -65,7 +65,7 @@
             android:maxLength="18"
             android:inputType="textPassword"
             android:hint="비밀번호"
-            android:background="@drawable/border"
+            android:background="@drawable/buttonsecond"
             android:padding="8dp" />
 
         <TextView
@@ -90,7 +90,7 @@
             android:maxLength="18"
             android:inputType="textPassword"
             android:hint="비밀번호 재입력"
-            android:background="@drawable/border"
+            android:background="@drawable/buttonsecond"
             android:padding="8dp" />
 
         <TextView

@@ -13,9 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+import java.text.SimpleDateFormat;
+
 public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, CommunityAdapter.CommunityHolder> {
     View itemView;
     String classification, title, userNick, date, commentCount;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public CommunityAdapter(@NonNull FirestoreRecyclerOptions<CommunityItem> options) {
         super(options);
@@ -26,7 +29,7 @@ public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, Co
         holder.textView_classification.setText(item.getClassification());
         holder.textView_title.setText(item.getTitle());
         holder.textView_userNick.setText(item.getNick());
-        holder.textView_date.setText(item.getDate() + "");
+        holder.textView_date.setText(dateFormat.format(item.getDate()));
         holder.textView_commentCount.setText(item.getCommentCount() + "");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
