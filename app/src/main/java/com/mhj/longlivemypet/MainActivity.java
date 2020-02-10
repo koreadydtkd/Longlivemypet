@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-//test1112
+
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
     private FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     CommunityFragment communityFragment;
     SoundFragment soundFragment;
 
+    ////test1112//test1112//test1112
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
