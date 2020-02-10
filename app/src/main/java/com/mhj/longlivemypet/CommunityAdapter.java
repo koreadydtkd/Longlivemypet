@@ -35,7 +35,6 @@ public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, Co
         });
     }
 
-    //Test!!
     @NonNull
     @Override
     public CommunityHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
