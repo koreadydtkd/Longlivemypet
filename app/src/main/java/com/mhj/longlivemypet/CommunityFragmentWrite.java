@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+
 public class CommunityFragmentWrite extends Fragment {
     MainActivity mainActivity;
     EditText editText_title, editText_content;
@@ -53,7 +55,8 @@ public class CommunityFragmentWrite extends Fragment {
                 communityItem.setClassification(spinner.getSelectedItem().toString());
                 communityItem.setNick(nick);
                 communityItem.setContent(editText_content.getText().toString());
-                communityItem.setDate(System.currentTimeMillis());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                communityItem.setDate(dateFormat.format(System.currentTimeMillis()));
                 communityItem.setCommentCount(0);
 
                 firestore.collection("Community").document().set(communityItem);

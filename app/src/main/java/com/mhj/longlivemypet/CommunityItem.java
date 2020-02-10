@@ -5,13 +5,13 @@ public class CommunityItem {
     String content;
     String classification;
     String nick;
-    long date;
+    String date;
     int commentCount;
 
     public CommunityItem() {
     }
 
-    public CommunityItem(String title, String content, String classification, String nick, long date, int commentCount) {
+    public CommunityItem(String title, String content, String classification, String nick, String date, int commentCount) {
         this.title = title;
         this.content = content;
         this.classification = classification;
@@ -52,11 +52,11 @@ public class CommunityItem {
         this.nick = nick;
     }
 
-    public long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -66,9 +66,5 @@ public class CommunityItem {
 
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
-    }
-
-    class Comment{
-
     }
 }
