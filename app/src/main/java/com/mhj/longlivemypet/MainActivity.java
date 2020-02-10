@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     CommunityFragment communityFragment;
     SoundFragment soundFragment;
 
-    //777
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

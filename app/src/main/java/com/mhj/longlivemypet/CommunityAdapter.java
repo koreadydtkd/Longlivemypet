@@ -1,5 +1,6 @@
 package com.mhj.longlivemypet;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, CommunityAdapter.CommunityHolder> {
     View itemView;
+    String classification, title, userNick, date, commentCount;
 
     public CommunityAdapter(@NonNull FirestoreRecyclerOptions<CommunityItem> options) {
         super(options);
@@ -30,7 +32,17 @@ public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, Co
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(holder.itemView.getContext(), "다음진행: " + position + item.getTitle(), Toast.LENGTH_SHORT).show();
+                classification = holder.textView_classification.getText().toString();
+                title = holder.textView_title.getText().toString();
+                userNick = holder.textView_userNick.getText().toString();
+                date = holder.textView_date.getText().toString();
+                commentCount = holder.textView_commentCount.getText().toString();
+                Intent intent = new Intent();
+                intent.putExtra("classification", classification);
+                intent.putExtra("title", title);
+                intent.putExtra("userNick", userNick);
+                intent.putExtra("date", date);
+                intent.putExtra("commentCount", commentCount);
             }
         });
     }
@@ -44,7 +56,7 @@ public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, Co
     }
 
     public class CommunityHolder extends RecyclerView.ViewHolder{
-        TextView textView_classification, textView_title, textView_userNick, textView_date, textView_commentCount;
+        TextView textView_classification, textView_title, textView_content, textView_userNick, textView_date, textView_commentCount;
         public CommunityHolder(@NonNull View itemView) {
             super(itemView);
             textView_classification = itemView.findViewById(R.id.textView_classification);
@@ -52,6 +64,7 @@ public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, Co
             textView_userNick = itemView.findViewById(R.id.textView_userNick);
             textView_date = itemView.findViewById(R.id.textView_date);
             textView_commentCount = itemView.findViewById(R.id.textView_commentCount);
+            textView_content = itemView.findViewById(R.id.textView_content);
         }
     }
 }
