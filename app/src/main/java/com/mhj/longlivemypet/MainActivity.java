@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    //문희준 ? 시발한용상개색끼
+
     public void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
