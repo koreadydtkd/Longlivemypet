@@ -51,6 +51,7 @@ public class CommunityFragmentWrite extends Fragment {
                 editText_title = rootView.findViewById(R.id.editText_title);
                 editText_content = rootView.findViewById(R.id.editText_content);
                 spinner = rootView.findViewById(R.id.spinner);
+
                 communityItem.setTitle(editText_title.getText().toString());
                 communityItem.setClassification(spinner.getSelectedItem().toString());
                 communityItem.setNick(nick);
@@ -60,6 +61,7 @@ public class CommunityFragmentWrite extends Fragment {
 
                 firestore.collection("Community").document().set(communityItem);
                 Toast.makeText(getContext(), "작성완료되었습니다." ,Toast.LENGTH_SHORT).show();
+
                 CommunityFragment communityFragment = new CommunityFragment();
                 mainActivity.replaceFragment(communityFragment);
             }
