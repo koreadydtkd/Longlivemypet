@@ -28,7 +28,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".JoinSecondActivity"></activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan" />
 
         <!--병일추가: 구글맵 관련 등등-->
         <uses-library android:name="com.google.android.maps"/>
@@ -41,8 +42,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
         <!--여기까지-->
-
-
 
         <activity
             android:name=".FindActivity"
