@@ -52,7 +52,7 @@
 
             <Button
 
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="130dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:id="@+id/button_dogsound"
@@ -81,7 +81,7 @@
                 android:id="@+id/button_catsound"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="130dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/cat" />

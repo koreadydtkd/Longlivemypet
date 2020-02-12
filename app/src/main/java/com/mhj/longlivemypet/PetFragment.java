@@ -1,34 +1,75 @@
 package com.mhj.longlivemypet;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class PetFragment extends Fragment {
+    RecyclerView recyclerView;
+    PetAdapter adapter;
+    ViewGroup rootView;
+    MainActivity mainActivity;
+    private FirebaseFirestore firestore;
     private FirebaseAuth auth;
+    String email;
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_pet, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rootView = (ViewGroup) inflater.inflate(R.layout.fragment_pet, container, false);
         auth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        mainActivity = (MainActivity) getActivity();
+        email = auth.getCurrentUser().getEmail();
 
-        //로그아웃 임시
-        rootView.findViewById(R.id.button_logout).setOnClickListener(new View.OnClickListener() {
+
+        Query query = firestore.collection("Pet").whereEqualTo("email", email).orderBy("date", Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<PetItem> options = new FirestoreRecyclerOptions.Builder<PetItem>().setQuery(query, PetItem.class).build();
+        adapter = new PetAdapter(options);
+
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+
+        rootView.findViewById(R.id.button_AddPet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                auth.signOut();
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                PetAddFragment petAddFragment = new PetAddFragment();
+                mainActivity.replaceFragment(petAddFragment);
             }
         });
-
         return rootView;
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 }
+
+
