@@ -50,7 +50,6 @@
 
             <RelativeLayout
                 android:id="@+id/relativeLayout2"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -126,7 +125,18 @@
         android:id="@+id/recyclerView"
         android:layout_marginTop="6dp"
         android:layout_width="330dp"
-        android:layout_height="150dp"
+        android:layout_height="160dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    <TextView
+        android:id="@+id/textView_noComment"
+        android:text="댓글이 없습니다"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_width="330dp"
+        android:layout_height="160dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />

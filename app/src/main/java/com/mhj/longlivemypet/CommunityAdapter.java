@@ -57,6 +57,7 @@ public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, Co
 
     public class CommunityHolder extends RecyclerView.ViewHolder{
         TextView textView_classification, textView_title, textView_userNick, textView_date, textView_commentCount;
+
         public CommunityHolder(@NonNull View itemView) {
             super(itemView);
             textView_classification = itemView.findViewById(R.id.textView_classification);

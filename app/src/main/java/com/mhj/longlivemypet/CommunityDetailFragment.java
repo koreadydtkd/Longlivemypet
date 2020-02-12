@@ -42,13 +42,13 @@ public class CommunityDetailFragment extends Fragment {
         firestore = FirebaseFirestore.getInstance();
         getUserEmail();
         setArgument();
+        editText_comment = rootView.findViewById(R.id.editText_comment);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
 
         Query query = firestore.collection("Community").document(document).collection("Comment").orderBy("date", Query.Direction.ASCENDING);
         FirestoreRecyclerOptions<CommunityDetailItem> options = new FirestoreRecyclerOptions.Builder<CommunityDetailItem>().setQuery(query, CommunityDetailItem.class).build();
         detailAdapter = new CommunityDetailAdapter(options, document);
 
-        editText_comment = rootView.findViewById(R.id.editText_comment);
-        recyclerView = rootView.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(detailAdapter);

@@ -74,9 +74,10 @@
         android:layout_marginBottom="8dp"
         android:layout_height="0dp" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/relativeLayout3"
         android:background="#10000000"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:paddingTop="4dp"
@@ -85,60 +86,56 @@
 
         <TextView
             android:id="@+id/textView_hospital"
+            android:gravity="center"
+            android:layout_weight="1"
             android:textColor="@android:color/holo_red_light"
             android:padding="2dp"
             android:text="#병원추천"
             android:textStyle="bold"
-            android:layout_marginRight="10dp"
-            android:gravity="center_vertical"
-            android:layout_toLeftOf="@+id/textView_cafe"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/textView_cafe"
+            android:gravity="center"
+            android:layout_weight="1"
             android:text="#카페추천"
             android:textStyle="bold"
             android:textColor="@android:color/holo_blue_dark"
-            android:gravity="center_vertical"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/textView_all"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/textView_all"
             android:gravity="center"
-            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
             android:textColor="@color/mainColor"
             android:textStyle="bold"
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="#전체보기" />
 
         <TextView
             android:id="@+id/textView_food"
+            android:gravity="center"
+            android:layout_weight="1"
             android:text="#맛집추천"
             android:textStyle="bold"
-            android:layout_marginLeft="10dp"
             android:textColor="@android:color/holo_orange_dark"
-            android:gravity="center_vertical"
-            android:layout_toRightOf="@id/textView_all"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/textView_question"
+            android:gravity="center"
+            android:layout_weight="1"
             android:text="#궁금해요"
             android:textStyle="bold"
-            android:layout_marginLeft="10dp"
             android:textColor="@android:color/holo_green_dark"
-            android:gravity="center_vertical"
-            android:layout_toRightOf="@id/textView_food"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_Write"
