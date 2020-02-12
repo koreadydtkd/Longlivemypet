@@ -3,7 +3,6 @@ package com.mhj.longlivemypet;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,27 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-
-public class SoundFragment3 extends Fragment {
-
+public class SoundCatFragment extends Fragment {
     MainActivity mainActivity;
     SoundPool sound;
     boolean soundLoad = false;
     int soundID,soundID2,soundID3,soundID4,soundID5,soundID6;
     int[] soundIDs = {R.raw.cat, R.raw.elephant, R.raw.duck, R.raw.cow, R.raw.chicken, R.raw.wolf};
 
-    Button button_cat, button_elephant, button_duck, button_cow, button_chicken, button_wolf;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_sound_fragment3, container, false);
-
-        button_cat= rootView.findViewById(R.id.button_cat);
-        button_elephant = rootView.findViewById(R.id.button_elephant);
-        button_duck = rootView.findViewById(R.id.button_duck);
-        button_cow = rootView.findViewById(R.id.button_cow);
-        button_chicken = rootView.findViewById(R.id.button_chicken);
-        button_wolf = rootView.findViewById(R.id.button_wolf);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_sound_cat, container, false);
+        mainActivity = (MainActivity)getActivity();
 
         sound = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         sound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
@@ -50,7 +39,7 @@ public class SoundFragment3 extends Fragment {
         soundID5 = sound.load(getContext(), soundIDs[4], 1);
         soundID6 = sound.load(getContext(), soundIDs[5], 1);
 
-        button_cat.setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.button_cat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (soundLoad == true) {
@@ -62,7 +51,7 @@ public class SoundFragment3 extends Fragment {
             }
         });
 
-        button_elephant.setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.button_elephant).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (soundLoad == true) {
@@ -74,7 +63,7 @@ public class SoundFragment3 extends Fragment {
             }
         });
 
-        button_duck.setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.button_duck).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (soundLoad == true) {
@@ -86,7 +75,7 @@ public class SoundFragment3 extends Fragment {
             }
         });
 
-        button_cow.setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.button_cow).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (soundLoad == true) {
@@ -98,7 +87,7 @@ public class SoundFragment3 extends Fragment {
             }
         });
 
-        button_chicken.setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.button_chicken).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (soundLoad == true) {
@@ -110,7 +99,7 @@ public class SoundFragment3 extends Fragment {
             }
         });
 
-        button_wolf.setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.button_wolf).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (soundLoad == true) {
@@ -123,23 +112,6 @@ public class SoundFragment3 extends Fragment {
         });
 
         return rootView;
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-
-        super.onAttach(context);
-
-        //getActivity()함수 : 현재 액티비티 컨텍스트를 가져오는 함수.
-        mainActivity = (MainActivity)getActivity();
-    }
-
-    //액티비티에서 떨어져 나갈때 한번 호출됨.
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
     }
 
 }

@@ -8,7 +8,6 @@
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
-        android:background="#20000000"
         android:paddingVertical="6dp"
         android:paddingHorizontal="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
