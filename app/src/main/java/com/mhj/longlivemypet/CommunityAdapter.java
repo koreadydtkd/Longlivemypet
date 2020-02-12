@@ -1,5 +1,6 @@
 package com.mhj.longlivemypet;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,15 @@ public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, Co
 
     @Override
     protected void onBindViewHolder(@NonNull final CommunityHolder holder, final int position, @NonNull final CommunityItem item) {
+        if(item.getClassification().equals("병원추천")){
+            holder.textView_classification.setTextColor(Color.parseColor("#FE2E2E"));
+        }else if(item.getClassification().equals("카페추천")){
+            holder.textView_classification.setTextColor(Color.parseColor("#01A9DB"));
+        }else if(item.getClassification().equals("맛집추천")){
+            holder.textView_classification.setTextColor(Color.parseColor("#FFAA00"));
+        }else if(item.getClassification().equals("궁금해요")){
+            holder.textView_classification.setTextColor(Color.parseColor("#04B404"));
+        }
         holder.textView_classification.setText(item.getClassification());
         holder.textView_title.setText(item.getTitle());
         holder.textView_userNick.setText(item.getNick());

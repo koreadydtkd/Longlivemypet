@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(auth != null && auth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
         }
 
         findViewById(R.id.button_login).setOnClickListener(new View.OnClickListener() {
@@ -96,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
                 }else{
                     Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
                 }

@@ -34,40 +34,34 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_marginTop="4dp"
-        android:id="@+id/relativeLayout2"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/button_writeList"
+        android:text="내글보기"
+        android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:gravity="center_horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        android:background="@drawable/button"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF" />
 
-        <EditText
-            android:id="@+id/editText_Search"
-            android:background="@drawable/border"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
-            android:paddingLeft="16dp"
-            android:layout_width="250dp"
-            android:layout_height="match_parent"
-            android:hint="내용을 입력하세요"
-            android:layout_alignParentLeft="true" />
-
-        <Button
-            android:id="@+id/button_Search"
-            android:text="검색"
-            android:textColor="#FFFFFF"
-            android:layout_toRightOf="@+id/editText_Search"
-            android:background="@drawable/button"
-            android:layout_marginLeft="12dp"
-            android:layout_width="60dp"
-            android:layout_height="match_parent" />
-
-    </RelativeLayout>
+    <Button
+        android:id="@+id/button_write"
+        android:text="작성하기"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textStyle="bold"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/button"
+        android:layout_marginLeft="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/button_write"
         android:layout_width="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout3"
         android:layout_marginTop="4dp"
@@ -88,7 +82,7 @@
             android:id="@+id/textView_hospital"
             android:gravity="center"
             android:layout_weight="1"
-            android:textColor="@android:color/holo_red_light"
+            android:textColor="#FE2E2E"
             android:padding="2dp"
             android:text="#병원추천"
             android:textStyle="bold"
@@ -101,7 +95,7 @@
             android:layout_weight="1"
             android:text="#카페추천"
             android:textStyle="bold"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="#01A9DB"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
@@ -121,7 +115,7 @@
             android:layout_weight="1"
             android:text="#맛집추천"
             android:textStyle="bold"
-            android:textColor="@android:color/holo_orange_dark"
+            android:textColor="#FFAA00"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
@@ -131,24 +125,10 @@
             android:layout_weight="1"
             android:text="#궁금해요"
             android:textStyle="bold"
-            android:textColor="@android:color/holo_green_dark"
+            android:textColor="#04B404"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_Write"
-        android:src="@drawable/ic_add_circle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FFFFFF"
-        android:tint="#FFAA00"
-        app:fabSize="mini"
-        app:maxImageSize="50dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="60dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

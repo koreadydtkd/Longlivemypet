@@ -30,8 +30,8 @@ public class CommunityDetailFragment extends Fragment {
     CommunityDetailAdapter detailAdapter;
     ViewGroup rootView;
     RecyclerView recyclerView;
-    String nick;
-    String document;
+    String nick, document;
+    MainActivity mainActivity;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
 
@@ -40,8 +40,9 @@ public class CommunityDetailFragment extends Fragment {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_community_detail, container, false);
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
-        getUserEmail();
+        getUserNick();
         setArgument();
+        mainActivity = (MainActivity) getActivity();
         editText_comment = rootView.findViewById(R.id.editText_comment);
         recyclerView = rootView.findViewById(R.id.recyclerView);
 
@@ -64,14 +65,28 @@ public class CommunityDetailFragment extends Fragment {
             }
         });
 
-        rootView.findViewById(R.id.button_cancel).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.button_delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editText_comment.setText("");
+                deleteContent();
             }
         });
 
         return rootView;
+    }
+
+    private void deleteContent() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(textView_userNick.getText().toString());
+        String contentNick = sb.substring(5, sb.length());
+        if(contentNick.equals(nick)){
+            Toast.makeText(getContext(), "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+            firestore.collection("Community").document(document).delete();
+            CommunityFragment communityFragment = new CommunityFragment();
+            mainActivity.replaceFragment(communityFragment);
+        }else{
+            Toast.makeText(getContext(), "삭제권한이 없습니다.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void addComment() {
@@ -121,7 +136,7 @@ public class CommunityDetailFragment extends Fragment {
         detailAdapter.stopListening();
     }
 
-    private void getUserEmail(){
+    private void getUserNick(){
         String email = auth.getCurrentUser().getEmail();
         firestore.collection("Users").document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

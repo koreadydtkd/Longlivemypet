@@ -1,5 +1,6 @@
 package com.mhj.longlivemypet;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,14 +86,13 @@ public class CommunityDetailAdapter extends FirestoreRecyclerAdapter<CommunityDe
     }
 
     public class CommunityDetailHolder extends RecyclerView.ViewHolder{
-        TextView textView_nick, textView_comment, textView_date, textView_noComment;
+        TextView textView_nick, textView_comment, textView_date;
         Button button_delete;
         public CommunityDetailHolder(@NonNull View itemView) {
             super(itemView);
             textView_nick = itemView.findViewById(R.id.textView_nick);
             textView_date = itemView.findViewById(R.id.textView_date);
             textView_comment = itemView.findViewById(R.id.textView_comment);
-            textView_noComment = itemView.findViewById(R.id.textView_noComment);
             button_delete = itemView.findViewById(R.id.button_delete);
         }
     }
