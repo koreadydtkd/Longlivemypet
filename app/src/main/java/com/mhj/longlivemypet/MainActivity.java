@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         for(String permission : permissions){
             sb.append(permission);
             sb.append(",");
-            Toast.makeText(this,sb.toString(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,sb.toString(),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         for(String permission : permissions){
             sb.append(permission);
             sb.append(",");
-            Toast.makeText(this,sb.toString(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,sb.toString(),Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -2,20 +2,29 @@ package com.mhj.longlivemypet;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,18 +35,25 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.mhj.longlivemypet.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static androidx.core.content.ContextCompat.getSystemService;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+
+public class MapFragment extends Fragment implements OnMapReadyCallback{
 
     MapView mapView;
 
@@ -119,6 +135,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void startLocationService(){
+        //LocationManager manager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         try {
             Location location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if(location != null){
@@ -127,17 +144,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 double longitude = location.getLongitude();// 경도
                 String message = "최근 위치 -> Lat:" + latitude + "\nLon:" + longitude;
                 Log.e("MapActivity" , message);
-
+                showCurrentLocation(latitude, longitude);
             }
-            //리스너를 이용하여 변경된 위치를 수신..
-            MapFragment.GPSListener gpsListener = new MapFragment.GPSListener();
-            long minTime = 10000; //10초 타임 아웃
-            float minDistance = 0; // 0미터 오차허용범위
-            manager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    minTime,
-                    minDistance,
-                    gpsListener); //리스너 등록
+
+
 
             Toast.makeText(getContext(), "GPS 좌표 용청함.", Toast.LENGTH_SHORT).show();
 
@@ -146,24 +156,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    class GPSListener implements LocationListener {
-        @Override
-        public void onLocationChanged(Location location) {
-            double latitude = location.getLatitude(); //위도
-            double longitude = location.getLongitude();// 경도
-            String message = "내 위치 -> Lat:" + latitude + "\nLon:" + longitude;
-            Log.e("MapActivity" , message);
-
-            showCurrentLocation(latitude, longitude);
-
-        }
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) { }
-        @Override
-        public void onProviderEnabled(String provider) { }
-        @Override
-        public void onProviderDisabled(String provider) { }
-    }
 
     private void  showCurrentLocation(Double lat, Double lon){
         LatLng curPos = new LatLng(lat, lon);
@@ -183,7 +175,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             map.addMarker(myLocationMarker);
         }else{
             myLocationMarker.position(curPoint);
-
+            myLocationMarker.title("내 위치\n");
+            myLocationMarker.snippet("GPS로 확인한 위치");
+            myLocationMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_my_location_24px_352557));
+            map.addMarker(myLocationMarker);
         }
     }
 
@@ -200,6 +195,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     JSONObject list1 = (JSONObject) list.get(1);
 
                     JSONArray row = (JSONArray) list1.get("row");
+
+
 
                     String hname;
                     String inservice;
@@ -251,6 +248,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         jsonRequest.setTag(TAG);
         queue.add(jsonRequest);
+
+
+
 
     }
 
@@ -316,7 +316,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         jsonRequest.setTag(TAG);
         queue.add(jsonRequest);
-        
+
+
     }
 
 
