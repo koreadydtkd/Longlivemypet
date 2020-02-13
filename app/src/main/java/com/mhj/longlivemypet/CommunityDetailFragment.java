@@ -88,8 +88,8 @@ public class CommunityDetailFragment extends Fragment {
         if(contentNick.equals(nick)){
             Toast.makeText(getContext(), "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
             firestore.collection("Community").document(document).delete();
-            CommunityFragment communityFragment = new CommunityFragment();
-            mainActivity.replaceFragment(communityFragment);
+            //CommunityFragment communityFragment = new CommunityFragment();
+            mainActivity.replaceFragment(R.id.navigation_community);
         }else{
             Toast.makeText(getContext(), "삭제권한이 없습니다.", Toast.LENGTH_SHORT).show();
         }

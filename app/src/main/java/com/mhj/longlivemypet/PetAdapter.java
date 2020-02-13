@@ -30,12 +30,13 @@ public class PetAdapter extends FirestoreRecyclerAdapter<PetItem, PetAdapter.MyV
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private FirestoreRecyclerOptions<PetItem> options;
     PetItemDetailListener listener;
+    PetFragment petFragment;
 
-
-    public PetAdapter(FirestoreRecyclerOptions<PetItem> options, PetItemDetailListener listener) {
+    public PetAdapter(FirestoreRecyclerOptions<PetItem> options, PetItemDetailListener listener, PetFragment petFragment) {
         super(options);
         this.listener = listener;
         this.options = options;
+        this.petFragment = petFragment;
 
     }
 
@@ -53,10 +54,10 @@ public class PetAdapter extends FirestoreRecyclerAdapter<PetItem, PetAdapter.MyV
             @Override
             public void onClick(View v) {
                 String petname = myViewHolder.textViewName.getText().toString();
-                document = getSnapshots().getSnapshot(position).getId();
+                document = getSnapshots().getSnapshot(myViewHolder.getAdapterPosition()).getId();
                 firestore.collection("Pet").document(document).delete();
                 Toast.makeText(myViewHolder.itemView.getContext(), petname+"펫이 삭제되었습니다", Toast.LENGTH_SHORT).show();
-
+                petFragment.onResume();
             }
         });
 

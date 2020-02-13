@@ -48,8 +48,8 @@ public class CommunityFragmentWrite extends Fragment {
         rootView.findViewById(R.id.button_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommunityFragment communityFragment = new CommunityFragment();
-                mainActivity.replaceFragment(communityFragment);
+                //CommunityFragment communityFragment = new CommunityFragment();
+                mainActivity.replaceFragment(R.id.navigation_community);
             }
         });
 
@@ -79,8 +79,8 @@ public class CommunityFragmentWrite extends Fragment {
                 firestore.collection("Community").document().set(communityItem);
                 Toast.makeText(getContext(), "작성완료되었습니다." ,Toast.LENGTH_SHORT).show();
 
-                CommunityFragment communityFragment = new CommunityFragment();
-                mainActivity.replaceFragment(communityFragment);
+                //CommunityFragment communityFragment = new CommunityFragment();
+                mainActivity.replaceFragment(R.id.navigation_community);
             }
         });
 

@@ -41,8 +41,8 @@ public class PetAdjustFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "펫 추가가 취소되었습니다.", Toast.LENGTH_SHORT).show();
-                PetFragment petFragment = new PetFragment();
-                mainActivity.replaceFragment(petFragment);
+                //PetFragment petFragment = new PetFragment();
+                mainActivity.replaceFragment(R.id.navigation_pet);
             }
         });
 
@@ -76,8 +76,8 @@ public class PetAdjustFragment extends Fragment {
 
                 String petname = petItem.getName();
                 Toast.makeText(getContext(), petname + "펫이 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                PetFragment petFragment = new PetFragment();
-                mainActivity.replaceFragment(petFragment);
+               // PetFragment petFragment = new PetFragment();
+                mainActivity.replaceFragment(R.id.navigation_pet);
             }
         });
 
@@ -93,6 +93,7 @@ public class PetAdjustFragment extends Fragment {
         editText_Memo = rootView.findViewById(R.id.editText_Memo);
 
         if(getArguments() != null){
+
             document = getArguments().getString("document");
             editText_Name.setText(getArguments().getString("name"));
             editText_Sex.setText(getArguments().getString("sex"));

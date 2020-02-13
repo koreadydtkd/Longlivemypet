@@ -224,12 +224,10 @@
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/community_border"
-                    android:ems="10"
-
                     android:gravity="top"
                     android:hint="ex) \n1차예방접종 -4월 24일 \n2차예방접종 -5월 24일..."
-                    android:inputType="textPersonName"
                     android:textSize="25dp" />
+
             </LinearLayout>
 
 

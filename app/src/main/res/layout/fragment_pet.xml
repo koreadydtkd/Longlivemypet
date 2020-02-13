@@ -13,10 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="5dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/button"
         android:text="펫 추가하기"
+        android:textColor="#F7F7F7"
         android:textStyle="bold"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,41 +29,27 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="5dp"
-        app:layout_constraintBottom_toTopOf="@id/button_AddCalendar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_AddPet" />
-
-    <Button
-        android:id="@+id/button_AddCalendar"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="5dp"
-        android:background="@drawable/button"
-        android:text="내 캘린더"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.166"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView" />
 
     <ImageView
         android:id="@+id/imageViewPlz"
         android:layout_width="285dp"
         android:layout_height="173dp"
-        android:layout_marginTop="188dp"
+        android:layout_marginTop="124dp"
         android:src="@drawable/petadd3"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/button_AddPet" />
 
     <TextView
         android:id="@+id/textViewPlz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="61dp"
         android:text="첫 펫을 등록해주세요! "
         android:textSize="25dp"
         android:visibility="invisible"

@@ -34,10 +34,12 @@ public class PetFragment extends Fragment implements PetAdapter.PetItemDetailLis
     String email;
     TextView textViewPlz;
     ImageView imageViewPlz;
-
+    FirestoreRecyclerOptions<PetItem> options;
+    PetFragment petFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        petFragment = this;
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_pet, container, false);
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -47,37 +49,34 @@ public class PetFragment extends Fragment implements PetAdapter.PetItemDetailLis
         imageViewPlz = rootView.findViewById(R.id.imageViewPlz);
 
         Query query = firestore.collection("Pet").whereEqualTo("email", email).orderBy("breed", Query.Direction.DESCENDING);
-        FirestoreRecyclerOptions<PetItem> options = new FirestoreRecyclerOptions.Builder<PetItem>().setQuery(query, PetItem.class).build();
+        options = new FirestoreRecyclerOptions.Builder<PetItem>().setQuery(query, PetItem.class).build();
 
-        adapter = new PetAdapter(options,this);
+        adapter = new PetAdapter(options,this, petFragment);
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
 
-                Log.e("PetFragment", "count:" + adapter.getItemCount());
+                Log.e("PetFragment 500", "count:" + adapter.getItemCount());
 
                 if( adapter.getItemCount() > 0) {
                     //1개이상 존재시
-                    textViewPlz.setVisibility(View.INVISIBLE);
-                    imageViewPlz.setVisibility(View.INVISIBLE);
+                    textViewPlz.setVisibility(View.GONE);
+                    imageViewPlz.setVisibility(View.GONE);
 
-                }else if (adapter.getItemCount() > 0){
+                }else if (adapter.getItemCount() == 0){
                     //리스트에 없을때
                     textViewPlz.setVisibility(View.VISIBLE);
                     imageViewPlz.setVisibility(View.VISIBLE);
                 }
             }
-        }, 100);
-
-
+        }, 500);
 
         rootView.findViewById(R.id.button_AddPet).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,11 +88,37 @@ public class PetFragment extends Fragment implements PetAdapter.PetItemDetailLis
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                Log.e("PetFragment 500", "count:" + adapter.getItemCount());
+
+                if( adapter.getItemCount() > 0) {
+                    //1개이상 존재시
+                    textViewPlz.setVisibility(View.GONE);
+                    imageViewPlz.setVisibility(View.GONE);
+
+                }else if (adapter.getItemCount() == 0){
+                    //리스트에 없을때
+                    textViewPlz.setVisibility(View.VISIBLE);
+                    imageViewPlz.setVisibility(View.VISIBLE);
+                }
+            }
+        }, 500);
+    }
 
     @Override
     public void onStart() {
         super.onStart();
         adapter.startListening();
+
+
     }
 
     @Override
