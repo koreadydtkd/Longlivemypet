@@ -1,6 +1,5 @@
 package com.mhj.longlivemypet;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 
@@ -26,6 +25,7 @@ public class CommunityDetailAdapter extends FirestoreRecyclerAdapter<CommunityDe
     View itemView;
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
     String document, documentcomment, nick;
+    long count;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
@@ -35,7 +35,7 @@ public class CommunityDetailAdapter extends FirestoreRecyclerAdapter<CommunityDe
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull final CommunityDetailHolder holder, final int position, @NonNull CommunityDetailItem item) {
+    protected void onBindViewHolder(@NonNull final CommunityDetailHolder holder, int position, @NonNull CommunityDetailItem item) {
         getUserNick();
 
         holder.textView_nick.setText(item.getNick());
@@ -46,20 +46,19 @@ public class CommunityDetailAdapter extends FirestoreRecyclerAdapter<CommunityDe
             @Override
             public void onClick(View v) {
                 if(holder.textView_nick.getText().toString().equals(nick)){
-                    firestore.collection("Community").document(document).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    documentcomment = getSnapshots().getSnapshot(holder.getAdapterPosition()).getId();
+                    firestore.collection("Community").document(document).collection("Comment").document(documentcomment).delete();
+                    firestore.collection("Community").document(document).collection("Comment").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            long count = (long) documentSnapshot.get("commentCount");
-                            firestore.collection("Community").document(document).update("commentCount", count - 1);
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            count = task.getResult().size();
+                            firestore.collection("Community").document(document).update("commentCount", count);
+                            Toast.makeText(holder.itemView.getContext(), "댓글이 삭제되었습니다", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    documentcomment = getSnapshots().getSnapshot(position).getId();
-                    firestore.collection("Community").document(document).collection("Comment").document(documentcomment).delete();
-                    Toast.makeText(holder.itemView.getContext(), "댓글이 삭제되었습니다", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(holder.itemView.getContext(), "삭제권한이 없습니다.", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }

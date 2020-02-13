@@ -68,10 +68,12 @@
 
                 <Button
                     android:id="@+id/button_delete"
-                    android:text="X"
+                    android:text="글 삭제"
+                    android:paddingHorizontal="4dp"
+                    android:textColor="@color/mainColor"
                     android:background="@drawable/buttonsecond"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="65dp"
+                    android:layout_height="22dp"
                     android:layout_alignParentRight="true" />
 
             </RelativeLayout>
