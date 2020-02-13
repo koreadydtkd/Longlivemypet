@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,6 +23,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
@@ -32,9 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-
 public class HomeFragment extends Fragment {
-
     private FirebaseAuth auth;
 
     ImageView imgWeather; //날씨 아이콘
@@ -55,32 +57,24 @@ public class HomeFragment extends Fragment {
     String ny;
 
     SimpleDateFormat dateText = new SimpleDateFormat("yyyyMMdd"); //날짜 표시 형식
-
     SimpleDateFormat hourText = new SimpleDateFormat("HHmm"); //시간 표시 형식
 
     String simpletime; //api 시간(현재 시간이 아니다) fcstTime
-
     String today; //오늘 날짜
-
     String yesterday; //어제 날짜
-
     long numtime; //현재 시간
 
     LocationManager manager;
-
     private RequestQueue queue;
-
-    private static final String TAG = "HOME";
+    private static final String TAG = "HomeFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
         auth = FirebaseAuth.getInstance();
 
         imgWeather = rootView.findViewById(R.id.imgWeather);
@@ -98,22 +92,14 @@ public class HomeFragment extends Fragment {
         Date today = new Date();
         setTime(today);
         setDay(today);
-        startLocationService();
 
         String weather = address + sKey + row + basedate + basetime + nx + ny;
         Log.e("WeatherFragment", weather);
 
         queue = Volley.newRequestQueue(getContext());
+        tellMetheWeather(weather);
+        startLocationService();
 
-        String url = weather;
-
-        println(url);
-
-        tellMetheWeather(url);
-
-
-
-        //로그아웃 임시
         rootView.findViewById(R.id.button_logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,9 +122,8 @@ public class HomeFragment extends Fragment {
     public void setDay(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE,-1);
-
         today = dateText.format(date);
-        yesterday =dateText.format(calendar.getTime());
+        yesterday = dateText.format(calendar.getTime());
 
         if(numtime >= 0 && numtime < 300){
             basedate = "&base_date=" + yesterday;
@@ -189,22 +174,27 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public void startLocationService() {
+    private void startLocationService() {
         try {
             Location location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (location != null) {
-                //기준점: 날짜변경선
-                double latitude = location.getLatitude(); //위도
-                double longitude = location.getLongitude();// 경도
-
+            if(location == null){
+                location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
+            if(location != null){
+                // 기준점 : 날짜변경선 영국 그리니티천문대
+                double latitude = location.getLatitude(); // 위도 - 가로좌표
+                double longitude = location.getLongitude(); // 경도 - 세로좌표
                 int lat = (int)latitude;
                 int lon = (int)longitude;
-
                 nx = "&nx=" + lat;
                 ny = "&ny=" + lon;
-
+                String message = "startLocationService() 최근 위치\nLat: " + latitude + "\nLon: " + longitude;
+                Log.e(TAG, message);
+            }else{
+                Log.e(TAG, "위치로드 실패");
             }
-        } catch (SecurityException e) {
+        }catch (SecurityException e){
+            Log.e(TAG, "오류발생");
             e.printStackTrace();
         }
     }
@@ -253,7 +243,6 @@ public class HomeFragment extends Fragment {
 
                             if(object.getString("category").equals("R06")){
                                 int waterLevel = Integer.parseInt(object.get("fcstValue").toString());
-
                                 txtRain.setText(object.get("fcstValue").toString() + "mm");
 
                             }
@@ -322,10 +311,8 @@ public class HomeFragment extends Fragment {
                 error.printStackTrace();
             }
         });
-
         jsonRequest.setTag(TAG);
         queue.add(jsonRequest);
-
     }
 
 
@@ -342,7 +329,6 @@ public class HomeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
-
 
 }
 

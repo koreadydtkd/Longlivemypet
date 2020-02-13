@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import java.text.SimpleDateFormat;
 public class CommunityFragmentWrite extends Fragment {
     MainActivity mainActivity;
     EditText editText_title, editText_content;
+    ImageView imageView;
     String nick;
     Spinner spinner;
     private FirebaseAuth auth;
@@ -35,6 +37,13 @@ public class CommunityFragmentWrite extends Fragment {
         firestore = FirebaseFirestore.getInstance();
         mainActivity = (MainActivity) getActivity();
         getUserEmail();
+
+        rootView.findViewById(R.id.imageViewAdd).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 이미지 클릭시 실행
+            }
+        });
 
         rootView.findViewById(R.id.button_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +60,14 @@ public class CommunityFragmentWrite extends Fragment {
                 editText_title = rootView.findViewById(R.id.editText_title);
                 editText_content = rootView.findViewById(R.id.editText_content);
                 spinner = rootView.findViewById(R.id.spinner);
+                if(editText_title.getText().toString().length() < 2){
+                    Toast.makeText(getContext(), "제목이 너무 짧습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(editText_content.getText().toString().length() < 2){
+                    Toast.makeText(getContext(), "내용이 너무 짧습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 communityItem.setTitle(editText_title.getText().toString());
                 communityItem.setClassification(spinner.getSelectedItem().toString());

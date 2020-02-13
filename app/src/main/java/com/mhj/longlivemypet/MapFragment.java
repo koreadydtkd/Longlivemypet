@@ -2,20 +2,12 @@ package com.mhj.longlivemypet;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -23,8 +15,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,33 +25,21 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.mhj.longlivemypet.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
-
 public class MapFragment extends Fragment implements OnMapReadyCallback{
-
     MapView mapView;
-
     GoogleMap map;
-
     BottomNavigationView bottomNavigationView;
     MarkerOptions myLocationMarker, hLocationMarker, pLocationMarker;
-
     LocationManager manager;
 
     private static final String TAG = "MAP";
@@ -83,13 +61,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         mapView.onResume();
         mapView.getMapAsync(this); // 비동기적 방식으로 구글 맵 실행
 
-        bottomNavigationView = (BottomNavigationView)rootView.findViewById(R.id.bottom_navigation);
+        bottomNavigationView = rootView.findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.tab1:
-
                         startLocationService();
                         return true;
                     case R.id.tab2:
@@ -100,15 +77,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                         map.clear();
                         pharmacyLocationService();
                         return true;
-
-
                 }
                 return false;
             }
         });
         return rootView;
-
-
     }
 
     @Override
@@ -117,15 +90,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     }
 
     public void onMapReady(GoogleMap googleMap){
-
         Log.e("MapActivity", "지도 준비됨");
         map = googleMap;
-
         LatLng SEOUL = new LatLng(37.655728, 127.062539);
 
         map.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
         map.animateCamera(CameraUpdateFactory.zoomTo(10));
-
     }
 
     @Override
@@ -135,37 +105,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     }
 
     public void startLocationService(){
-        //LocationManager manager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         try {
             Location location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if(location != null){
-                //기준점: 날짜변경선
-                double latitude = location.getLatitude(); //위도
-                double longitude = location.getLongitude();// 경도
-                String message = "최근 위치 -> Lat:" + latitude + "\nLon:" + longitude;
-                Log.e("MapActivity" , message);
-                showCurrentLocation(latitude, longitude);
+            if(location == null){
+                location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
-
-
-
-            Toast.makeText(getContext(), "GPS 좌표 용청함.", Toast.LENGTH_SHORT).show();
-
+            if(location != null){
+                // 기준점 : 날짜변경선 영국 그리니티천문대
+                double latitude = location.getLatitude(); // 위도 - 가로좌표
+                double longitude = location.getLongitude(); // 경도 - 세로좌표
+                showCurrentLocation(latitude, longitude);
+                String message = "startLocationService() 최근 위치\nLat: " + latitude + "\nLon: " + longitude;
+                Log.e(TAG, message);
+            }else{
+                Log.e(TAG, "위치로드 실패");
+            }
         }catch (SecurityException e){
+            Log.e(TAG, "오류발생");
             e.printStackTrace();
         }
     }
-
 
     private void  showCurrentLocation(Double lat, Double lon){
         LatLng curPos = new LatLng(lat, lon);
         this.map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPos, 15));
         showMyLocationMarker(curPos);
-
     }
 
     private void showMyLocationMarker(LatLng curPoint){
-
         if(myLocationMarker == null) {
             myLocationMarker = new MarkerOptions();
             myLocationMarker.position(curPoint);
@@ -183,20 +150,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     }
 
     public void hospitalLocationService(){
-
         queue = Volley.newRequestQueue(getContext());
         String url = "https://openapi.gg.go.kr/Animalhosptl?Key=beeaf0846bc2484e8ed3aaa6e134a94e&Type=json&pIndex=1&pSize=100";
-
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray list = response.getJSONArray("Animalhosptl");
                     JSONObject list1 = (JSONObject) list.get(1);
-
                     JSONArray row = (JSONArray) list1.get("row");
-
-
 
                     String hname;
                     String inservice;
@@ -233,11 +195,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                         }
 
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -245,27 +205,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
             }
         });
-
         jsonRequest.setTag(TAG);
         queue.add(jsonRequest);
-
-
-
-
     }
 
     public void pharmacyLocationService(){
-
         queue = Volley.newRequestQueue(getContext());
         String url = "https://openapi.gg.go.kr/AnimalPharmacy?Key=beeaf0846bc2484e8ed3aaa6e134a94e&Type=json&pIndex=1&pSize=100";
-
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray list = response.getJSONArray("AnimalPharmacy");
                     JSONObject list1 = (JSONObject) list.get(1);
-
                     JSONArray row = (JSONArray) list1.get("row");
 
                     String pname;
@@ -301,11 +253,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
                         }
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -313,12 +263,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
             }
         });
-
         jsonRequest.setTag(TAG);
         queue.add(jsonRequest);
-
-
     }
-
 
 }

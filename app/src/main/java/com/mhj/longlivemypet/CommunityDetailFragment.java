@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.Query;
 public class CommunityDetailFragment extends Fragment {
     TextView textView_userNick, textView_classification, textView_date, textView_title, textView_content;
     EditText editText_comment;
+    ImageView imageView;
     CommunityDetailAdapter detailAdapter;
     ViewGroup rootView;
     RecyclerView recyclerView;
@@ -43,6 +45,10 @@ public class CommunityDetailFragment extends Fragment {
         getUserNick();
         setArgument();
         mainActivity = (MainActivity) getActivity();
+        imageView = rootView.findViewById(R.id.imageView);
+        if(imageView.getBackground() == null){
+            imageView.setVisibility(View.GONE);
+        }
         editText_comment = rootView.findViewById(R.id.editText_comment);
         recyclerView = rootView.findViewById(R.id.recyclerView);
 
