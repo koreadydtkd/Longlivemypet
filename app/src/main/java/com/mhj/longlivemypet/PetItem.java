@@ -8,20 +8,21 @@ public class PetItem {
     String date;
     String weight;
     String email;
+    String memo;
 
 
     public PetItem() {
 
     }
 
-    public PetItem(String name, String sex, String breed, String date, String weight, String email) {
+    public PetItem(String name, String sex, String breed, String date, String weight, String email, String memo) {
         this.name = name;
         this.sex = sex;
         this.breed = breed;
         this.date = date;
         this.weight = weight;
-
         this.email = email;
+        this.memo = memo;
     }
 
     public String getName() {
@@ -70,6 +71,14 @@ public class PetItem {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
     }
 }
 

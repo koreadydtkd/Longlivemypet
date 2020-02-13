@@ -22,15 +22,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class PetAddFragment extends Fragment {
 
     MainActivity mainActivity;
-    EditText editText_Name, editText_Breed, editText_Date, editText_Weight, editText_Sex;
+    EditText editText_Name, editText_Breed, editText_Date, editText_Weight, editText_Sex, editText_Memo;
     String email;
+    ViewGroup rootView;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_pet_add, container, false);
+        rootView = (ViewGroup) inflater.inflate(R.layout.fragment_pet_add, container, false);
 
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -42,8 +43,8 @@ public class PetAddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "펫 추가가 취소되었습니다.", Toast.LENGTH_SHORT).show();
-                PetFragment petFragment = new PetFragment();
-                mainActivity.replaceFragment(petFragment);
+
+                mainActivity.replaceFragment(R.id.navigation_pet);
             }
         });
 
@@ -56,18 +57,22 @@ public class PetAddFragment extends Fragment {
                 editText_Breed = rootView.findViewById(R.id.editText_Breed);
                 editText_Date = rootView.findViewById(R.id.editText_Date);
                 editText_Weight = rootView.findViewById(R.id.editText_Weight);
+                editText_Memo = rootView.findViewById((R.id.editText_Memo));
 
                 petItem.setName(editText_Name.getText().toString());
                 petItem.setSex(editText_Sex.getText().toString());
                 petItem.setBreed(editText_Breed.getText().toString());
                 petItem.setDate(editText_Date.getText().toString());
                 petItem.setWeight(editText_Weight.getText().toString());
+                petItem.setMemo(editText_Memo.getText().toString());
                 petItem.setEmail(email);
 
                 firestore.collection("Pet").document().set(petItem);
-                Toast.makeText(getContext(), "펫 추가가 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                PetFragment petFragment = new PetFragment();
-                mainActivity.replaceFragment(petFragment);
+                String petname = petItem.getName();
+                Toast.makeText(getContext(), petname+"펫이 추가가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+                //PetFragment petFragment = new PetFragment();
+                mainActivity.replaceFragment(R.id.navigation_pet);
             }
         });
 

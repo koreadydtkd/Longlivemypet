@@ -5,21 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#20FFAA00"
-    tools:context="PetAddFragment">
+    tools:context="PetAdjustFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/button_Add"
+            android:id="@+id/button_Adjust"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="197dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="22dp"
             android:background="@drawable/button"
-            android:text="추가"
+            android:text="수정"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/button_Cancel"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
             android:textStyle="bold"
 
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button_Add"
+            app:layout_constraintStart_toEndOf="@+id/button_Adjust"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
@@ -47,7 +47,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_Add">
+            app:layout_constraintTop_toBottomOf="@+id/button_Adjust">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -224,10 +224,12 @@
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/community_border"
+                    android:ems="10"
+
                     android:gravity="top"
                     android:hint="ex) \n1차예방접종 -4월 24일 \n2차예방접종 -5월 24일..."
+                    android:inputType="textPersonName"
                     android:textSize="25dp" />
-
             </LinearLayout>
 
 
