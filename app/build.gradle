@@ -49,10 +49,13 @@ dependencies {
     implementation 'com.android.support:design:29.0.0'
 
     //병일추가 맵 위치 api 관련
+    implementation 'androidx.navigation:navigation-fragment:2.2.0'
+    implementation 'androidx.navigation:navigation-ui:2.2.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.github.pedroSG94:AutoPermissions:1.0.3'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.android.volley:volley:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     // 병일추가 끝
 
 }

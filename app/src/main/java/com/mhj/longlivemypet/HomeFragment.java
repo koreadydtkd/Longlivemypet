@@ -67,9 +67,10 @@ public class HomeFragment extends Fragment {
     long numtime; //현재 시간
 
     LocationManager manager;
+
     private RequestQueue queue;
 
-    private static final String TAG = "WEATHER";
+    private static final String TAG = "HOME";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,7 @@ public class HomeFragment extends Fragment {
         Log.e("WeatherFragment", weather);
 
         queue = Volley.newRequestQueue(getContext());
+
         String url = weather;
 
         println(url);
@@ -208,6 +210,8 @@ public class HomeFragment extends Fragment {
     }
 
     public void tellMetheWeather(String url) {
+        Log.e("tellMetheWeather", "가동중");
+
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -314,6 +318,8 @@ public class HomeFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e("TEST", "오류");
+                error.printStackTrace();
             }
         });
 
