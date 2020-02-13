@@ -89,6 +89,14 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
 
     }
 
+    public void replaceFragment(int resID) {
+        if(resID == R.id.navigation_pet){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, petFragment).commit();
+        }else if(resID == R.id.navigation_community){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, communityFragment).commit();
+        }
+    }
+
     public void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }

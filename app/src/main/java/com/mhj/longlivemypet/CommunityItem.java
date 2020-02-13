@@ -7,17 +7,19 @@ public class CommunityItem {
     String nick;
     long date;
     int commentCount;
+    String imgURL;
 
     public CommunityItem() {
     }
 
-    public CommunityItem(String title, String content, String classification, String nick, long date, int commentCount) {
+    public CommunityItem(String title, String content, String classification, String nick, long date, int commentCount, String imgURL) {
         this.title = title;
         this.content = content;
         this.classification = classification;
         this.nick = nick;
         this.date = date;
         this.commentCount = commentCount;
+        this.imgURL = imgURL;
     }
 
     public String getTitle() {
@@ -66,5 +68,13 @@ public class CommunityItem {
 
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
+    }
+
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
     }
 }

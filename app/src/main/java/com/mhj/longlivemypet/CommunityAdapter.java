@@ -1,6 +1,7 @@
 package com.mhj.longlivemypet;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import java.text.SimpleDateFormat;
 
 public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, CommunityAdapter.CommunityHolder> {
     View itemView;
-    String document, classification, title, content, userNick, date;
+    String document, classification, title, content, userNick, date, imgURL;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     itemDetailListener listener;
 
@@ -51,7 +52,8 @@ public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, Co
                 userNick = item.nick;
                 content = item.content;
                 date = dateFormat.format(item.getDate());
-                listener.itemDetail(document, classification, title, userNick, content, date);
+                imgURL = item.imgURL;
+                listener.itemDetail(document, classification, title, userNick, content, date, imgURL);
             }
         });
 
@@ -79,7 +81,7 @@ public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, Co
     }
 
     interface itemDetailListener{
-        void itemDetail(String document, String classification, String title, String userNick, String content, String date);
+        void itemDetail(String document, String classification, String title, String userNick, String content, String date, String imgURL);
     }
 
 }

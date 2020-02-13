@@ -47,6 +47,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-firestore:4.3.1'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.android.support:design:29.0.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     //병일추가 맵 위치 api 관련
     implementation 'androidx.navigation:navigation-fragment:2.2.0'

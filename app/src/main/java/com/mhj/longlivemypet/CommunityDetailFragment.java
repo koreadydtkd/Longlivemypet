@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.squareup.picasso.Picasso;
 
 public class CommunityDetailFragment extends Fragment {
     TextView textView_userNick, textView_classification, textView_date, textView_title, textView_content;
@@ -45,10 +46,7 @@ public class CommunityDetailFragment extends Fragment {
         getUserNick();
         setArgument();
         mainActivity = (MainActivity) getActivity();
-        imageView = rootView.findViewById(R.id.imageView);
-        if(imageView.getBackground() == null){
-            imageView.setVisibility(View.GONE);
-        }
+
         editText_comment = rootView.findViewById(R.id.editText_comment);
         recyclerView = rootView.findViewById(R.id.recyclerView);
 
@@ -88,8 +86,7 @@ public class CommunityDetailFragment extends Fragment {
         if(contentNick.equals(nick)){
             Toast.makeText(getContext(), "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
             firestore.collection("Community").document(document).delete();
-            CommunityFragment communityFragment = new CommunityFragment();
-            mainActivity.replaceFragment(communityFragment);
+            mainActivity.replaceFragment(R.id.navigation_community);
         }else{
             Toast.makeText(getContext(), "삭제권한이 없습니다.", Toast.LENGTH_SHORT).show();
         }
@@ -120,6 +117,7 @@ public class CommunityDetailFragment extends Fragment {
         textView_date = rootView.findViewById(R.id.textView_date);
         textView_title = rootView.findViewById(R.id.textView_title);
         textView_content = rootView.findViewById(R.id.textView_content);
+        imageView = rootView.findViewById(R.id.imageView);
         if(getArguments() != null){
             document = getArguments().getString("document");
             textView_userNick.setText("작성자: " + getArguments().getString("userNick"));
@@ -127,6 +125,13 @@ public class CommunityDetailFragment extends Fragment {
             textView_date.setText(getArguments().getString("date"));
             textView_title.setText("제목: " + getArguments().getString("title"));
             textView_content.setText(getArguments().getString("content"));
+            String imgURL = getArguments().getString("imgURL");
+            Log.d("setArgument", imgURL);
+            if(imgURL == null){
+                Log.d("setArgument", "asas");
+            }
+            Picasso.get().load(imgURL).into(imageView);
+
         }
     }
 

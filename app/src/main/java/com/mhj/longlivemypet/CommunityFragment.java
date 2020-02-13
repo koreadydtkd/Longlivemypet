@@ -149,7 +149,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
     }
 
     @Override
-    public void itemDetail(String document, String classification, String title, String userNick, String content, String date) {
+    public void itemDetail(String document, String classification, String title, String userNick, String content, String date, String imgURL) {
         CommunityDetailFragment detailFragment = new CommunityDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString("document", document);
@@ -158,6 +158,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
         bundle.putString("userNick", userNick);
         bundle.putString("content", content);
         bundle.putString("date", date);
+        bundle.putString("imgURL", imgURL);
         detailFragment.setArguments(bundle);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
