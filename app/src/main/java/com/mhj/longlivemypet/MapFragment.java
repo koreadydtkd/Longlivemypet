@@ -3,19 +3,18 @@ package com.mhj.longlivemypet;
 import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,16 +35,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-public class MapFragment extends Fragment implements OnMapReadyCallback {
-
+public class MapFragment extends Fragment implements OnMapReadyCallback{
     MapView mapView;
-
     GoogleMap map;
-
     BottomNavigationView bottomNavigationView;
     MarkerOptions myLocationMarker, hLocationMarker, pLocationMarker;
-
     LocationManager manager;
 
     private static final String TAG = "MAP";
@@ -67,13 +61,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapView.onResume();
         mapView.getMapAsync(this); // 비동기적 방식으로 구글 맵 실행
 
-        bottomNavigationView = (BottomNavigationView)rootView.findViewById(R.id.bottom_navigation);
+        bottomNavigationView = rootView.findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.tab1:
-
                         startLocationService();
                         return true;
                     case R.id.tab2:
@@ -84,15 +77,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         map.clear();
                         pharmacyLocationService();
                         return true;
-
-
                 }
                 return false;
             }
         });
         return rootView;
-
-
     }
 
     @Override
@@ -101,15 +90,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void onMapReady(GoogleMap googleMap){
-
         Log.e("MapActivity", "지도 준비됨");
         map = googleMap;
-
         LatLng SEOUL = new LatLng(37.655728, 127.062539);
 
         map.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
         map.animateCamera(CameraUpdateFactory.zoomTo(10));
-
     }
 
     @Override
@@ -121,59 +107,32 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void startLocationService(){
         try {
             Location location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if(location != null){
-                //기준점: 날짜변경선
-                double latitude = location.getLatitude(); //위도
-                double longitude = location.getLongitude();// 경도
-                String message = "최근 위치 -> Lat:" + latitude + "\nLon:" + longitude;
-                Log.e("MapActivity" , message);
-
+            if(location == null){
+                location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
-            //리스너를 이용하여 변경된 위치를 수신..
-            MapFragment.GPSListener gpsListener = new MapFragment.GPSListener();
-            long minTime = 10000; //10초 타임 아웃
-            float minDistance = 0; // 0미터 오차허용범위
-            manager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    minTime,
-                    minDistance,
-                    gpsListener); //리스너 등록
-
-            Toast.makeText(getContext(), "GPS 좌표 용청함.", Toast.LENGTH_SHORT).show();
-
+            if(location != null){
+                // 기준점 : 날짜변경선 영국 그리니티천문대
+                double latitude = location.getLatitude(); // 위도 - 가로좌표
+                double longitude = location.getLongitude(); // 경도 - 세로좌표
+                showCurrentLocation(latitude, longitude);
+                String message = "startLocationService() 최근 위치\nLat: " + latitude + "\nLon: " + longitude;
+                Log.e(TAG, message);
+            }else{
+                Log.e(TAG, "위치로드 실패");
+            }
         }catch (SecurityException e){
+            Log.e(TAG, "오류발생");
             e.printStackTrace();
         }
-    }
-
-    class GPSListener implements LocationListener {
-        @Override
-        public void onLocationChanged(Location location) {
-            double latitude = location.getLatitude(); //위도
-            double longitude = location.getLongitude();// 경도
-            String message = "내 위치 -> Lat:" + latitude + "\nLon:" + longitude;
-            Log.e("MapActivity" , message);
-
-            showCurrentLocation(latitude, longitude);
-
-        }
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) { }
-        @Override
-        public void onProviderEnabled(String provider) { }
-        @Override
-        public void onProviderDisabled(String provider) { }
     }
 
     private void  showCurrentLocation(Double lat, Double lon){
         LatLng curPos = new LatLng(lat, lon);
         this.map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPos, 15));
         showMyLocationMarker(curPos);
-
     }
 
     private void showMyLocationMarker(LatLng curPoint){
-
         if(myLocationMarker == null) {
             myLocationMarker = new MarkerOptions();
             myLocationMarker.position(curPoint);
@@ -183,22 +142,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             map.addMarker(myLocationMarker);
         }else{
             myLocationMarker.position(curPoint);
-
+            myLocationMarker.title("내 위치\n");
+            myLocationMarker.snippet("GPS로 확인한 위치");
+            myLocationMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_my_location_24px_352557));
+            map.addMarker(myLocationMarker);
         }
     }
 
     public void hospitalLocationService(){
-
         queue = Volley.newRequestQueue(getContext());
         String url = "https://openapi.gg.go.kr/Animalhosptl?Key=beeaf0846bc2484e8ed3aaa6e134a94e&Type=json&pIndex=1&pSize=100";
-
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray list = response.getJSONArray("Animalhosptl");
                     JSONObject list1 = (JSONObject) list.get(1);
-
                     JSONArray row = (JSONArray) list1.get("row");
 
                     String hname;
@@ -236,11 +195,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         }
 
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -248,24 +205,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             }
         });
-
         jsonRequest.setTag(TAG);
         queue.add(jsonRequest);
-
     }
 
     public void pharmacyLocationService(){
-
         queue = Volley.newRequestQueue(getContext());
         String url = "https://openapi.gg.go.kr/AnimalPharmacy?Key=beeaf0846bc2484e8ed3aaa6e134a94e&Type=json&pIndex=1&pSize=100";
-
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray list = response.getJSONArray("AnimalPharmacy");
                     JSONObject list1 = (JSONObject) list.get(1);
-
                     JSONArray row = (JSONArray) list1.get("row");
 
                     String pname;
@@ -301,11 +253,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                         }
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -313,11 +263,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             }
         });
-
         jsonRequest.setTag(TAG);
         queue.add(jsonRequest);
-        
     }
-
 
 }
