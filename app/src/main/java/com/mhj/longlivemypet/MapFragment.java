@@ -2,6 +2,8 @@ package com.mhj.longlivemypet;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -11,10 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,12 +33,15 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Map;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback{
     MapView mapView;
@@ -81,6 +89,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                 return false;
             }
         });
+
         return rootView;
     }
 
@@ -102,6 +111,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     public void onAttach(@NonNull Activity activity) {
         super.onAttach(activity);
         manager = (LocationManager)activity.getSystemService(Context.LOCATION_SERVICE);
+
     }
 
     public void startLocationService(){
@@ -165,35 +175,77 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                     String hphone;
                     String latitude;
                     String longitude;
+                    String newAddress;
+                    String oldAddress;
 
                     for(int i = 0; i < row.length(); i++){
                         JSONObject object = row.getJSONObject(i);
                         hname = object.get("BIZPLC_NM").toString();
                         inservice = object.get("BSN_STATE_NM").toString();
-                        hphone = object.get("LOCPLC_FACLT_TELNO").toString();
                         latitude = object.get("REFINE_WGS84_LAT").toString();
                         longitude = object.get("REFINE_WGS84_LOGT").toString();
+                        newAddress = object.get("REFINE_ROADNM_ADDR").toString();
+                        oldAddress = object.get("REFINE_LOTNO_ADDR").toString();
+
+                        if(!object.get("LOCPLC_FACLT_TELNO").toString().equals(null)){
+                            hphone = object.get("LOCPLC_FACLT_TELNO").toString();
+                        }
+                        else {
+                            hphone = "사업자미등록";
+                        }
 
                         double lat = Double.parseDouble(latitude);
                         double lon = Double.parseDouble(longitude);
                         LatLng curPos = new LatLng(lat, lon);
                         if(inservice.equals("정상")){
                             if(hLocationMarker == null ){
-                                hLocationMarker = new MarkerOptions();
-                                hLocationMarker.position(curPos);
-                                hLocationMarker.title(hname + "\n");
-                                hLocationMarker.snippet("전화번호: " + hphone);
-                                hLocationMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_hospital_24px_352501));
+                                if(!newAddress.equals(null))
+                                    hLocationMarker = new MarkerOptions().position(curPos).title(hname + "\n").snippet("전화번호: " + hphone + "\n" + "주소:"+oldAddress).icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_hospital_24px_352501));
+                                else if(newAddress.equals(null) && !oldAddress.equals(null))
+                                    hLocationMarker = new MarkerOptions().position(curPos).title(hname + "\n").snippet("전화번호: " + hphone + "\n" + "주소:"+newAddress).icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_hospital_24px_352501));
+                                else
+                                    hLocationMarker = new MarkerOptions().position(curPos).title(hname + "\n").snippet("전화번호: " + hphone + "\n" + "주소: 사업자 미등록").icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_hospital_24px_352501));
                                 map.addMarker(hLocationMarker);
                             }else{
-                                hLocationMarker.position(curPos);
-                                hLocationMarker.title(hname + "\n");
-                                hLocationMarker.snippet("전화번호: " + hphone);
+                                if(!newAddress.equals(null))
+                                    hLocationMarker = new MarkerOptions().position(curPos).title(hname + "\n").snippet("전화번호: " + hphone + "\n" + "주소:"+oldAddress).icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_hospital_24px_352501));
+                                else if(newAddress.equals(null) && !oldAddress.equals(null))
+                                    hLocationMarker = new MarkerOptions().position(curPos).title(hname + "\n").snippet("전화번호: " + hphone + "\n" + "주소:"+newAddress).icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_hospital_24px_352501));
+                                else
+                                    hLocationMarker = new MarkerOptions().position(curPos).title(hname + "\n").snippet("전화번호: " + hphone + "\n" + "주소: 사업자 미등록").icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_hospital_24px_352501));
                                 map.addMarker(hLocationMarker);
-
                             }
-                        }
+                            map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
+                                @Override
+                                public View getInfoWindow(Marker arg0) {
+                                    return null;
+                                }
+
+                                @Override
+                                public View getInfoContents(Marker marker) {
+
+                                    LinearLayout info = new LinearLayout(getContext());
+                                    info.setOrientation(LinearLayout.VERTICAL);
+                                    info.setBackgroundColor(Color.parseColor("#20FFAA00"));
+                                    TextView title = new TextView(getContext());
+                                    title.setTextColor(Color.parseColor("#B96548"));
+                                    title.setGravity(Gravity.CENTER);
+                                    title.setTypeface(null, Typeface.BOLD);
+                                    title.setText(marker.getTitle());
+
+                                    TextView snippet = new TextView(getContext());
+                                    snippet.setTextColor(Color.GRAY);
+                                    snippet.setText(marker.getSnippet());
+
+                                    info.addView(title);
+                                    info.addView(snippet);
+
+                                    return info;
+                                }
+                            });
+
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -225,32 +277,76 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                     String pphone;
                     String latitude;
                     String longitude;
+                    String newAddress;
+                    String oldAddress;
 
                     for(int i = 0; i < row.length(); i++){
                         JSONObject object = row.getJSONObject(i);
                         pname = object.get("BIZPLC_NM").toString();
                         inservice = object.get("BSN_STATE_NM").toString();
-                        pphone = object.get("LOCPLC_FACLT_TELNO").toString();
                         latitude = object.get("REFINE_WGS84_LAT").toString();
                         longitude = object.get("REFINE_WGS84_LOGT").toString();
+                        newAddress = object.get("REFINE_ROADNM_ADDR").toString();
+                        oldAddress = object.get("REFINE_LOTNO_ADDR").toString();
+
+                        if(!object.get("LOCPLC_FACLT_TELNO").toString().equals(null)){
+                            pphone = object.get("LOCPLC_FACLT_TELNO").toString();
+                        }
+                        else {
+                            pphone = "사업자미등록";
+                        }
 
                         double lat = Double.parseDouble(latitude);
                         double lon = Double.parseDouble(longitude);
                         LatLng curPos = new LatLng(lat, lon);
 
-                        if(pLocationMarker == null ){
-                            pLocationMarker = new MarkerOptions();
-                            pLocationMarker.position(curPos);
-                            pLocationMarker.title(pname + "\n");
-                            pLocationMarker.snippet("전화번호: " + pphone);
-                            pLocationMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_pharmacy_24px_352509));
-                            map.addMarker(pLocationMarker);
-                        }else{
-                            pLocationMarker.position(curPos);
-                            pLocationMarker.title(pname + "\n");
-                            pLocationMarker.snippet("전화번호: " + pphone);
-                            map.addMarker(pLocationMarker);
+                        if(inservice.equals("정상")) {
+                            if (pLocationMarker == null) {
+                                if(!newAddress.equals(null))
+                                    pLocationMarker = new MarkerOptions().position(curPos).title(pname + "\n").snippet("전화번호: " + pphone + "\n" + "주소:"+oldAddress).icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_pharmacy_24px_352509));
+                                else if(newAddress.equals(null) && !oldAddress.equals(null))
+                                    pLocationMarker = new MarkerOptions().position(curPos).title(pname + "\n").snippet("전화번호: " + pphone + "\n" + "주소:"+newAddress).icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_pharmacy_24px_352509));
+                                else
+                                    pLocationMarker = new MarkerOptions().position(curPos).title(pname + "\n").snippet("전화번호: " + pphone + "\n" + "주소: 사업자 미등록"+oldAddress).icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_pharmacy_24px_352509));
+                                map.addMarker(pLocationMarker);
+                            } else {
+                                if(!newAddress.equals(null))
+                                    pLocationMarker = new MarkerOptions().position(curPos).title(pname + "\n").snippet("전화번호: " + pphone + "\n" + "주소:"+oldAddress).icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_pharmacy_24px_352509));
+                                else if(newAddress.equals(null) && !oldAddress.equals(null))
+                                    pLocationMarker = new MarkerOptions().position(curPos).title(pname + "\n").snippet("전화번호: " + pphone + "\n" + "주소:"+newAddress).icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_pharmacy_24px_352509));
+                                else
+                                    pLocationMarker = new MarkerOptions().position(curPos).title(pname + "\n").snippet("전화번호: " + pphone + "\n" + "주소: 사업자 미등록"+oldAddress).icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_pharmacy_24px_352509));
+                                map.addMarker(pLocationMarker);
+                            }
+                            map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
+                                @Override
+                                public View getInfoWindow(Marker arg0) {
+                                    return null;
+                                }
+
+                                @Override
+                                public View getInfoContents(Marker marker) {
+
+                                    LinearLayout info = new LinearLayout(getContext());
+                                    info.setOrientation(LinearLayout.VERTICAL);
+                                    info.setBackgroundColor(Color.parseColor("#20FFAA00"));
+                                    TextView title = new TextView(getContext());
+                                    title.setTextColor(Color.parseColor("#B96548"));
+                                    title.setGravity(Gravity.CENTER);
+                                    title.setTypeface(null, Typeface.BOLD);
+                                    title.setText(marker.getTitle());
+
+                                    TextView snippet = new TextView(getContext());
+                                    snippet.setTextColor(Color.GRAY);
+                                    snippet.setText(marker.getSnippet());
+
+                                    info.addView(title);
+                                    info.addView(snippet);
+
+                                    return info;
+                                }
+                            });
                         }
                     }
                 } catch (JSONException e) {
