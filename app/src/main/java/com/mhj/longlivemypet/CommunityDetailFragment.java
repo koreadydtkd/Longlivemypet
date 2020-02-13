@@ -47,9 +47,6 @@ public class CommunityDetailFragment extends Fragment {
         setArgument();
         mainActivity = (MainActivity) getActivity();
         imageView = rootView.findViewById(R.id.imageView);
-        if(imageView.getBackground() == null){
-            imageView.setVisibility(View.GONE);
-        }
         editText_comment = rootView.findViewById(R.id.editText_comment);
         recyclerView = rootView.findViewById(R.id.recyclerView);
 
