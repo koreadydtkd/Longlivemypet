@@ -59,7 +59,8 @@ public class CommunityFragmentWrite extends Fragment {
         rootView.findViewById(R.id.imageViewAdd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 이미지 클릭시 실행
+                mainActivity.accessGallery();
+                mainActivity.setImg(imageView);
             }
         });
 
@@ -82,8 +83,7 @@ public class CommunityFragmentWrite extends Fragment {
                     Toast.makeText(getContext(), "내용이 너무 짧습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(getContext(), "잠시만 기다려주세요." ,Toast.LENGTH_SHORT).show();
-                uploadimg();
+                addCommunity();
             }
         });
 
@@ -103,7 +103,7 @@ public class CommunityFragmentWrite extends Fragment {
         });
     }
 
-    void addCommunity(){
+    void addItem(){
         CommunityItem communityItem = new CommunityItem();
         communityItem.setTitle(editText_title.getText().toString());
         communityItem.setClassification(spinner.getSelectedItem().toString());
@@ -111,8 +111,6 @@ public class CommunityFragmentWrite extends Fragment {
         communityItem.setContent(editText_content.getText().toString());
         communityItem.setDate(System.currentTimeMillis());
         communityItem.setCommentCount(0);
-
-        Log.d("CommunityFragmentWrite", "2" + imgurl);
         communityItem.setImgURL(imgurl);
 
         firestore.collection("Community").document().set(communityItem);
@@ -120,40 +118,46 @@ public class CommunityFragmentWrite extends Fragment {
         mainActivity.replaceFragment(R.id.navigation_community);
     }
 
-    void uploadimg(){
+    void addCommunity(){
         imageView.setDrawingCacheEnabled(true);
         imageView.buildDrawingCache();
 
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // 100은 100% 품질
-        byte[] data = baos.toByteArray();
+        if(bitmap.getByteCount() != 230400){
+            Toast.makeText(getContext(), "잠시만 기다려주세요." ,Toast.LENGTH_SHORT).show();
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // 100은 100% 품질
+            byte[] data = baos.toByteArray();
 
-        Date date = new Date();
-        long timestamp = date.getTime();
-        String imageFilename = "image" + timestamp + ".jpg";
-        final StorageReference imageRef = storageRef.child(imageFilename);
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
 
-        StorageMetadata metadata = new StorageMetadata.Builder().setContentType("image/jpg").build();
+            Date date = new Date();
+            long timestamp = date.getTime();
+            String imageFilename = "image" + timestamp + ".jpg";
+            final StorageReference imageRef = storageRef.child(imageFilename);
+            StorageMetadata metadata = new StorageMetadata.Builder().setContentType("image/jpg").build();
 
-        UploadTask uploadTask = imageRef.putBytes( data, metadata );
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Task<Uri> uri = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uri.isComplete());
-                imgurl = uri.getResult().toString();
-                addCommunity();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("CommunityFragmentWrite", "실패");
-            }
-        });
+            UploadTask uploadTask = imageRef.putBytes( data, metadata );
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> uri = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!uri.isComplete());
+                    imgurl = uri.getResult().toString();
+                    addItem();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), "업로드에 실패했습니다.\n잠시후 다시 시도해주세요" ,Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            imgurl = null;
+            addItem();
+        }
     }
 
 }

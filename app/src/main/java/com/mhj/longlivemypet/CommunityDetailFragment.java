@@ -1,5 +1,7 @@
 package com.mhj.longlivemypet;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,31 +27,35 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class CommunityDetailFragment extends Fragment {
+    private FirebaseAuth auth;
+    private FirebaseFirestore firestore;
+    private FirebaseStorage storage;
     TextView textView_userNick, textView_classification, textView_date, textView_title, textView_content;
     EditText editText_comment;
     ImageView imageView;
     CommunityDetailAdapter detailAdapter;
     ViewGroup rootView;
     RecyclerView recyclerView;
-    String nick, document;
+    String nick, document, imgURL;
     MainActivity mainActivity;
-    private FirebaseAuth auth;
-    private FirebaseFirestore firestore;
+    ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_community_detail, container, false);
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+        mainActivity = (MainActivity) getActivity();
+
+
         getUserNick();
         setArgument();
-        mainActivity = (MainActivity) getActivity();
-        imageView = rootView.findViewById(R.id.imageView);
-        editText_comment = rootView.findViewById(R.id.editText_comment);
-        recyclerView = rootView.findViewById(R.id.recyclerView);
 
         Query query = firestore.collection("Community").document(document).collection("Comment").orderBy("date", Query.Direction.ASCENDING);
         FirestoreRecyclerOptions<CommunityDetailItem> options = new FirestoreRecyclerOptions.Builder<CommunityDetailItem>().setQuery(query, CommunityDetailItem.class).build();
@@ -86,6 +93,9 @@ public class CommunityDetailFragment extends Fragment {
         if(contentNick.equals(nick)){
             Toast.makeText(getContext(), "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
             firestore.collection("Community").document(document).delete();
+            if(imgURL != null){
+                storage.getReferenceFromUrl(imgURL).delete();
+            }
             mainActivity.replaceFragment(R.id.navigation_community);
         }else{
             Toast.makeText(getContext(), "삭제권한이 없습니다.", Toast.LENGTH_SHORT).show();
@@ -112,12 +122,15 @@ public class CommunityDetailFragment extends Fragment {
     }
 
     public void setArgument(){
+        textView_title = rootView.findViewById(R.id.textView_title);
         textView_userNick = rootView.findViewById(R.id.textView_userNick);
         textView_classification = rootView.findViewById(R.id.textView_classification);
         textView_date = rootView.findViewById(R.id.textView_date);
-        textView_title = rootView.findViewById(R.id.textView_title);
-        textView_content = rootView.findViewById(R.id.textView_content);
         imageView = rootView.findViewById(R.id.imageView);
+        textView_content = rootView.findViewById(R.id.textView_content);
+        progressBar = rootView.findViewById(R.id.progressbar);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+        editText_comment = rootView.findViewById(R.id.editText_comment);
         if(getArguments() != null){
             document = getArguments().getString("document");
             textView_userNick.setText("작성자: " + getArguments().getString("userNick"));
@@ -125,12 +138,28 @@ public class CommunityDetailFragment extends Fragment {
             textView_date.setText(getArguments().getString("date"));
             textView_title.setText("제목: " + getArguments().getString("title"));
             textView_content.setText(getArguments().getString("content"));
-            String imgURL = getArguments().getString("imgURL");
-            Log.d("setArgument", imgURL);
-            if(imgURL == null){
-                Log.d("setArgument", "asas");
+            imgURL = getArguments().getString("imgURL");
+            if(imgURL != null){
+                progressBar.setIndeterminate(true);
+                progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#B96548"), PorterDuff.Mode.MULTIPLY);
+                progressBar.setVisibility(View.VISIBLE);
+                Picasso.get().load(imgURL).into(imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Picasso.get().load(imgURL).into(imageView);
+                        progressBar.setVisibility(View.GONE);
+                        textView_content.setVisibility(View.VISIBLE);
+                    }
+                    @Override
+                    public void onError(Exception e) {
+                        textView_content.setVisibility(View.VISIBLE);
+                        Toast.makeText(getContext(), "이미지 로드에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else{
+                textView_content.setVisibility(View.VISIBLE);
+                imageView.setVisibility(View.GONE);
             }
-            Picasso.get().load(imgURL).into(imageView);
 
         }
     }
