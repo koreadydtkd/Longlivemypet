@@ -242,7 +242,7 @@ public class HomeFragment extends Fragment {
                             }
 
                             if(object.getString("category").equals("R06")){
-                                int waterLevel = Integer.parseInt(object.get("fcstValue").toString());
+
                                 txtRain.setText(object.get("fcstValue").toString() + "mm");
 
                             }

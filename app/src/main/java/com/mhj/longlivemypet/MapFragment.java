@@ -102,7 +102,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         Log.e("MapActivity", "지도 준비됨");
         map = googleMap;
         LatLng SEOUL = new LatLng(37.655728, 127.062539);
-
+        map.setMyLocationEnabled(true);
+        map.getUiSettings(). setMyLocationButtonEnabled(false);
         map.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
         map.animateCamera(CameraUpdateFactory.zoomTo(10));
     }
@@ -139,25 +140,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     private void  showCurrentLocation(Double lat, Double lon){
         LatLng curPos = new LatLng(lat, lon);
         this.map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPos, 15));
-        showMyLocationMarker(curPos);
     }
 
-    private void showMyLocationMarker(LatLng curPoint){
-        if(myLocationMarker == null) {
-            myLocationMarker = new MarkerOptions();
-            myLocationMarker.position(curPoint);
-            myLocationMarker.title("내 위치\n");
-            myLocationMarker.snippet("GPS로 확인한 위치");
-            myLocationMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_my_location_24px_352557));
-            map.addMarker(myLocationMarker);
-        }else{
-            myLocationMarker.position(curPoint);
-            myLocationMarker.title("내 위치\n");
-            myLocationMarker.snippet("GPS로 확인한 위치");
-            myLocationMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_my_location_24px_352557));
-            map.addMarker(myLocationMarker);
-        }
-    }
 
     public void hospitalLocationService(){
         queue = Volley.newRequestQueue(getContext());
