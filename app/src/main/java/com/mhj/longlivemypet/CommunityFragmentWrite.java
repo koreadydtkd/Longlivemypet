@@ -3,7 +3,10 @@ package com.mhj.longlivemypet;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.RotateDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -16,6 +19,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -34,6 +39,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,15 +48,15 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class CommunityFragmentWrite extends Fragment {
-    MainActivity mainActivity;
-    EditText editText_title, editText_content;
-    ImageView imageView;
-    String nick;
-    Spinner spinner;
-    String imgurl;
-    Bitmap bitmap;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
+    MainActivity mainActivity;
+    EditText editText_title, editText_content;
+    ImageView imageViewAdd;
+    String nick, imgurl;
+    Spinner spinner;
+    Bitmap bitmap = null;
+//    int mDegree = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -60,7 +66,7 @@ public class CommunityFragmentWrite extends Fragment {
         mainActivity = (MainActivity) getActivity();
         getUserEmail();
 
-        imageView = rootView.findViewById(R.id.imageViewAdd);
+        imageViewAdd = rootView.findViewById(R.id.imageViewAdd);
         editText_title = rootView.findViewById(R.id.editText_title);
         editText_content = rootView.findViewById(R.id.editText_content);
         spinner = rootView.findViewById(R.id.spinner);
@@ -92,6 +98,14 @@ public class CommunityFragmentWrite extends Fragment {
                     return;
                 }
                 addCommunity();
+            }
+        });
+
+        rootView.findViewById(R.id.button_rotateImage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                mDegree = mDegree + 90;
+//                imageViewAdd.setImageBitmap(rotateImage(bitmap, mDegree));
             }
         });
 
@@ -127,11 +141,10 @@ public class CommunityFragmentWrite extends Fragment {
     }
 
     void addCommunity(){
-        imageView.setDrawingCacheEnabled(true);
-        imageView.buildDrawingCache();
+        imageViewAdd.setDrawingCacheEnabled(true);
+        imageViewAdd.buildDrawingCache();
 
-        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        if(bitmap.getByteCount() != 230400){
+        if(bitmap != null){
             Toast.makeText(getContext(), "잠시만 기다려주세요." ,Toast.LENGTH_SHORT).show();
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -183,8 +196,7 @@ public class CommunityFragmentWrite extends Fragment {
                 Uri uri = data.getData();
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-                    Log.d("TEST@@@@@@", "가로: " + bitmap.getWidth() + "세로: " + bitmap.getHeight());
-                    imageView.setImageBitmap(bitmap);
+                    imageViewAdd.setImageBitmap(bitmap);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -193,5 +205,11 @@ public class CommunityFragmentWrite extends Fragment {
             }
         }
     }
+
+//    public Bitmap rotateImage(Bitmap bitmap, float degree) {
+//        Matrix matrix = new Matrix();
+//        matrix.postRotate(degree);
+//        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+//    }
 
 }

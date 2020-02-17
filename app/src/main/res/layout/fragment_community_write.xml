@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#20FFAA00"
     android:orientation="vertical"
     android:paddingBottom="8dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    tools:context=".CommunityFragmentWrite">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".CommunityFragmentWrite">
+        android:layout_height="match_parent" >
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
@@ -75,9 +74,19 @@
                 android:entries="@array/community_classification"/>
         </RelativeLayout>
 
+        <Button
+            android:id="@+id/button_rotateImage"
+            android:background="@android:drawable/ic_menu_rotate"
+            app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="24dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
         <ImageView
             android:id="@+id/imageViewAdd"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="48dp"
             android:scaleType="fitXY"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
