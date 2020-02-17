@@ -1,13 +1,17 @@
 package com.mhj.longlivemypet;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +34,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 public class CommunityFragmentWrite extends Fragment {
     MainActivity mainActivity;
@@ -40,6 +48,7 @@ public class CommunityFragmentWrite extends Fragment {
     String nick;
     Spinner spinner;
     String imgurl;
+    Bitmap bitmap;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
 
@@ -59,8 +68,7 @@ public class CommunityFragmentWrite extends Fragment {
         rootView.findViewById(R.id.imageViewAdd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.accessGallery();
-                mainActivity.setImg(imageView);
+                accessGallery();
             }
         });
 
@@ -157,6 +165,32 @@ public class CommunityFragmentWrite extends Fragment {
         }else{
             imgurl = null;
             addItem();
+        }
+    }
+
+    public void accessGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 92);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 92) {
+            if (resultCode == RESULT_OK) {
+                Uri uri = data.getData();
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                    Log.d("TEST@@@@@@", "가로: " + bitmap.getWidth() + "세로: " + bitmap.getHeight());
+                    imageView.setImageBitmap(bitmap);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else if(resultCode == RESULT_CANCELED){
+                Toast.makeText(getContext(), "사진 선택을 취소하였습니다", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
