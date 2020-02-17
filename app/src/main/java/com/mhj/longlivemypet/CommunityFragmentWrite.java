@@ -56,7 +56,6 @@ public class CommunityFragmentWrite extends Fragment {
     String nick, imgurl;
     Spinner spinner;
     Bitmap bitmap = null;
-//    int mDegree = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -104,8 +103,9 @@ public class CommunityFragmentWrite extends Fragment {
         rootView.findViewById(R.id.button_rotateImage).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mDegree = mDegree + 90;
-//                imageViewAdd.setImageBitmap(rotateImage(bitmap, mDegree));
+                if(bitmap != null){
+                    imageViewAdd.setImageBitmap(getRotatedBitmap(90));
+                }
             }
         });
 
@@ -206,10 +206,19 @@ public class CommunityFragmentWrite extends Fragment {
         }
     }
 
-//    public Bitmap rotateImage(Bitmap bitmap, float degree) {
-//        Matrix matrix = new Matrix();
-//        matrix.postRotate(degree);
-//        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-//    }
+    private Bitmap getRotatedBitmap(int degree) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        try {
+            Bitmap rotateBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            if (bitmap != rotateBitmap) {
+                bitmap.recycle();
+                bitmap = rotateBitmap;
+            }
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
 
 }

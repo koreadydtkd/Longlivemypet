@@ -32,11 +32,12 @@
         android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewDog"
         app:cardCornerRadius="12dp"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/cardViewCat"
         android:layout_marginTop="100dp"
-        android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -50,8 +51,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_width="160dp"
-                android:layout_height="250dp"
+                android:layout_width="140dp"
+                android:layout_height="240dp"
                 android:background="@drawable/dog" />
 
             <TextView
@@ -71,11 +72,12 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:id="@+id/cardViewCat"
         app:cardCornerRadius="12dp"
+        app:layout_constraintTop_toTopOf="@+id/cardViewDog"
+        app:layout_constraintBottom_toBottomOf="@id/cardViewDog"
+        app:layout_constraintLeft_toRightOf="@+id/cardViewDog"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="100dp"
-        android:layout_marginRight="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -88,8 +90,8 @@
                 android:id="@+id/button_catsound"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_width="160dp"
-                android:layout_height="250dp"
+                android:layout_width="140dp"
+                android:layout_height="240dp"
                 android:background="@drawable/cat" />
 
             <TextView
