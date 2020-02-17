@@ -2,10 +2,12 @@ package com.mhj.longlivemypet;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,6 +35,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -41,6 +45,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback{
@@ -49,6 +55,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     BottomNavigationView bottomNavigationView;
     MarkerOptions myLocationMarker, hLocationMarker, pLocationMarker;
     LocationManager manager;
+    MainActivity mainActivity;
+
+
 
     private static final String TAG = "MAP";
     private RequestQueue queue;
@@ -92,6 +101,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
         return rootView;
     }
+
+
 
     @Override
     public void onResume() {
@@ -137,10 +148,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         }
     }
 
+
     private void  showCurrentLocation(Double lat, Double lon){
         LatLng curPos = new LatLng(lat, lon);
         this.map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPos, 15));
     }
+
+
 
 
     public void hospitalLocationService(){
@@ -161,6 +175,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                     String longitude;
                     String newAddress;
                     String oldAddress;
+
+
+
+
 
                     for(int i = 0; i < row.length(); i++){
                         JSONObject object = row.getJSONObject(i);
@@ -190,6 +208,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                                 else
                                     hLocationMarker = new MarkerOptions().position(curPos).title(hname + "\n").snippet("전화번호: " + hphone + "\n" + "주소: 사업자 미등록").icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_hospital_24px_352501));
                                 map.addMarker(hLocationMarker);
+
+
+
                             }else{
                                 if(!newAddress.equals(null))
                                     hLocationMarker = new MarkerOptions().position(curPos).title(hname + "\n").snippet("전화번호: " + hphone + "\n" + "주소:"+oldAddress).icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_hospital_24px_352501));
@@ -198,6 +219,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                                 else
                                     hLocationMarker = new MarkerOptions().position(curPos).title(hname + "\n").snippet("전화번호: " + hphone + "\n" + "주소: 사업자 미등록").icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_hospital_24px_352501));
                                 map.addMarker(hLocationMarker);
+
+
+
                             }
                             map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
@@ -225,6 +249,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                                     info.addView(title);
                                     info.addView(snippet);
 
+                                    GoogleMap.OnInfoWindowClickListener infoWindowClickListener = new GoogleMap.OnInfoWindowClickListener() {
+                                        @Override
+                                        public void onInfoWindowClick(Marker marker) {
+
+                                            String num1 = marker.getSnippet();
+                                            int idx = num1.indexOf("\n");
+                                            String num2 = num1.substring(6, idx);
+                                            String pnum = num2.replace("-","");
+                                            calling(pnum);
+                                        }
+                                    };
+                                    map.setOnInfoWindowClickListener(infoWindowClickListener);
+
                                     return info;
                                 }
                             });
@@ -244,6 +281,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         jsonRequest.setTag(TAG);
         queue.add(jsonRequest);
     }
+
+    public void calling(String pnum){
+        if(pnum.equals(null)){
+            Toast.makeText(getContext(), "사업자 전화번호 미등록",Toast.LENGTH_SHORT).show();
+        } else if(pnum.length() < 7){
+            String newnum = "031" + pnum;
+            Log.e("tes", newnum);
+            Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + newnum));
+            getActivity().startActivity(call);
+        } else {
+            Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + pnum));
+            getActivity().startActivity(call);
+        }
+    }
+
 
     public void pharmacyLocationService(){
         queue = Volley.newRequestQueue(getContext());

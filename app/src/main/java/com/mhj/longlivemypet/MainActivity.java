@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -87,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
 
     }
 
+
+
     public void replaceFragment(int resID) {
         if(resID == R.id.navigation_pet){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, petFragment).commit();
@@ -105,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
 
         AutoPermissions.Companion.parsePermissions(this, requestCode, permissions, this);
     }
+
+
 
     @Override
     public void onDenied(int requestCode, String[] permissions){
