@@ -35,17 +35,20 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 public class HomeFragment extends Fragment {
     private FirebaseAuth auth;
 
     ImageView imgWeather; //날씨 아이콘
+    ImageView imgdog;
     TextView txtWeather; //날씨 텍스트
     TextView txtTemp; //온도 텍스트
     TextView txtRain; //강수량 텍스트
     TextView txtWind; // 풍속 텍스트
     TextView txtRainper; // 강수 확율 텍스트
     TextView txtWet; // // 습도 텍스트
+    TextView txtcoment;
 
     // url 구성
     String address;
@@ -63,6 +66,7 @@ public class HomeFragment extends Fragment {
     String today; //오늘 날짜
     String yesterday; //어제 날짜
     long numtime; //현재 시간
+    Random random = new Random();
 
     LocationManager manager;
     private RequestQueue queue;
@@ -78,12 +82,14 @@ public class HomeFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
 
         imgWeather = rootView.findViewById(R.id.imgWeather);
+        imgdog = rootView.findViewById(R.id.imgdog);
         txtWeather = rootView.findViewById(R.id.txtWeather);
         txtTemp = rootView.findViewById(R.id.txtTemp);
         txtWind = rootView.findViewById(R.id.txtWind);
         txtRainper = rootView.findViewById(R.id.txtRainper);
         txtWet = rootView.findViewById(R.id.txtWet);
-        txtRain= rootView.findViewById(R.id.txtRain);;
+        txtRain= rootView.findViewById(R.id.txtRain);
+        txtcoment = rootView.findViewById(R.id.txtcoment);
 
         address = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?";
         sKey = "serviceKey=swlEfys72fvDOcvi5LfN3wFzJEdZoWn0QblHo2VWxkyff4hoQ83W5mEI5MGXQ2TRkYK%2BXR%2B8NtErVqrp%2BOUIGg%3D%3D";
@@ -99,6 +105,7 @@ public class HomeFragment extends Fragment {
         queue = Volley.newRequestQueue(getContext());
         tellMetheWeather(weather);
         startLocationService();
+        sleeptime();
 
         rootView.findViewById(R.id.button_logout).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,6 +181,37 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    public void sleeptime(){
+        int r = random.nextInt(4);
+        if(numtime >= 1800){
+            if(r == 0) {
+                txtcoment.setText("저녁입니다.");
+                imgdog.setImageResource(R.drawable.doglol);
+            }else if(r== 1){
+                txtcoment.setText("저녁식사는 드셨나요?");
+                imgdog.setImageResource(R.drawable.dogstand);
+            }else if(r== 2){
+                txtcoment.setText("해가 지네요");
+                imgdog.setImageResource(R.drawable.doglol);
+            }else if(r== 3){
+                txtcoment.setText("킁킁킁");
+                imgdog.setImageResource(R.drawable.dogwalk);
+            }else if(r== 4){
+                txtcoment.setText("멍!멍!");
+                imgdog.setImageResource(R.drawable.doglol);
+            }
+        } else if(numtime >= 2100){
+            txtcoment.setText("안영히 주무세요.");
+            imgdog.setImageResource(R.drawable.dogsleep);
+        } else if(numtime >= 2200 && numtime <= 2359){
+            txtcoment.setText("zzzzzZ");
+            imgdog.setImageResource(R.drawable.dogsleep);
+        } else if(numtime >= 0000 && numtime <= 0600){
+            txtcoment.setText("zzzzzZ");
+            imgdog.setImageResource(R.drawable.dogsleep);
+        }
+    }
+
     private void startLocationService() {
         try {
             Location location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -210,7 +248,7 @@ public class HomeFragment extends Fragment {
                     JSONObject body = list.getJSONObject("body");
                     JSONObject items = body.getJSONObject("items");
                     JSONArray item = items.getJSONArray("item");
-
+                    int r = random.nextInt(2);
                     for (int i = 0; i < item.length(); i++) {
                         JSONObject object = item.getJSONObject(i);
                         double rain = 0;
@@ -229,12 +267,18 @@ public class HomeFragment extends Fragment {
                                 if(rain >= 1){
                                     imgWeather.setImageResource(R.drawable.rain);
                                     txtWeather.setText("비");
+                                    txtcoment.setText("오늘은 실내에 있죠");
+                                    imgdog.setImageResource(R.drawable.dogstand);
                                 } else if(rain >= 2 ){
                                     imgWeather.setImageResource(R.drawable.alert);
                                     txtWeather.setText("비또는 눈");
+                                    txtcoment.setText("오늘은 실내에 있죠");
+                                    imgdog.setImageResource(R.drawable.dogstand);
                                 } else if(rain >= 3){
                                     imgWeather.setImageResource(R.drawable.snow);
                                     txtWeather.setText("눈");
+                                    txtcoment.setText("눈이 와요 \n주인님");
+                                    imgdog.setImageResource(R.drawable.doghappest);
                                 } else if(rain >= 4){
                                     imgWeather.setImageResource(R.drawable.lightrain);
                                     txtWeather.setText("소나기");
@@ -261,6 +305,8 @@ public class HomeFragment extends Fragment {
                                         if (numtime >= 0600 && numtime < 1800) {
                                             imgWeather.setImageResource(R.drawable.sunny);
                                             txtWeather.setText("맑음");
+                                            imgdog.setImageResource(R.drawable.doghappy);
+                                            txtcoment.setText("주인님! \n산책가요");
                                         } else {
                                             imgWeather.setImageResource(R.drawable.night);
                                             txtWeather.setText("맑음");
@@ -269,6 +315,8 @@ public class HomeFragment extends Fragment {
                                         if (numtime >= 0600 && numtime < 1800) {
                                             imgWeather.setImageResource(R.drawable.cloud);
                                             txtWeather.setText("구름 조금");
+                                            imgdog.setImageResource(R.drawable.dogwalk);
+                                            txtcoment.setText("주인님! \n산책가요");
                                         } else {
                                             imgWeather.setImageResource(R.drawable.cloudnight_118960);
                                             txtWeather.setText("구름 조금");
@@ -276,6 +324,8 @@ public class HomeFragment extends Fragment {
                                     } else if (sky == 4) {
                                         imgWeather.setImageResource(R.drawable.cloundy_118962);
                                         txtWeather.setText("흐림");
+                                        imgdog.setImageResource(R.drawable.dogstand);
+                                        txtcoment.setText("날씨가 많이 흐리네요");
                                     }
                                 }
                             }
