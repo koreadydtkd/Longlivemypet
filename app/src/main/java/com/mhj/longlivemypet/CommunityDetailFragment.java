@@ -2,6 +2,7 @@ package com.mhj.longlivemypet;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,10 +10,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -32,10 +35,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CommunityDetailFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
     private FirebaseStorage storage;
+    private String email;
     TextView textView_userNick, textView_classification, textView_date, textView_title, textView_content;
     EditText editText_comment;
     ImageView imageView;
@@ -45,6 +52,9 @@ public class CommunityDetailFragment extends Fragment {
     String nick, document, imgURL;
     MainActivity mainActivity;
     ProgressBar progressBar;
+    Map<String, Boolean> likeUser = new HashMap<String, Boolean>();
+    Button button_like;
+    boolean like = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +63,7 @@ public class CommunityDetailFragment extends Fragment {
         firestore = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         mainActivity = (MainActivity) getActivity();
+        button_like = rootView.findViewById(R.id.button_like);
         getUserNick();
         setArgument();
 
@@ -63,6 +74,13 @@ public class CommunityDetailFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(detailAdapter);
+
+        button_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                likes();
+            }
+        });
 
         rootView.findViewById(R.id.button_add).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +101,42 @@ public class CommunityDetailFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        detailAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        detailAdapter.stopListening();
+    }
+
+    private void likes(){
+        firestore.collection("Community").document(document).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    if(task.getResult().get("likeUser") != null){
+                        likeUser = (Map<String, Boolean>) task.getResult().get("likeUser");
+                    }
+                    if(likeUser != null && likeUser.containsKey(email) && likeUser.get(email)){
+                        likeUser.put(email, false);
+                        firestore.collection("Community").document(document)
+                                .update("likeUser", likeUser, "likeCount", FieldValue.increment(-1));
+                        button_like.setBackgroundResource(R.drawable.ic_thumb_up_black);
+                    }else{
+                        likeUser.put(email, true);
+                        firestore.collection("Community").document(document)
+                                .update("likeUser", likeUser, "likeCount", FieldValue.increment(1));
+                        button_like.setBackgroundResource(R.drawable.ic_thumb_up);
+                    }
+                }
+            }
+        });
     }
 
     private void deleteContent() {
@@ -132,45 +186,46 @@ public class CommunityDetailFragment extends Fragment {
             textView_content.setText(getArguments().getString("content"));
             imgURL = getArguments().getString("imgURL");
             if(imgURL != null){
-                progressBar.setIndeterminate(true);
-                progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#B96548"), PorterDuff.Mode.MULTIPLY);
-                progressBar.setVisibility(View.VISIBLE);
-                Picasso.get().load(imgURL).into(imageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        Picasso.get().load(imgURL).into(imageView);
-                        progressBar.setVisibility(View.GONE);
-                        textView_content.setVisibility(View.VISIBLE);
-                    }
-                    @Override
-                    public void onError(Exception e) {
-                        textView_content.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
-                        Toast.makeText(getContext(), "이미지 로드에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                imgUpload();
             }else{
                 textView_content.setVisibility(View.VISIBLE);
                 imageView.setVisibility(View.GONE);
+            }
+            like = getArguments().getBoolean("like");
+            if(like){
+                button_like.setBackgroundResource(R.drawable.ic_thumb_up);
             }
 
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        detailAdapter.startListening();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        detailAdapter.stopListening();
+    public void imgUpload(){
+        progressBar.setIndeterminate(true);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#B96548"), PorterDuff.Mode.MULTIPLY);
+        progressBar.setVisibility(View.VISIBLE);
+        Picasso.get().load(imgURL).into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                Picasso.get().load(imgURL).into(imageView);
+                progressBar.setVisibility(View.GONE);
+                textView_content.setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onError(Exception e) {
+                textView_content.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+                try {
+                    Toast.makeText(getContext(), "이미지 로드에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                }catch (NullPointerException n){
+                    n.printStackTrace();
+                    mainActivity.replaceFragment(R.id.navigation_community);
+                }
+            }
+        });
     }
 
     private void getUserNick(){
-        String email = auth.getCurrentUser().getEmail();
+        email = auth.getCurrentUser().getEmail();
         firestore.collection("Users").document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

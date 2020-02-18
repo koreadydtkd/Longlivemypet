@@ -28,7 +28,7 @@
 
             <TextView
                 android:id="@+id/textView_title"
-                android:text="제목입니다."
+                android:text="제목입니다"
                 android:layout_marginLeft="16dp"
                 android:textSize="18sp"
                 android:maxLines="1"
@@ -55,6 +55,22 @@
                 android:layout_toRightOf="@+id/textView_userNick"
                 android:layout_marginLeft="16dp"
                 android:text="2020-02-07"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/imageView_Like"
+                android:src="@drawable/ic_thumb_up"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_toLeftOf="@id/textView_likeCount" />
+
+            <TextView
+                android:id="@+id/textView_likeCount"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="12dp"
+                android:text="0"
+                android:layout_toLeftOf="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

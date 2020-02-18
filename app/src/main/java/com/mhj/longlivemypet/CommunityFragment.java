@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -12,19 +14,17 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class CommunityFragment extends Fragment implements CommunityAdapter.itemDetailListener{
     RecyclerView recyclerView;
@@ -33,6 +33,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
     MainActivity mainActivity;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
+    ProgressBar progressbar;
     String nick;
 
     @Override
@@ -42,13 +43,15 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         getUserNick();
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+        progressbar = rootView.findViewById(R.id.progressbar);
 
         Query query = firestore.collection("Community").orderBy("date", Query.Direction.DESCENDING);
-        PagedList.Config config = new PagedList.Config.Builder().setEnablePlaceholders(false).setPrefetchDistance(2).setPageSize(7).build();
+        PagedList.Config config = new PagedList.Config.Builder().setEnablePlaceholders(false).setPrefetchDistance(10).setPageSize(10).build();
         FirestorePagingOptions<CommunityItem> options = new FirestorePagingOptions.Builder<CommunityItem>().setLifecycleOwner(this).setQuery(query, config, CommunityItem.class).build();
+
         adapter = new CommunityAdapter(options, this);
 
-        recyclerView = rootView.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -121,7 +124,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
 
     private void changeList(Query query) {
         adapter.stopListening();
-        PagedList.Config config = new PagedList.Config.Builder().setEnablePlaceholders(false).setPrefetchDistance(2).setPageSize(7).build();
+        PagedList.Config config = new PagedList.Config.Builder().setEnablePlaceholders(false).setPrefetchDistance(5).setPageSize(10).build();
         FirestorePagingOptions<CommunityItem> options = new FirestorePagingOptions.Builder<CommunityItem>().setLifecycleOwner(this).setQuery(query, config, CommunityItem.class).build();
         adapter = new CommunityAdapter(options, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -156,7 +159,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
     }
 
     @Override
-    public void itemDetail(String document, String classification, String title, String userNick, String content, String date, String imgURL) {
+    public void itemDetail(String document, String classification, String title, String userNick, String content, String date, String imgURL, boolean like) {
         CommunityDetailFragment detailFragment = new CommunityDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString("document", document);
@@ -166,6 +169,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
         bundle.putString("content", content);
         bundle.putString("date", date);
         bundle.putString("imgURL", imgURL);
+        bundle.putBoolean("like", like);
         detailFragment.setArguments(bundle);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();

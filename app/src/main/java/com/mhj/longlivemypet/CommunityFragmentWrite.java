@@ -127,7 +127,6 @@ public class CommunityFragmentWrite extends Fragment {
         communityItem.setNick(nick);
         communityItem.setContent(editText_content.getText().toString());
         communityItem.setDate(System.currentTimeMillis());
-        communityItem.setCommentCount(0);
         communityItem.setImgURL(imgurl);
 
         firestore.collection("Community").document().set(communityItem);
@@ -182,7 +181,7 @@ public class CommunityFragmentWrite extends Fragment {
         }
     }
 
-    public void accessGallery() {
+    private void accessGallery() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -207,7 +206,7 @@ public class CommunityFragmentWrite extends Fragment {
         }
     }
 
-    private Bitmap getRotatedBitmap(int degree) {
+    public Bitmap getRotatedBitmap(int degree) {
         Matrix matrix = new Matrix();
         matrix.postRotate(degree);
         try {

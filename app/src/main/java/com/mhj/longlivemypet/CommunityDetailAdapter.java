@@ -18,16 +18,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 
 public class CommunityDetailAdapter extends FirestoreRecyclerAdapter<CommunityDetailItem, CommunityDetailAdapter.CommunityDetailHolder> {
-    View itemView;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
-    String document, documentcomment, nick;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
+    String document, documentcomment, nick;
 
     public CommunityDetailAdapter(@NonNull FirestoreRecyclerOptions<CommunityDetailItem> options, String document) {
         super(options);
@@ -61,7 +60,7 @@ public class CommunityDetailAdapter extends FirestoreRecyclerAdapter<CommunityDe
     @Override
     public CommunityDetailHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        itemView = inflater.inflate(R.layout.community_comment_item, parent, false);
+        View itemView = inflater.inflate(R.layout.community_comment_item, parent, false);
         return new CommunityDetailHolder(itemView);
     }
 

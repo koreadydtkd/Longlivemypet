@@ -1,25 +1,34 @@
 package com.mhj.longlivemypet;
 
+import java.util.Map;
+
 public class CommunityItem {
-    String title;
-    String content;
-    String classification;
-    String nick;
+    String classification, title, content, nick, imgURL;
+    int commentCount, likeCount;
     long date;
-    int commentCount;
-    String imgURL;
+    Map<String, Boolean> likeUser;
 
     public CommunityItem() {
     }
 
-    public CommunityItem(String title, String content, String classification, String nick, long date, int commentCount, String imgURL) {
+    public CommunityItem(String classification, String title, String content, String nick, String imgURL, int commentCount, int likeCount, long date, Map<String, Boolean> likeUser) {
+        this.classification = classification;
         this.title = title;
         this.content = content;
-        this.classification = classification;
         this.nick = nick;
-        this.date = date;
-        this.commentCount = commentCount;
         this.imgURL = imgURL;
+        this.commentCount = commentCount;
+        this.likeCount = likeCount;
+        this.date = date;
+        this.likeUser = likeUser;
+    }
+
+    public String getClassification() {
+        return classification;
+    }
+
+    public void setClassification(String classification) {
+        this.classification = classification;
     }
 
     public String getTitle() {
@@ -38,14 +47,6 @@ public class CommunityItem {
         this.content = content;
     }
 
-    public String getClassification() {
-        return classification;
-    }
-
-    public void setClassification(String classification) {
-        this.classification = classification;
-    }
-
     public String getNick() {
         return nick;
     }
@@ -54,12 +55,12 @@ public class CommunityItem {
         this.nick = nick;
     }
 
-    public long getDate() {
-        return date;
+    public String getImgURL() {
+        return imgURL;
     }
 
-    public void setDate(long date) {
-        this.date = date;
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
     }
 
     public int getCommentCount() {
@@ -70,11 +71,27 @@ public class CommunityItem {
         this.commentCount = commentCount;
     }
 
-    public String getImgURL() {
-        return imgURL;
+    public int getLikeCount() {
+        return likeCount;
     }
 
-    public void setImgURL(String imgURL) {
-        this.imgURL = imgURL;
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
+    }
+
+    public Map<String, Boolean> getLikeUser() {
+        return likeUser;
+    }
+
+    public void setLikeUser(Map<String, Boolean> likeUser) {
+        this.likeUser = likeUser;
     }
 }
