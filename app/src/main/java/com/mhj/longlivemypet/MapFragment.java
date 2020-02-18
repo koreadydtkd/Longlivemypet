@@ -57,8 +57,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     LocationManager manager;
     MainActivity mainActivity;
 
-
-
     private static final String TAG = "MAP";
     private RequestQueue queue;
 
@@ -101,8 +99,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
         return rootView;
     }
-
-
 
     @Override
     public void onResume() {
@@ -155,8 +151,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     }
 
 
-
-
     public void hospitalLocationService(){
         queue = Volley.newRequestQueue(getContext());
         String url = "https://openapi.gg.go.kr/Animalhosptl?Key=beeaf0846bc2484e8ed3aaa6e134a94e&Type=json&pIndex=1&pSize=100";
@@ -175,10 +169,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                     String longitude;
                     String newAddress;
                     String oldAddress;
-
-
-
-
 
                     for(int i = 0; i < row.length(); i++){
                         JSONObject object = row.getJSONObject(i);
@@ -209,8 +199,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                                     hLocationMarker = new MarkerOptions().position(curPos).title(hname + "\n").snippet("전화번호: " + hphone + "\n" + "주소: 사업자 미등록").icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_hospital_24px_352501));
                                 map.addMarker(hLocationMarker);
 
-
-
                             }else{
                                 if(!newAddress.equals(null))
                                     hLocationMarker = new MarkerOptions().position(curPos).title(hname + "\n").snippet("전화번호: " + hphone + "\n" + "주소:"+oldAddress).icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_hospital_24px_352501));
@@ -219,8 +207,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                                 else
                                     hLocationMarker = new MarkerOptions().position(curPos).title(hname + "\n").snippet("전화번호: " + hphone + "\n" + "주소: 사업자 미등록").icon(BitmapDescriptorFactory.fromResource(R.drawable.iconfinder_ic_local_hospital_24px_352501));
                                 map.addMarker(hLocationMarker);
-
-
 
                             }
                             map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
@@ -298,7 +284,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
             getActivity().startActivity(call);
         }
     }
-
 
     public void pharmacyLocationService(){
         queue = Volley.newRequestQueue(getContext());
@@ -382,6 +367,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
                                     info.addView(title);
                                     info.addView(snippet);
+
+                                    GoogleMap.OnInfoWindowClickListener infoWindowClickListener = new GoogleMap.OnInfoWindowClickListener() {
+                                        @Override
+                                        public void onInfoWindowClick(Marker marker) {
+                                            String pnum = null;
+                                            String num1 = marker.getSnippet();
+                                            int idx = num1.indexOf("\n");
+                                            String num2 = num1.substring(6, idx);
+                                            if(num2.length() >= 7) {
+                                                pnum = num2.replace("-", "");
+                                                if (pnum.length() <= 7) {
+                                                    pnum = "031" + pnum;
+                                                    Log.e("tes", pnum);
+                                                }
+                                            } else if(num2.equals("사업자미등록")){
+                                                pnum = "사업자미등록";
+                                            }
+                                            calling(pnum);
+                                        }
+                                    };
+                                    map.setOnInfoWindowClickListener(infoWindowClickListener);
 
                                     return info;
                                 }
