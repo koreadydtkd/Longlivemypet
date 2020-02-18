@@ -25,15 +25,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 public class PetFragment extends Fragment implements PetAdapter.PetItemDetailListener{
+
+    private FirebaseFirestore firestore;
+    private FirebaseAuth auth;
+    MainActivity mainActivity;
+    ImageView imageViewPlz;
     RecyclerView recyclerView;
     PetAdapter adapter;
     ViewGroup rootView;
-    MainActivity mainActivity;
-    private FirebaseFirestore firestore;
-    private FirebaseAuth auth;
     String email;
     TextView textViewPlz;
-    ImageView imageViewPlz;
     FirestoreRecyclerOptions<PetItem> options;
     PetFragment petFragment;
 
@@ -47,12 +48,9 @@ public class PetFragment extends Fragment implements PetAdapter.PetItemDetailLis
         email = auth.getCurrentUser().getEmail();
         textViewPlz = rootView.findViewById(R.id.textViewPlz);
         imageViewPlz = rootView.findViewById(R.id.imageViewPlz);
-
         Query query = firestore.collection("Pet").whereEqualTo("email", email).orderBy("breed", Query.Direction.DESCENDING);
         options = new FirestoreRecyclerOptions.Builder<PetItem>().setQuery(query, PetItem.class).build();
-
         adapter = new PetAdapter(options,this, petFragment);
-
         recyclerView = rootView.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -62,48 +60,45 @@ public class PetFragment extends Fragment implements PetAdapter.PetItemDetailLis
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
                 Log.e("PetFragment 500", "count:" + adapter.getItemCount());
-
                 if( adapter.getItemCount() > 0) {
-                    //1개이상 존재시
+                    //추가펫 1개이상 존재시
                     textViewPlz.setVisibility(View.GONE);
                     imageViewPlz.setVisibility(View.GONE);
-
                 }else if (adapter.getItemCount() == 0){
-                    //리스트에 없을때
+                    //추가펫 리스트에 없을때
                     textViewPlz.setVisibility(View.VISIBLE);
                     imageViewPlz.setVisibility(View.VISIBLE);
                 }
             }
         }, 500);
 
+        //펫추가하러가기
         rootView.findViewById(R.id.button_AddPet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PetAddFragment petAddFragment = new PetAddFragment();
-                mainActivity.replaceFragment(petAddFragment);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, petAddFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
         return rootView;
-    }
+    }//onCreateView
 
     @Override
     public void onResume() {
         super.onResume();
-
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
                 Log.e("PetFragment 500", "count:" + adapter.getItemCount());
-
                 if( adapter.getItemCount() > 0) {
                     //1개이상 존재시
                     textViewPlz.setVisibility(View.GONE);
                     imageViewPlz.setVisibility(View.GONE);
-
                 }else if (adapter.getItemCount() == 0){
                     //리스트에 없을때
                     textViewPlz.setVisibility(View.VISIBLE);
@@ -111,24 +106,25 @@ public class PetFragment extends Fragment implements PetAdapter.PetItemDetailLis
                 }
             }
         }, 500);
-    }
+    }//onResume
+
 
     @Override
     public void onStart() {
         super.onStart();
         adapter.startListening();
+    }//onStart
 
-
-    }
 
     @Override
     public void onStop() {
         super.onStop();
         adapter.stopListening();
-    }
+    }//onStop
+
 
     @Override
-    public void petitemDetail(String document, String name, String sex, String breed, String date, String weight, String memo) {
+    public void petitemDetail(String document, String name, String sex, String breed, String date, String weight, String memo, String imageURL) {
         PetAdjustFragment petAdjustFragment = new PetAdjustFragment();
         Bundle bundle = new Bundle();
         bundle.putString("document", document);
@@ -138,14 +134,15 @@ public class PetFragment extends Fragment implements PetAdapter.PetItemDetailLis
         bundle.putString("date", date);
         bundle.putString("weight", weight);
         bundle.putString("memo", memo);
+        bundle.putString("imageURL", imageURL);
         petAdjustFragment.setArguments(bundle);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, petAdjustFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-    }
+    }//petitemDetail
 
-}
+}//class PetFragment
 
 

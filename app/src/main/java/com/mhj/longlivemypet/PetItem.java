@@ -9,13 +9,13 @@ public class PetItem {
     String weight;
     String email;
     String memo;
-
+    String imageURL;
 
     public PetItem() {
 
     }
 
-    public PetItem(String name, String sex, String breed, String date, String weight, String email, String memo) {
+    public PetItem(String name, String sex, String breed, String date, String weight, String email, String memo, String imageURL) {
         this.name = name;
         this.sex = sex;
         this.breed = breed;
@@ -23,6 +23,7 @@ public class PetItem {
         this.weight = weight;
         this.email = email;
         this.memo = memo;
+        this.imageURL = imageURL;
     }
 
     public String getName() {
@@ -79,6 +80,14 @@ public class PetItem {
 
     public void setMemo(String memo) {
         this.memo = memo;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }
 
