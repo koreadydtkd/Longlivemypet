@@ -10,24 +10,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
+import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.firebase.ui.firestore.paging.LoadingState;
 
 import java.text.SimpleDateFormat;
 
-public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, CommunityAdapter.CommunityHolder> {
-    View itemView;
+public class CommunityAdapter extends FirestorePagingAdapter<CommunityItem, CommunityAdapter.CommunityHolder> {
     String document, classification, title, content, userNick, date, imgURL;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     itemDetailListener listener;
 
-    public CommunityAdapter(@NonNull FirestoreRecyclerOptions<CommunityItem> options, itemDetailListener listener) {
+    public CommunityAdapter(@NonNull FirestorePagingOptions<CommunityItem> options, itemDetailListener listener) {
         super(options);
         this.listener = listener;
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull final CommunityHolder holder, final int position, @NonNull final CommunityItem item) {
+    protected void onBindViewHolder(@NonNull CommunityHolder holder, final int position, @NonNull final CommunityItem item) {
         if(item.getClassification().equals("병원추천")){
             holder.textView_classification.setTextColor(Color.parseColor("#FE2E2E"));
         }else if(item.getClassification().equals("카페추천")){
@@ -46,7 +46,8 @@ public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, Co
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                document = getSnapshots().getSnapshot(position).getId();
+                document = getItem(position).getId();
+                Log.d("CommunityAdapter", document);
                 classification = item.classification;
                 title = item.title;
                 userNick = item.nick;
@@ -56,14 +57,13 @@ public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, Co
                 listener.itemDetail(document, classification, title, userNick, content, date, imgURL);
             }
         });
-
     }
 
     @NonNull
     @Override
     public CommunityHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        itemView = inflater.inflate(R.layout.community_item, parent, false);
+        View itemView = inflater.inflate(R.layout.community_item, parent, false);
         return new CommunityHolder(itemView);
     }
 
@@ -77,6 +77,21 @@ public class CommunityAdapter extends FirestoreRecyclerAdapter<CommunityItem, Co
             textView_userNick = itemView.findViewById(R.id.textView_userNick);
             textView_date = itemView.findViewById(R.id.textView_date);
             textView_commentCount = itemView.findViewById(R.id.textView_commentCount);
+        }
+    }
+
+    @Override
+    protected void onLoadingStateChanged(@NonNull LoadingState state) {
+        super.onLoadingStateChanged(state);
+        switch (state) {
+            case LOADING_INITIAL:
+                Log.d("TEST1111111", "!!!!!!!!!");
+            case LOADING_MORE:
+                Log.d("TEST2222222", "@@@@@@@@@@");
+            case LOADED:
+                Log.d("TEST3333333", "##########");
+            case ERROR:
+                Log.d("TEST4444444", "$$$$$$$$$$");
         }
     }
 

@@ -9,10 +9,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
+import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -20,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class CommunityFragment extends Fragment implements CommunityAdapter.itemDetailListener{
     RecyclerView recyclerView;
@@ -39,7 +44,8 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
         getUserNick();
 
         Query query = firestore.collection("Community").orderBy("date", Query.Direction.DESCENDING);
-        FirestoreRecyclerOptions<CommunityItem> options = new FirestoreRecyclerOptions.Builder<CommunityItem>().setQuery(query, CommunityItem.class).build();
+        PagedList.Config config = new PagedList.Config.Builder().setEnablePlaceholders(false).setPrefetchDistance(2).setPageSize(7).build();
+        FirestorePagingOptions<CommunityItem> options = new FirestorePagingOptions.Builder<CommunityItem>().setLifecycleOwner(this).setQuery(query, config, CommunityItem.class).build();
         adapter = new CommunityAdapter(options, this);
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
@@ -115,7 +121,8 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
 
     private void changeList(Query query) {
         adapter.stopListening();
-        FirestoreRecyclerOptions<CommunityItem> options = new FirestoreRecyclerOptions.Builder<CommunityItem>().setQuery(query, CommunityItem.class).build();
+        PagedList.Config config = new PagedList.Config.Builder().setEnablePlaceholders(false).setPrefetchDistance(2).setPageSize(7).build();
+        FirestorePagingOptions<CommunityItem> options = new FirestorePagingOptions.Builder<CommunityItem>().setLifecycleOwner(this).setQuery(query, config, CommunityItem.class).build();
         adapter = new CommunityAdapter(options, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);

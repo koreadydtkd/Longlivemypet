@@ -1,13 +1,11 @@
 package com.mhj.longlivemypet;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.RotateDrawable;
-import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,14 +13,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -39,9 +35,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -56,10 +49,12 @@ public class CommunityFragmentWrite extends Fragment {
     String nick, imgurl;
     Spinner spinner;
     Bitmap bitmap = null;
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_community_write, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_community_write, container, false);
+        rootView.setEnabled(false);
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         mainActivity = (MainActivity) getActivity();
@@ -145,7 +140,11 @@ public class CommunityFragmentWrite extends Fragment {
         imageViewAdd.buildDrawingCache();
 
         if(bitmap != null){
-            Toast.makeText(getContext(), "잠시만 기다려주세요." ,Toast.LENGTH_SHORT).show();
+            progressDialog = new ProgressDialog(getContext());
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage("잠시만 기다려주세요...");
+            progressDialog.show();
+            progressDialog.setCancelable(false);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // 100은 100% 품질
@@ -158,9 +157,10 @@ public class CommunityFragmentWrite extends Fragment {
             long timestamp = date.getTime();
             String imageFilename = "image" + timestamp + ".jpg";
             final StorageReference imageRef = storageRef.child(imageFilename);
+
             StorageMetadata metadata = new StorageMetadata.Builder().setContentType("image/jpg").build();
 
-            UploadTask uploadTask = imageRef.putBytes( data, metadata );
+            UploadTask uploadTask = imageRef.putBytes(data, metadata);
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -168,6 +168,7 @@ public class CommunityFragmentWrite extends Fragment {
                     while (!uri.isComplete());
                     imgurl = uri.getResult().toString();
                     addItem();
+                    progressDialog.dismiss();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

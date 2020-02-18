@@ -52,7 +52,7 @@ public class JoinSecondActivity extends AppCompatActivity {
 
     }
 
-    public void nick_check() { //별명 중복체크
+    private void nick_check() { //별명 중복체크
         if(editText_Nick.length() < 2){
             Toast.makeText(JoinSecondActivity.this, "2자 이상입력해주세요", Toast.LENGTH_SHORT).show();
             return;
@@ -72,8 +72,8 @@ public class JoinSecondActivity extends AppCompatActivity {
                         }
                         Toast.makeText(JoinSecondActivity.this, "사용가능한 별명입니다", Toast.LENGTH_SHORT).show();
                         nick_ck = false;
-                    }
-                });
+               }
+        });
 
     }
 

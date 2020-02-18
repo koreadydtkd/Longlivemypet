@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
@@ -52,8 +53,6 @@ public class CommunityDetailFragment extends Fragment {
         firestore = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         mainActivity = (MainActivity) getActivity();
-
-
         getUserNick();
         setArgument();
 
@@ -108,15 +107,8 @@ public class CommunityDetailFragment extends Fragment {
         detailItem.setCommnet(editText_comment.getText().toString());
         detailItem.setDate(System.currentTimeMillis());
 
-        firestore.collection("Community").document(document).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                long count = (long) documentSnapshot.get("commentCount");
-                firestore.collection("Community").document(document).update("commentCount", count + 1);
-            }
-        });
-
         firestore.collection("Community").document(document).collection("Comment").document().set(detailItem);
+        firestore.collection("Community").document(document).update("commentCount", FieldValue.increment(1));
         Toast.makeText(getContext(), "등록되었습니다." ,Toast.LENGTH_SHORT).show();
         editText_comment.setText("");
     }
@@ -153,6 +145,7 @@ public class CommunityDetailFragment extends Fragment {
                     @Override
                     public void onError(Exception e) {
                         textView_content.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
                         Toast.makeText(getContext(), "이미지 로드에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });

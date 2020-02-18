@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -25,7 +26,6 @@ public class CommunityDetailAdapter extends FirestoreRecyclerAdapter<CommunityDe
     View itemView;
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
     String document, documentcomment, nick;
-    long count;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
@@ -48,14 +48,8 @@ public class CommunityDetailAdapter extends FirestoreRecyclerAdapter<CommunityDe
                 if(holder.textView_nick.getText().toString().equals(nick)){
                     documentcomment = getSnapshots().getSnapshot(holder.getAdapterPosition()).getId();
                     firestore.collection("Community").document(document).collection("Comment").document(documentcomment).delete();
-                    firestore.collection("Community").document(document).collection("Comment").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            count = task.getResult().size();
-                            firestore.collection("Community").document(document).update("commentCount", count);
-                            Toast.makeText(holder.itemView.getContext(), "댓글이 삭제되었습니다", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    firestore.collection("Community").document(document).update("commentCount", FieldValue.increment(-1));
+                    Toast.makeText(holder.itemView.getContext(), "댓글이 삭제되었습니다", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(holder.itemView.getContext(), "삭제권한이 없습니다.", Toast.LENGTH_SHORT).show();
                 }
