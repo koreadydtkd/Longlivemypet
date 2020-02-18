@@ -189,11 +189,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                         newAddress = object.get("REFINE_ROADNM_ADDR").toString();
                         oldAddress = object.get("REFINE_LOTNO_ADDR").toString();
 
-                        if(!object.get("LOCPLC_FACLT_TELNO").toString().equals(null)){
-                            hphone = object.get("LOCPLC_FACLT_TELNO").toString();
+                        if(object.get("LOCPLC_FACLT_TELNO").toString().length() < 7){
+                            hphone = "사업자미등록";
                         }
                         else {
-                            hphone = "사업자미등록";
+                            hphone = object.get("LOCPLC_FACLT_TELNO").toString();
                         }
 
                         double lat = Double.parseDouble(latitude);
@@ -252,11 +252,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                                     GoogleMap.OnInfoWindowClickListener infoWindowClickListener = new GoogleMap.OnInfoWindowClickListener() {
                                         @Override
                                         public void onInfoWindowClick(Marker marker) {
-
+                                            String pnum = null;
                                             String num1 = marker.getSnippet();
                                             int idx = num1.indexOf("\n");
                                             String num2 = num1.substring(6, idx);
-                                            String pnum = num2.replace("-","");
+                                            if(num2.length() >= 7) {
+                                                pnum = num2.replace("-", "");
+                                                if (pnum.length() <= 7) {
+                                                    pnum = "031" + pnum;
+                                                    Log.e("tes", pnum);
+                                                }
+                                            } else if(num2.equals("사업자미등록")){
+                                                pnum = "사업자미등록";
+                                            }
                                             calling(pnum);
                                         }
                                     };
@@ -283,13 +291,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     }
 
     public void calling(String pnum){
-        if(pnum.equals(null)){
+        if(pnum.equals("사업자미등록")){
             Toast.makeText(getContext(), "사업자 전화번호 미등록",Toast.LENGTH_SHORT).show();
-        } else if(pnum.length() < 7){
-            String newnum = "031" + pnum;
-            Log.e("tes", newnum);
-            Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + newnum));
-            getActivity().startActivity(call);
         } else {
             Intent call = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + pnum));
             getActivity().startActivity(call);
@@ -325,11 +328,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                         newAddress = object.get("REFINE_ROADNM_ADDR").toString();
                         oldAddress = object.get("REFINE_LOTNO_ADDR").toString();
 
-                        if(!object.get("LOCPLC_FACLT_TELNO").toString().equals(null)){
-                            pphone = object.get("LOCPLC_FACLT_TELNO").toString();
+                        if(object.get("LOCPLC_FACLT_TELNO").toString().length() < 7){
+                            pphone = "사업자미등록";
                         }
                         else {
-                            pphone = "사업자미등록";
+                            pphone = object.get("LOCPLC_FACLT_TELNO").toString();
                         }
 
                         double lat = Double.parseDouble(latitude);
