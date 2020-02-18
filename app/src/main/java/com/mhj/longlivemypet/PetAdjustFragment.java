@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class PetAdjustFragment extends Fragment {
 
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
+    private FirebaseStorage storage;
     MainActivity mainActivity;
     ImageView imageViewPet;
     EditText editText_Name, editText_Breed, editText_Date, editText_Weight, editText_Sex, editText_Memo;
@@ -48,6 +50,7 @@ public class PetAdjustFragment extends Fragment {
     ViewGroup rootView;
     final int PICK_IMAGE_REQUEST = 0;
     ProgressDialog progressDialog;
+    Bitmap bitmap = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,9 +96,36 @@ public class PetAdjustFragment extends Fragment {
                 AdjustPet_Complete();
             }
         });
+
+        //이미뷰돌리기
+        rootView.findViewById(R.id.button_rotateImage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(bitmap != null){
+                    imageViewPet.setImageBitmap(getRotatedBitmap(90));
+                }
+            }
+        });
+
         return rootView;
     }//onCreateView
 
+
+    //이미지뷰 돌리기
+    private Bitmap getRotatedBitmap(int degree) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        try {
+            Bitmap rotateBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            if (bitmap != rotateBitmap) {
+                bitmap.recycle();
+                bitmap = rotateBitmap;
+            }
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }//getRotatedBitmap
 
 
     //갤러리에서 찾은사진 이미지뷰에 띄우기
@@ -105,7 +135,7 @@ public class PetAdjustFragment extends Fragment {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
                 imageViewPet.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -145,7 +175,9 @@ public class PetAdjustFragment extends Fragment {
         imageViewPet.buildDrawingCache();
         Bitmap bitmap = ((BitmapDrawable) imageViewPet.getDrawable()).getBitmap();
 
-        if (bitmap !=null){
+        if (!bitmap.isRecycled()){
+            storage = FirebaseStorage.getInstance();
+            storage.getReferenceFromUrl(imageURL).delete();
             progressDialog = new ProgressDialog(getContext());
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setMessage("잠시만 기다려주세요.");
@@ -178,7 +210,6 @@ public class PetAdjustFragment extends Fragment {
                 }
             });
         }else{
-            imageURL = null;
             AdjustPetItem();
             progressDialog.dismiss();
         }
