@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,6 +59,7 @@ public class PetAddFragment extends Fragment {
     ViewGroup rootView;
     final int PICK_IMAGE_REQUEST = 0;
     ProgressDialog progressDialog;
+    Bitmap bitmap = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class PetAddFragment extends Fragment {
         editText_Weight = rootView.findViewById(R.id.editText_Weight);
         editText_Memo = rootView.findViewById(R.id.editText_Memo);
         imageViewPet = rootView.findViewById(R.id.imageViewPet);
+
+
 
         //갤러리에서이미지찾기버튼
         rootView.findViewById(R.id.button_Image).setOnClickListener(new View.OnClickListener() {
@@ -101,9 +105,37 @@ public class PetAddFragment extends Fragment {
                 AddPet_Complete();
             }
         });
+
+        //이미뷰돌리기
+        rootView.findViewById(R.id.button_rotateImage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(bitmap != null){
+                    imageViewPet.setImageBitmap(getRotatedBitmap(90));
+                }
+            }
+        });
+
+
         return rootView;
     }//onCreateView
 
+
+    //이미지뷰 돌리기
+    private Bitmap getRotatedBitmap(int degree) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        try {
+            Bitmap rotateBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            if (bitmap != rotateBitmap) {
+                bitmap.recycle();
+                bitmap = rotateBitmap;
+            }
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }//getRotatedBitmap
 
 
     //갤러리에서 찾은사진 이미지뷰에 띄우기
@@ -113,7 +145,7 @@ public class PetAddFragment extends Fragment {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
                 imageViewPet.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();

@@ -136,7 +136,6 @@ public class PetFragment extends Fragment implements PetAdapter.PetItemDetailLis
         bundle.putString("memo", memo);
         bundle.putString("imageURL", imageURL);
         petAdjustFragment.setArguments(bundle);
-
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, petAdjustFragment);
         transaction.addToBackStack(null);
