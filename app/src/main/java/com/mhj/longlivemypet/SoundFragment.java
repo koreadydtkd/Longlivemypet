@@ -10,12 +10,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 public class SoundFragment extends Fragment {
-    MainActivity mainActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_sound, container, false);
-        mainActivity = (MainActivity)getActivity();
 
         rootView.findViewById(R.id.button_dogsound).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     MapFragment mapFragment;
     HomeFragment homeFragment;
     CommunityFragment communityFragment;
+    MoreFragment moreFragment;
     SoundFragment soundFragment;
 
     @Override
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         mapFragment = new MapFragment();
         homeFragment = new HomeFragment();
         communityFragment = new CommunityFragment();
+        moreFragment = new MoreFragment();
         soundFragment = new SoundFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, homeFragment).commit();
 
@@ -78,9 +80,9 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
                         menuItem.setChecked(true);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, communityFragment).commit();
                         break;
-                    case R.id.navigation_sound:
+                    case R.id.navigation_more:
                         menuItem.setChecked(true);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, soundFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, moreFragment).commit();
                         break;
                 }
                 return false;

@@ -1,5 +1,7 @@
 package com.mhj.longlivemypet;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -144,12 +146,27 @@ public class CommunityDetailFragment extends Fragment {
         sb.append(textView_userNick.getText().toString());
         String contentNick = sb.substring(5, sb.length());
         if(contentNick.equals(nick)){
-            Toast.makeText(getContext(), "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
-            firestore.collection("Community").document(document).delete();
-            if(imgURL != null){
-                storage.getReferenceFromUrl(imgURL).delete();
-            }
-            mainActivity.replaceFragment(R.id.navigation_community);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("삭제 하시겠습니까?");
+            builder.setPositiveButton("아니오", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            builder.setNegativeButton("네", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getContext(), "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                    firestore.collection("Community").document(document).delete();
+                    if(imgURL != null){
+                        storage.getReferenceFromUrl(imgURL).delete();
+                    }
+                    mainActivity.replaceFragment(R.id.navigation_community);
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         }else{
             Toast.makeText(getContext(), "삭제권한이 없습니다.", Toast.LENGTH_SHORT).show();
         }

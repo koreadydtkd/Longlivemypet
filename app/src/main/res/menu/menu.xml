@@ -21,7 +21,7 @@
         android:title="커뮤니티" />
 
     <item
-        android:id="@+id/navigation_sound"
-        android:icon="@drawable/ic_music_note"
-        android:title="사운드" />
+        android:id="@+id/navigation_more"
+        android:icon="@drawable/more"
+        android:title="더보기" />
 </menu>
