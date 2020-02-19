@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -109,6 +110,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         Log.e("MapActivity", "지도 준비됨");
         map = googleMap;
         LatLng SEOUL = new LatLng(37.655728, 127.062539);
+        //GPS on/off 확인
+        if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            //GPS 켜달라는 요청
+            Toast.makeText(getContext(), "위치 추적 기능을 켜주세요",Toast.LENGTH_SHORT).show();
+        }
         map.setMyLocationEnabled(true);
         map.getUiSettings(). setMyLocationButtonEnabled(false);
         map.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
@@ -149,6 +155,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         LatLng curPos = new LatLng(lat, lon);
         this.map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPos, 15));
     }
+
+
+
 
 
     public void hospitalLocationService(){
