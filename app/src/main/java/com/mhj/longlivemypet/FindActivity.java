@@ -1,6 +1,7 @@
 package com.mhj.longlivemypet;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,14 +33,20 @@ public class FindActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String phone = editText_findId.getText().toString();
-                firestore.collection("Users").whereEqualTo("phone", phone).get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                if(phone.length() < 5){
+                    Toast.makeText(FindActivity.this, "자릿수를 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                firestore.collection("Users").whereEqualTo("phone", phone).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                 for(QueryDocumentSnapshot snapshot : queryDocumentSnapshots){
                                     UserDTO users = snapshot.toObject(UserDTO.class);
                                     if(users.getPhone().equals(phone)){
-                                        Toast.makeText(FindActivity.this, users.getEmail(), Toast.LENGTH_LONG).show();
+                                        StringBuilder sb = new StringBuilder();
+                                        sb.append(users.getEmail());
+                                        sb.replace(sb.indexOf("@") - 2 , sb.indexOf("@"), "**");
+                                        Toast.makeText(FindActivity.this, sb.toString(), Toast.LENGTH_LONG).show();
                                         return;
                                     }
                                 }
