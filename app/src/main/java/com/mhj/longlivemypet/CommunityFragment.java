@@ -87,7 +87,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
             @Override
             public void onClick(View v) {
                 adapter.stopListening();
-                changeList(firestore.collection("Community").whereEqualTo("classification", "맛집추천").orderBy("date", Query.Direction.DESCENDING));
+                changeList(firestore.collection("Community").whereEqualTo("classification", "자랑하기").orderBy("date", Query.Direction.DESCENDING));
                 adapter.startListening();
             }
         });

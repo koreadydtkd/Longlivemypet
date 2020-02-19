@@ -18,7 +18,8 @@ public class MoreFragment extends Fragment {
         rootView.findViewById(R.id.cardViewAnnounce).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                AnnounceFragment announceFragment = new AnnounceFragment();
+                changeFragment(announceFragment);
             }
         });
 
@@ -40,10 +41,7 @@ public class MoreFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 SoundFragment soundFragment = new SoundFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, soundFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                changeFragment(soundFragment);
             }
         });
 
@@ -51,14 +49,18 @@ public class MoreFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AskFragment askFragment = new AskFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, askFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                changeFragment(askFragment);
             }
         });
 
         return rootView;
+    }
+
+    public void changeFragment(Fragment fragment){
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
 }

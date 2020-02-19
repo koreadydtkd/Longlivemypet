@@ -16,7 +16,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class FindActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth auth;
     EditText editText_findId, editText_findPw;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class FindActivity extends AppCompatActivity {
         editText_findPw = findViewById(R.id.editText_Find_Pw);
 
         firestore = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         findViewById(R.id.button_Id).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +64,7 @@ public class FindActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "다시 확인해주세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mAuth.sendPasswordResetEmail(email);
+                auth.sendPasswordResetEmail(email);
                 Toast.makeText(getApplicationContext(), "메일을 확인해주세요", Toast.LENGTH_SHORT).show();
             }
         });

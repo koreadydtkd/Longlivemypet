@@ -38,8 +38,8 @@ public class CommunityAdapter extends FirestorePagingAdapter<CommunityItem, Comm
             holder.textView_classification.setTextColor(Color.parseColor("#FE2E2E"));
         }else if(item.getClassification().equals("카페추천")){
             holder.textView_classification.setTextColor(Color.parseColor("#01A9DB"));
-        }else if(item.getClassification().equals("맛집추천")){
-            holder.textView_classification.setTextColor(Color.parseColor("#FFAA00"));
+        }else if(item.getClassification().equals("자랑하기")){
+            holder.textView_classification.setTextColor(Color.parseColor("#FF7000"));
         }else if(item.getClassification().equals("궁금해요")){
             holder.textView_classification.setTextColor(Color.parseColor("#04B404"));
         }

@@ -114,9 +114,9 @@
             android:id="@+id/textView_food"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="#맛집추천"
+            android:text="#자랑하기"
             android:textStyle="bold"
-            android:textColor="#FFAA00"
+            android:textColor="#FF7000"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
