@@ -50,7 +50,11 @@ public class MoreFragment extends Fragment {
         rootView.findViewById(R.id.cardViewAsk).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                AskFragment askFragment = new AskFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, askFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
