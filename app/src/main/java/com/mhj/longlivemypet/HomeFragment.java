@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,8 +104,19 @@ public class HomeFragment extends Fragment {
         Log.e("WeatherFragment", weather);
 
         queue = Volley.newRequestQueue(getContext());
-        tellMetheWeather(weather);
         startLocationService();
+
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                String weather = address + sKey + row + basedate + basetime + nx + ny;
+                //여기에 딜레이 후 시작할 작업들을 입력
+                tellMetheWeather(weather);
+            }
+        }, 500);
+
         sleeptime();
 
         rootView.findViewById(R.id.button_logout).setOnClickListener(new View.OnClickListener() {
@@ -181,9 +193,70 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public void sleeptime(){
+    public void sunnyday(){
+        int r = random.nextInt(5);
+        if(r == 0) {
+            txtcoment.setText("날씨가 좋네요.");
+            imgdog.setImageResource(R.drawable.doglol);
+        } else if(r== 1){
+            txtcoment.setText("멍!!");
+            imgdog.setImageResource(R.drawable.dogstand);
+        } else if(r== 2) {
+            txtcoment.setText("주인님 화이팅");
+            imgdog.setImageResource(R.drawable.doglol);
+        } else if(r== 3) {
+            txtcoment.setText("주인님! \n산책가요");
+            imgdog.setImageResource(R.drawable.doghappy);
+        } else if(r== 4) {
+            txtcoment.setText("오늘 간식은 뭔가요?");
+            imgdog.setImageResource(R.drawable.dogstand);
+        }
+    }
+
+    public void cloudyday(){
+        int r = random.nextInt(5);
+        if(r == 0) {
+            txtcoment.setText("구름이 조금 보이네요");
+            imgdog.setImageResource(R.drawable.doglol);
+        } else if(r== 1){
+            txtcoment.setText("멍!!");
+            imgdog.setImageResource(R.drawable.dogstand);
+        } else if(r== 2) {
+            txtcoment.setText("주인님 화이팅");
+            imgdog.setImageResource(R.drawable.doglol);
+        } else if(r== 3) {
+            txtcoment.setText("주인님! \n산책가요");
+            imgdog.setImageResource(R.drawable.doghappy);
+        } else if(r== 4) {
+            txtcoment.setText("음 생각중 이에요");
+            imgdog.setImageResource(R.drawable.dogstand);
+        }
+    }
+
+    public void darkday(){
         int r = random.nextInt(4);
-        if(numtime >= 1800){
+        if(r == 0) {
+            txtcoment.setText("날씨가 칙칙하네요");
+            imgdog.setImageResource(R.drawable.dogstand);
+        } else if(r== 1){
+            txtcoment.setText("왈!");
+            imgdog.setImageResource(R.drawable.dogstand);
+        } else if(r== 2) {
+            txtcoment.setText("비가 올수도....");
+            imgdog.setImageResource(R.drawable.dogstand);
+        } else if(r== 3) {
+            txtcoment.setText("오늘 산책은 포기");
+            imgdog.setImageResource(R.drawable.dogstand);
+        }
+    }
+
+    public void rainday(){
+        int r = random.nextInt(5);
+    }
+
+    public void sleeptime(){
+        int r = random.nextInt(5);
+        if(numtime >= 1800 && numtime < 2100){
             if(r == 0) {
                 txtcoment.setText("저녁입니다.");
                 imgdog.setImageResource(R.drawable.doglol);
@@ -200,7 +273,7 @@ public class HomeFragment extends Fragment {
                 txtcoment.setText("멍!멍!");
                 imgdog.setImageResource(R.drawable.doglol);
             }
-        } else if(numtime >= 2100){
+        } else if(numtime >= 2100 && numtime < 2200){
             txtcoment.setText("안영히 주무세요.");
             imgdog.setImageResource(R.drawable.dogsleep);
         } else if(numtime >= 2200 && numtime <= 2359){
@@ -248,7 +321,6 @@ public class HomeFragment extends Fragment {
                     JSONObject body = list.getJSONObject("body");
                     JSONObject items = body.getJSONObject("items");
                     JSONArray item = items.getJSONArray("item");
-                    int r = random.nextInt(2);
                     for (int i = 0; i < item.length(); i++) {
                         JSONObject object = item.getJSONObject(i);
                         double rain = 0;
@@ -305,8 +377,7 @@ public class HomeFragment extends Fragment {
                                         if (numtime >= 0600 && numtime < 1800) {
                                             imgWeather.setImageResource(R.drawable.sunny);
                                             txtWeather.setText("맑음");
-                                            imgdog.setImageResource(R.drawable.doghappy);
-                                            txtcoment.setText("주인님! \n산책가요");
+                                            sunnyday();
                                         } else {
                                             imgWeather.setImageResource(R.drawable.night);
                                             txtWeather.setText("맑음");
@@ -315,8 +386,7 @@ public class HomeFragment extends Fragment {
                                         if (numtime >= 0600 && numtime < 1800) {
                                             imgWeather.setImageResource(R.drawable.cloud);
                                             txtWeather.setText("구름 조금");
-                                            imgdog.setImageResource(R.drawable.dogwalk);
-                                            txtcoment.setText("주인님! \n산책가요");
+                                            cloudyday();
                                         } else {
                                             imgWeather.setImageResource(R.drawable.cloudnight_118960);
                                             txtWeather.setText("구름 조금");
@@ -325,7 +395,7 @@ public class HomeFragment extends Fragment {
                                         imgWeather.setImageResource(R.drawable.cloundy_118962);
                                         txtWeather.setText("흐림");
                                         imgdog.setImageResource(R.drawable.dogstand);
-                                        txtcoment.setText("날씨가 많이 흐리네요");
+                                        darkday();
                                     }
                                 }
                             }
@@ -364,8 +434,6 @@ public class HomeFragment extends Fragment {
         jsonRequest.setTag(TAG);
         queue.add(jsonRequest);
     }
-
-
 
     public void println(String data) {
         Log.d("WeatherFragment", data);
