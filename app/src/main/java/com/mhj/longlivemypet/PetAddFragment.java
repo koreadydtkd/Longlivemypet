@@ -70,9 +70,9 @@ public class PetAddFragment extends Fragment {
         email = auth.getCurrentUser().getEmail();
         editText_Name = rootView.findViewById(R.id.editText_Name);
         editText_Sex = rootView.findViewById(R.id.editText_Sex);
-        editText_Breed = rootView.findViewById(R.id.editText_Breed);
         editText_Date = rootView.findViewById(R.id.editText_Date);
         editText_Weight = rootView.findViewById(R.id.editText_Weight);
+        editText_Breed = rootView.findViewById(R.id.editText_Breed);
         editText_Memo = rootView.findViewById(R.id.editText_Memo);
         imageViewPet = rootView.findViewById(R.id.imageViewPet);
 
@@ -116,7 +116,6 @@ public class PetAddFragment extends Fragment {
             }
         });
 
-
         return rootView;
     }//onCreateView
 
@@ -159,9 +158,9 @@ public class PetAddFragment extends Fragment {
         PetItem petItem = new PetItem();
         petItem.setName(editText_Name.getText().toString());
         petItem.setSex(editText_Sex.getText().toString());
-        petItem.setBreed(editText_Breed.getText().toString());
         petItem.setDate(editText_Date.getText().toString());
         petItem.setWeight(editText_Weight.getText().toString());
+        petItem.setBreed(editText_Breed.getText().toString());
         petItem.setMemo(editText_Memo.getText().toString());
         petItem.setEmail(email);
         petItem.setImageURL(imageURL);
@@ -172,18 +171,40 @@ public class PetAddFragment extends Fragment {
     }//AddPetItem
 
 
+
     //펫등록(사진+정보) 최종완료
     void AddPet_Complete(){
         imageViewPet.setDrawingCacheEnabled(true);
         imageViewPet.buildDrawingCache();
         Bitmap bitmap = ((BitmapDrawable) imageViewPet.getDrawable()).getBitmap();
 
+        if(editText_Name.length()<1){
+            Toast.makeText(mainActivity, "이름을 확인해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(editText_Sex.length()<2){
+            Toast.makeText(mainActivity, "성별을 확인해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(editText_Date.length()<6){
+            Toast.makeText(mainActivity, "생일을 확인해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(editText_Weight.length()<3){
+            Toast.makeText(mainActivity, "몸무게를 확인해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(editText_Breed.length()<1){
+            Toast.makeText(mainActivity, "종을 확인해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("잠시만 기다려주세요.");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+
         if (bitmap !=null){
-            progressDialog = new ProgressDialog(getContext());
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setMessage("잠시만 기다려주세요.");
-            progressDialog.show();
-            progressDialog.setCancelable(false);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // 100은 100% 품질
             byte[] data = baos.toByteArray();

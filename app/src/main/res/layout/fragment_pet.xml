@@ -8,54 +8,70 @@
     android:background="#20FFAA00"
     tools:context="PetAdapter">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <Button
         android:id="@+id/button_AddPet"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="5dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/button"
-        android:text="펫 추가하기"
-        android:textColor="#F7F7F7"
-        android:textStyle="bold"
+        android:background="@drawable/buttonsecond"
+        android:text="나의펫 추가하기"
+        android:textColor="@color/mainColor"
         android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textStyle="bold"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/button_AddPet"
         android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="351dp"
+        android:layout_height="403dp"
         android:layout_margin="5dp"
+        android:layout_marginEnd="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_AddPet" />
+        app:layout_constraintTop_toBottomOf="@id/button_AddPet"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
-        android:id="@+id/imageViewPlz"
-        android:layout_width="285dp"
-        android:layout_height="173dp"
-        android:layout_marginTop="124dp"
-        android:src="@drawable/petadd3"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_AddPet" />
+        <ImageView
+            android:id="@+id/imageViewPlz"
+            android:layout_width="252dp"
+            android:layout_height="143dp"
+            android:layout_below="@+id/button_AddPet"
+            android:background="@drawable/petadd3"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="123dp"
+            android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/textViewPlz"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="61dp"
-        android:text="첫 펫을 등록해주세요! "
-        android:textSize="25dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewPlz" />
+        <TextView
+            android:layout_marginLeft="60dp"
+            android:layout_below="@+id/imageViewPlz"
+            android:id="@+id/textViewPlz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="61dp"
+            android:text="첫 펫을 등록해주세요! "
+            android:textSize="25dp"
+            android:visibility="invisible"/>
 
+        <Button
+            android:layout_below="@+id/recyclerView"
+            android:id="@+id/button_AddCalender"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/buttonsecond"
+            android:text="나의 일정 추가하기"
+            android:textColor="@color/mainColor"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

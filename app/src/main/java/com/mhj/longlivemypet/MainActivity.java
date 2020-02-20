@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     HomeFragment homeFragment;
     CommunityFragment communityFragment;
     MoreFragment moreFragment;
+    PetCalendarFragment petCalendarFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         homeFragment = new HomeFragment();
         communityFragment = new CommunityFragment();
         moreFragment = new MoreFragment();
+        petCalendarFragment = new PetCalendarFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, homeFragment).commit();
 
         final BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
@@ -98,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, communityFragment).commit();
         }else if(resID == R.id.navigation_more){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, moreFragment).commit();
+        }else if(resID == R.layout.fragment_pet_calendar){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, petCalendarFragment).commit();
         }
     }
 

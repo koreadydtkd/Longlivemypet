@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#20FFAA00"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".PetCalendarFragment">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="305dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:dateTextAppearance="@style/CalendarViewDateCustomText"
+            android:weekDayTextAppearance="@style/CalendarViewWeekCustomText" />
+
+        <TextView
+            android:id="@+id/whenDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/calendarView"
+            android:gravity="center_horizontal"
+            android:textColor="#000000"
+            android:text="date"
+            android:textSize="24dp"/>
+
+        <TextView
+            android:id="@+id/textViewPlz"
+            android:layout_below="@id/whenDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="추가된 일기장이 없습니다. "
+            android:textSize="25dp"
+            android:layout_marginTop="100dp"
+            android:gravity="center_horizontal"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/whenDate"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:scrollbars="vertical"/>
+
+
+
+    </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_AddCalender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_add_black_24dp"
+        />
+
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/imageViewPlz"-->
+    <!--        android:layout_width="285dp"-->
+    <!--        android:layout_height="173dp"-->
+    <!--        android:layout_marginTop="124dp"-->
+    <!--        android:src="@drawable/petadd3"-->
+    <!--        android:visibility="invisible"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/button_AddPet" />-->
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

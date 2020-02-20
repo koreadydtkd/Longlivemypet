@@ -11,7 +11,7 @@ public class PetItem {
     String memo;
     String imageURL;
 
-    public PetItem() {
+    public PetItem(){
 
     }
 

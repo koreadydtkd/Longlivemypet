@@ -1,6 +1,8 @@
 package com.mhj.longlivemypet;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentHostCallback;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -26,17 +29,14 @@ import com.squareup.picasso.Picasso;
 
 
 public class PetAdapter extends FirestoreRecyclerAdapter<PetItem, PetAdapter.MyViewHolder> {
-
-
     ImageView imageViewPet;
     View itemView;
     String document, name, sex, breed, date, weight, memo, imageURL;
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private FirestoreRecyclerOptions<PetItem> options;
-    private FirebaseStorage storage;
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
     PetItemDetailListener listener;
     PetFragment petFragment;
-
 
     public PetAdapter(FirestoreRecyclerOptions<PetItem> options, PetItemDetailListener listener, PetFragment petFragment) {
         super(options);
@@ -52,8 +52,10 @@ public class PetAdapter extends FirestoreRecyclerAdapter<PetItem, PetAdapter.MyV
         myViewHolder.textViewSex.setText(petItem.getSex());
         myViewHolder.textViewBreed.setText(petItem.getBreed());
         myViewHolder.textViewDate.setText(petItem.getDate());
-        myViewHolder.textViewWeight.setText(petItem.getWeight()+"kg");
+        myViewHolder.textViewWeight.setText(petItem.getWeight());
+
         imageURL=petItem.getImageURL();
+        Log.e("imagedete_confirm",imageURL);
         Picasso.get().load(imageURL).into(imageViewPet);
 
 
@@ -79,13 +81,28 @@ public class PetAdapter extends FirestoreRecyclerAdapter<PetItem, PetAdapter.MyV
         myViewHolder.button_Delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                storage = FirebaseStorage.getInstance();
-                storage.getReferenceFromUrl(imageURL).delete();
-                String petname = myViewHolder.textViewName.getText().toString();
-                document = getSnapshots().getSnapshot(myViewHolder.getAdapterPosition()).getId();
-                firestore.collection("Pet").document(document).delete();
-                Toast.makeText(myViewHolder.itemView.getContext(), petname+"펫이 삭제되었습니다", Toast.LENGTH_SHORT).show();
-                petFragment.onResume();
+                imageURL = getItem(myViewHolder.getAdapterPosition()).getImageURL();
+                AlertDialog.Builder builder = new AlertDialog.Builder(myViewHolder.itemView.getContext());
+                builder.setMessage("삭제 하시겠습니까?");
+                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(myViewHolder.itemView.getContext(), "삭제가 취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        storage.getReferenceFromUrl(imageURL).delete();
+                        document = getSnapshots().getSnapshot(myViewHolder.getAdapterPosition()).getId();
+                        firestore.collection("Pet").document(document).delete();
+                        String petname = myViewHolder.textViewName.getText().toString();
+                        Toast.makeText(myViewHolder.itemView.getContext(), petname+"펫이 삭제되었습니다", Toast.LENGTH_SHORT).show();
+                        petFragment.onResume();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
     }//onBindViewHolder
