@@ -52,7 +52,6 @@ public class AskFragment extends Fragment {
         button_Ask = rootView.findViewById(R.id.button_Ask);
         button_cancel = rootView.findViewById(R.id.button_cancel);
 
-
         button_Ask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +62,7 @@ public class AskFragment extends Fragment {
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.replaceFragment(R.id.navigation_community);
+                mainActivity.replaceFragment(R.id.navigation_more);
             }
         });
 
@@ -93,7 +92,7 @@ public class AskFragment extends Fragment {
 
         firestore.collection("Questions").document().set(askItem);
         Toast.makeText(getContext(), "작성완료되었습니다." ,Toast.LENGTH_SHORT).show();
-        mainActivity.replaceFragment(R.id.navigation_community);
+        mainActivity.replaceFragment(R.id.navigation_more);
     }
 
 }

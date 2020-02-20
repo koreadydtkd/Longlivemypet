@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     HomeFragment homeFragment;
     CommunityFragment communityFragment;
     MoreFragment moreFragment;
-    SoundFragment soundFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         homeFragment = new HomeFragment();
         communityFragment = new CommunityFragment();
         moreFragment = new MoreFragment();
-        soundFragment = new SoundFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, homeFragment).commit();
 
         final BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
@@ -98,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, petFragment).commit();
         }else if(resID == R.id.navigation_community){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, communityFragment).commit();
+        }else if(resID == R.id.navigation_more){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, moreFragment).commit();
         }
     }
 

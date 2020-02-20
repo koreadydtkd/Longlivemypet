@@ -39,8 +39,6 @@ import java.util.Date;
 import java.util.Random;
 
 public class HomeFragment extends Fragment {
-    private FirebaseAuth auth;
-
     ImageView imgWeather; //날씨 아이콘
     ImageView imgdog;
     TextView txtWeather; //날씨 텍스트
@@ -80,7 +78,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        auth = FirebaseAuth.getInstance();
 
         imgWeather = rootView.findViewById(R.id.imgWeather);
         imgdog = rootView.findViewById(R.id.imgdog);
@@ -118,16 +115,6 @@ public class HomeFragment extends Fragment {
         }, 500);
 
         sleeptime();
-
-        rootView.findViewById(R.id.button_logout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                auth.signOut();
-                MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.finish();
-                startActivity(new Intent(getContext(), LoginActivity.class));
-            }
-        });
 
         return rootView;
     }

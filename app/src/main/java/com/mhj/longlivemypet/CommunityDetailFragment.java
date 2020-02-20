@@ -157,11 +157,11 @@ public class CommunityDetailFragment extends Fragment {
             builder.setNegativeButton("네", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getContext(), "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                     firestore.collection("Community").document(document).delete();
                     if(imgURL != null){
                         storage.getReferenceFromUrl(imgURL).delete();
                     }
+                    Toast.makeText(getContext(), "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                     mainActivity.replaceFragment(R.id.navigation_community);
                 }
             });
