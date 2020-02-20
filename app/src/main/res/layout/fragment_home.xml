@@ -47,11 +47,11 @@
                 android:id="@+id/txtWeather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/imgWeather"
+                android:text="날씨 정보 수신중"
+                android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="@id/imgWeather"
                 app:layout_constraintRight_toRightOf="@id/imgWeather"
-                android:text="좋음"
-                android:textSize="18sp" />
+                app:layout_constraintTop_toBottomOf="@id/imgWeather" />
 
             <RelativeLayout
                 android:id="@+id/relativeLayout2"
@@ -71,10 +71,9 @@
 
                 <TextView
                     android:id="@+id/txtWind"
-                    android:layout_toRightOf="@+id/textView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="약한바람"
+                    android:layout_toRightOf="@+id/textView9"
                     android:textSize="20sp" />
 
                 <TextView
@@ -91,7 +90,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="24dp"
-                    android:text="0%"
                     android:textSize="20sp" />
 
             </RelativeLayout>
@@ -118,7 +116,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/textView4"
-                    android:text="0mm"
                     android:textSize="20sp" />
 
                 <TextView
@@ -133,9 +130,8 @@
                     android:id="@+id/txtRainper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="24dp"
                     android:layout_alignParentRight="true"
-                    android:text="0%"
+                    android:layout_marginRight="24dp"
                     android:textSize="20sp" />
 
             </RelativeLayout>

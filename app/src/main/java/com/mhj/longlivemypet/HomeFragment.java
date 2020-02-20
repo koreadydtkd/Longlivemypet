@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment {
     String row;
     String basedate;
     String basetime;
+    String basetime2;
     String nx;
     String ny;
 
@@ -62,6 +63,7 @@ public class HomeFragment extends Fragment {
     SimpleDateFormat hourText = new SimpleDateFormat("HHmm"); //시간 표시 형식
 
     String simpletime; //api 시간(현재 시간이 아니다) fcstTime
+    String simpletime2;
     String today; //오늘 날짜
     String yesterday; //어제 날짜
     long numtime; //현재 시간
@@ -96,12 +98,10 @@ public class HomeFragment extends Fragment {
         Date today = new Date();
         setTime(today);
         setDay(today);
-
-        String weather = address + sKey + row + basedate + basetime + nx + ny;
-        Log.e("WeatherFragment", weather);
+        startLocationService();
 
         queue = Volley.newRequestQueue(getContext());
-        startLocationService();
+
 
         new Handler().postDelayed(new Runnable()
         {
@@ -109,8 +109,12 @@ public class HomeFragment extends Fragment {
             public void run()
             {
                 String weather = address + sKey + row + basedate + basetime + nx + ny;
+                String weather2 = address + sKey + row + basedate + basetime2 + nx + ny;
+                Log.e("날씨 api:", weather);
+                Log.e("강수량 api:", weather2);
                 //여기에 딜레이 후 시작할 작업들을 입력
                 tellMetheWeather(weather);
+                tellMetheWeather2(weather2);
             }
         }, 500);
 
@@ -123,7 +127,9 @@ public class HomeFragment extends Fragment {
         String now = hourText.format(date);
         numtime = Long.parseLong(now);
         basetimeCalc();
+        basetimeCalc2();
         timeCalc();
+        timeCalc2();
     }
     public void setDay(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -159,6 +165,18 @@ public class HomeFragment extends Fragment {
             basetime = "&base_time=1700";
         }
     }
+    public void basetimeCalc2(){
+        if(numtime >= 0 && numtime < 600){
+            basetime2 = "&base_time=2000";
+        }else if(numtime >=600 && numtime < 1200){
+            basetime2 = "&base_time=0200";
+        }else if(numtime >=1200 && numtime < 1800){
+            basetime2 = "&base_time=0800";
+        }else if(numtime >=1800 && numtime < 2359){
+            basetime2 = "&base_time=1400";
+        }
+    }
+
 
     public void timeCalc(){
         if(numtime >= 0 && numtime < 300){
@@ -177,6 +195,17 @@ public class HomeFragment extends Fragment {
             simpletime = "1800";
         }else if(numtime >=2100 && numtime <= 2359){
             simpletime = "2100";
+        }
+    }
+    public void timeCalc2(){
+        if(numtime >= 0 && numtime < 600){
+            simpletime2 = "0000";
+        }else if(numtime >=600 && numtime < 1200){
+            simpletime2 = "0600";
+        }else if(numtime >=1200 && numtime < 1800){
+            simpletime2 = "1200";
+        }else if(numtime >=1800 && numtime < 2359){
+            simpletime2 = "1800";
         }
     }
 
@@ -297,10 +326,50 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public void tellMetheWeather(String url) {
+    public void tellMetheWeather2(String url2) {
+        Log.e("tellMetheWeather2", "가동중");
+
+        final JsonObjectRequest jsonRequest2 = new JsonObjectRequest(Request.Method.GET, url2, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject list = response.getJSONObject("response");
+                    JSONObject body = list.getJSONObject("body");
+                    JSONObject items = body.getJSONObject("items");
+                    JSONArray item = items.getJSONArray("item");
+                    for (int i = 0; i < item.length(); i++) {
+                        JSONObject object = item.getJSONObject(i);
+                        double rain = 0;
+                        if(object.getString("fcstTime").equals(simpletime2) && object.getString("fcstDate").equals(today) ) {
+                            Log.e("WeatherFragment", object.getString("category"));
+
+                            if(object.getString("category").equals("R06")){
+
+                                txtRain.setText(object.get("fcstValue").toString() + "mm");
+
+                            }
+
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TEST", "오류");
+                error.printStackTrace();
+            }
+        });
+        jsonRequest2.setTag(TAG);
+        queue.add(jsonRequest2);
+    }
+
+    public void tellMetheWeather(String url1) {
         Log.e("tellMetheWeather", "가동중");
 
-        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -342,12 +411,6 @@ public class HomeFragment extends Fragment {
                                     imgWeather.setImageResource(R.drawable.lightrain);
                                     txtWeather.setText("소나기");
                                 }
-                            }
-
-                            if(object.getString("category").equals("R06")){
-
-                                txtRain.setText(object.get("fcstValue").toString() + "mm");
-
                             }
 
                             if(object.getString("category").equals("REH")){
