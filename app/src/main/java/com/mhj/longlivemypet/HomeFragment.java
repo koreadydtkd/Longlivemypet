@@ -91,6 +91,11 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            //GPS 켜달라는 요청
+            Toast.makeText(getContext(), "위치 추적 기능을 켜주세요",Toast.LENGTH_SHORT).show();
+        }
+
         imgWeather = rootView.findViewById(R.id.imgWeather);
         imgdog = rootView.findViewById(R.id.imgdog);
         txtWeather = rootView.findViewById(R.id.txtWeather);
