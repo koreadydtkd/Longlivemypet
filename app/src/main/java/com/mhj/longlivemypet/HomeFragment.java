@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,9 +49,13 @@ public class HomeFragment extends Fragment {
     TextView txtRainper; // 강수 확율 텍스트
     TextView txtWet; // // 습도 텍스트
     TextView txtcoment;
+    TextView txtDust;
+    TextView txtNanodust;
 
     // url 구성
     String address;
+    String address2;
+    String address3;
     String sKey;
     String row;
     String basedate;
@@ -58,6 +63,10 @@ public class HomeFragment extends Fragment {
     String basetime2;
     String nx;
     String ny;
+    String tmx;
+    String tmy;
+    String type;
+    String station;
 
     SimpleDateFormat dateText = new SimpleDateFormat("yyyyMMdd"); //날짜 표시 형식
     SimpleDateFormat hourText = new SimpleDateFormat("HHmm"); //시간 표시 형식
@@ -90,10 +99,16 @@ public class HomeFragment extends Fragment {
         txtWet = rootView.findViewById(R.id.txtWet);
         txtRain= rootView.findViewById(R.id.txtRain);
         txtcoment = rootView.findViewById(R.id.txtcoment);
+        txtDust = rootView.findViewById(R.id.txtDust);
+        txtNanodust = rootView.findViewById(R.id.txtNanodust);
+
 
         address = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?";
+        address2 = "http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList?";
+        address3 = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?";
         sKey = "serviceKey=swlEfys72fvDOcvi5LfN3wFzJEdZoWn0QblHo2VWxkyff4hoQ83W5mEI5MGXQ2TRkYK%2BXR%2B8NtErVqrp%2BOUIGg%3D%3D";
         row = "&numOfRows=100&dataType=JSON&pageNo=1";
+        type = "&_returnType=json";
 
         Date today = new Date();
         setTime(today);
@@ -110,11 +125,19 @@ public class HomeFragment extends Fragment {
             {
                 String weather = address + sKey + row + basedate + basetime + nx + ny;
                 String weather2 = address + sKey + row + basedate + basetime2 + nx + ny;
+                String dust_station = address2 + tmx + tmy + sKey + type;
+
+
+
                 Log.e("날씨 api:", weather);
                 Log.e("강수량 api:", weather2);
+                Log.e("측정소 api:", dust_station);
+
                 //여기에 딜레이 후 시작할 작업들을 입력
                 tellMetheWeather(weather);
                 tellMetheWeather2(weather2);
+                tellMetheStation(dust_station);
+
             }
         }, 500);
 
@@ -301,6 +324,8 @@ public class HomeFragment extends Fragment {
         }
     }
 
+
+
     private void startLocationService() {
         try {
             Location location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -311,12 +336,27 @@ public class HomeFragment extends Fragment {
                 // 기준점 : 날짜변경선 영국 그리니티천문대
                 double latitude = location.getLatitude(); // 위도 - 가로좌표
                 double longitude = location.getLongitude(); // 경도 - 세로좌표
+
                 int lat = (int)latitude;
                 int lon = (int)longitude;
                 nx = "&nx=" + lat;
                 ny = "&ny=" + lon;
+
+
+
+                GeoPoint in_pt = new GeoPoint(longitude, latitude);
+                GeoPoint tm_pt = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
+
+                tmx = "tmX=" + tm_pt.getX();
+                tmy = "&tmY="+ tm_pt.getY() + "&";
+
                 String message = "startLocationService() 최근 위치\nLat: " + latitude + "\nLon: " + longitude;
+                String message2 = "geo in : xGeo="  + in_pt.getX() + ", yGeo=" + in_pt.getY();
+                String message3 = "tm : xTM=" + tm_pt.getX() + ", yTM=" + tm_pt.getY();
+
                 Log.e(TAG, message);
+                Log.e(TAG, message2);
+                Log.e(TAG, message3);
             }else{
                 Log.e(TAG, "위치로드 실패");
             }
@@ -324,46 +364,6 @@ public class HomeFragment extends Fragment {
             Log.e(TAG, "오류발생");
             e.printStackTrace();
         }
-    }
-
-    public void tellMetheWeather2(String url2) {
-        Log.e("tellMetheWeather2", "가동중");
-
-        final JsonObjectRequest jsonRequest2 = new JsonObjectRequest(Request.Method.GET, url2, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONObject list = response.getJSONObject("response");
-                    JSONObject body = list.getJSONObject("body");
-                    JSONObject items = body.getJSONObject("items");
-                    JSONArray item = items.getJSONArray("item");
-                    for (int i = 0; i < item.length(); i++) {
-                        JSONObject object = item.getJSONObject(i);
-                        double rain = 0;
-                        if(object.getString("fcstTime").equals(simpletime2) && object.getString("fcstDate").equals(today) ) {
-                            Log.e("WeatherFragment", object.getString("category"));
-
-                            if(object.getString("category").equals("R06")){
-
-                                txtRain.setText(object.get("fcstValue").toString() + "mm");
-
-                            }
-
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("TEST", "오류");
-                error.printStackTrace();
-            }
-        });
-        jsonRequest2.setTag(TAG);
-        queue.add(jsonRequest2);
     }
 
     public void tellMetheWeather(String url1) {
@@ -483,6 +483,125 @@ public class HomeFragment extends Fragment {
         });
         jsonRequest.setTag(TAG);
         queue.add(jsonRequest);
+    }
+
+    public void tellMetheWeather2(String url2) {
+        Log.e("tellMetheWeather2", "가동중");
+
+        final JsonObjectRequest jsonRequest2 = new JsonObjectRequest(Request.Method.GET, url2, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject list = response.getJSONObject("response");
+                    JSONObject body = list.getJSONObject("body");
+                    JSONObject items = body.getJSONObject("items");
+                    JSONArray item = items.getJSONArray("item");
+                    for (int i = 0; i < item.length(); i++) {
+                        JSONObject object = item.getJSONObject(i);
+                        double rain = 0;
+                        if(object.getString("fcstTime").equals(simpletime2) && object.getString("fcstDate").equals(today) ) {
+                            Log.e("WeatherFragment", object.getString("category"));
+
+                            if(object.getString("category").equals("R06")){
+
+                                txtRain.setText(object.get("fcstValue").toString() + "mm");
+
+                            }
+
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TEST", "오류");
+                error.printStackTrace();
+            }
+        });
+        jsonRequest2.setTag(TAG);
+        queue.add(jsonRequest2);
+    }
+
+    public void tellMetheStation(String url3){
+        final JsonObjectRequest jsonRequest3 = new JsonObjectRequest(Request.Method.GET, url3, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray list = response.getJSONArray("list");
+                        JSONObject object = list.getJSONObject(0);
+                        station = "stationName=" + object.get("stationName").toString();
+                        Log.e("스테이션", station);
+                        String dust_level = address3 + station + "&dataTerm=month&pageNo=1&numOfRows=10&" + sKey + "&ver=1.3" + type;
+                        Log.e("미세먼지 api:", dust_level);
+                        tellMetheDustlevel(dust_level);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TEST", "오류");
+                error.printStackTrace();
+            }
+        });
+        jsonRequest3.setTag(TAG);
+        queue.add(jsonRequest3);
+    }
+
+    public void tellMetheDustlevel(String url4){
+        final JsonObjectRequest jsonRequest4 = new JsonObjectRequest(Request.Method.GET, url4, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray list = response.getJSONArray("list");
+                    JSONObject object = list.getJSONObject(0);
+
+                    int micro_dust_level = Integer.parseInt(object.get("pm10Grade").toString());
+                    int nano_dust_level = Integer.parseInt(object.get("pm25Grade").toString());
+                    int micro_dust_value = Integer.parseInt(object.get("pm10Value").toString());
+                    int nano_dust_value = Integer.parseInt(object.get("pm25Value").toString());
+
+                    if(micro_dust_level == 1){
+                        txtDust.setText("좋음" + "(" + micro_dust_value + ")");
+                    } else if(micro_dust_level == 2){
+                        txtDust.setText("보통"+ "(" + micro_dust_value + ")");
+                    } else if(micro_dust_level == 3){
+                        txtDust.setText("나쁨"+ "(" + micro_dust_value + ")");
+                    } else if(micro_dust_level == 4){
+                        txtDust.setText("매우나쁨" + "(" + micro_dust_value + ")");
+                    }
+
+                    if(nano_dust_level == 1){
+                        txtNanodust.setText("좋음" + "(" + nano_dust_value + ")");
+                    } else if(nano_dust_level == 2){
+                        txtNanodust.setText("보통"+ "(" + nano_dust_value + ")");
+                    } else if(nano_dust_level == 3){
+                        txtNanodust.setText("나쁨"+ "(" + nano_dust_value + ")");
+                    } else if(nano_dust_level == 4){
+                        txtNanodust.setText("매우나쁨"+ "(" + nano_dust_value + ")");
+                    }
+
+                    Log.e("미세먼지 단위:", "\n미세먼지:" + micro_dust_level + "\n초미세먼지:" + nano_dust_level);
+                    Log.e("미세먼지 값:", "\n미세먼지농도:" + micro_dust_value + "\n초미세먼지농도" + nano_dust_value);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TEST", "오류");
+                error.printStackTrace();
+            }
+        });
+        jsonRequest4.setTag(TAG);
+        queue.add(jsonRequest4);
     }
 
     public void println(String data) {

@@ -136,6 +136,60 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/relativeLayout4"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout3"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:paddingBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="미세먼지 :  "
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/txtDust"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/textView5"
+                    android:textSize="20sp" />
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout5"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout4"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:paddingBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="초미세먼지 :  "
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/txtNanodust"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/textView7"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
