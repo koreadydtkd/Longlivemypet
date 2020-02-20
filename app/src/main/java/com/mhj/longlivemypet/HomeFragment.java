@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment {
     TextView txtcoment;
     TextView txtDust;
     TextView txtNanodust;
+    TextView txtLocation;
 
     // url 구성
     String address;
@@ -101,6 +102,7 @@ public class HomeFragment extends Fragment {
         txtcoment = rootView.findViewById(R.id.txtcoment);
         txtDust = rootView.findViewById(R.id.txtDust);
         txtNanodust = rootView.findViewById(R.id.txtNanodust);
+        txtLocation = rootView.findViewById(R.id.txtLocation);
 
 
         address = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?";
@@ -533,6 +535,7 @@ public class HomeFragment extends Fragment {
                     JSONArray list = response.getJSONArray("list");
                         JSONObject object = list.getJSONObject(0);
                         station = "stationName=" + object.get("stationName").toString();
+                        txtLocation.setText(object.get("stationName").toString());
                         Log.e("스테이션", station);
                         String dust_level = address3 + station + "&dataTerm=month&pageNo=1&numOfRows=10&" + sKey + "&ver=1.3" + type;
                         Log.e("미세먼지 api:", dust_level);
