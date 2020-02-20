@@ -567,23 +567,23 @@ public class HomeFragment extends Fragment {
                     int nano_dust_value = Integer.parseInt(object.get("pm25Value").toString());
 
                     if(micro_dust_level == 1){
-                        txtDust.setText("좋음" + "(" + micro_dust_value + ")");
+                        txtDust.setText("좋음" + "(" + micro_dust_value + "㎍/㎥" + ")");
                     } else if(micro_dust_level == 2){
-                        txtDust.setText("보통"+ "(" + micro_dust_value + ")");
+                        txtDust.setText("보통"+ "(" + micro_dust_value + "㎍/㎥" + ")");
                     } else if(micro_dust_level == 3){
-                        txtDust.setText("나쁨"+ "(" + micro_dust_value + ")");
+                        txtDust.setText("나쁨"+ "(" + micro_dust_value + "㎍/㎥" + ")");
                     } else if(micro_dust_level == 4){
-                        txtDust.setText("매우나쁨" + "(" + micro_dust_value + ")");
+                        txtDust.setText("매우나쁨" + "(" + micro_dust_value + "㎍/㎥" + ")");
                     }
 
                     if(nano_dust_level == 1){
-                        txtNanodust.setText("좋음" + "(" + nano_dust_value + ")");
+                        txtNanodust.setText("좋음" + "(" + nano_dust_value + "㎍/㎥" +")");
                     } else if(nano_dust_level == 2){
-                        txtNanodust.setText("보통"+ "(" + nano_dust_value + ")");
+                        txtNanodust.setText("보통"+ "(" + nano_dust_value +"㎍/㎥" + ")");
                     } else if(nano_dust_level == 3){
-                        txtNanodust.setText("나쁨"+ "(" + nano_dust_value + ")");
+                        txtNanodust.setText("나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
                     } else if(nano_dust_level == 4){
-                        txtNanodust.setText("매우나쁨"+ "(" + nano_dust_value + ")");
+                        txtNanodust.setText("매우나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
                     }
 
                     Log.e("미세먼지 단위:", "\n미세먼지:" + micro_dust_level + "\n초미세먼지:" + nano_dust_level);
