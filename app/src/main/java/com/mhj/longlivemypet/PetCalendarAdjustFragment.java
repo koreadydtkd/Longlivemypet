@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,10 +45,11 @@ public class PetCalendarAdjustFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
     MainActivity mainActivity;
-    EditText editText_write_date, editText_title,editText_body;
+    EditText editText_title,editText_body;
     String email,document;
     ViewGroup rootView;
     ProgressDialog progressDialog;
+    TextView textViewWrite_date;
 
 
     @Override
@@ -57,7 +59,7 @@ public class PetCalendarAdjustFragment extends Fragment {
         firestore = FirebaseFirestore.getInstance();
         mainActivity = (MainActivity) getActivity();
         email = auth.getCurrentUser().getEmail();
-        editText_write_date = rootView.findViewById(R.id.editText_write_date);
+        textViewWrite_date = rootView.findViewById(R.id.textViewWrite_date);
         editText_title = rootView.findViewById(R.id.editText_title);
         editText_body = rootView.findViewById(R.id.editText_body);
         setArgument();
@@ -87,11 +89,6 @@ public class PetCalendarAdjustFragment extends Fragment {
 
     //입력된펫정보 PetItem으로 넘긴 후 전화면으로가기 + 수정된내용 파이어베이스 업데이트
     void AddPetCalendarItem(){
-
-        if(editText_write_date.length()<8){
-            Toast.makeText(mainActivity, "날짜를 확인해주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
         if(editText_title.length()<1){
             Toast.makeText(mainActivity, "제목이 너무 짧습니다.", Toast.LENGTH_SHORT).show();
             return;
@@ -108,7 +105,7 @@ public class PetCalendarAdjustFragment extends Fragment {
         progressDialog.setCancelable(false);
 
         PetCalendarItem petCalendarItem = new PetCalendarItem();
-        petCalendarItem.setWrite_date(editText_write_date.getText().toString());
+        petCalendarItem.setWrite_date(textViewWrite_date.getText().toString());
         petCalendarItem.setTitle(editText_title.getText().toString());
         petCalendarItem.setBody(editText_body.getText().toString());
         petCalendarItem.setEmail(email);
@@ -128,7 +125,7 @@ public class PetCalendarAdjustFragment extends Fragment {
     public void setArgument() {
         if(getArguments() != null){
             document = getArguments().getString("document");
-            editText_write_date.setText(getArguments().getString("write_date"));
+            textViewWrite_date.setText(getArguments().getString("write_date"));
             editText_title.setText(getArguments().getString("title"));
             editText_body.setText(getArguments().getString("body"));
             }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,12 +15,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.PetCalendarItemDetailListener {
@@ -30,10 +37,13 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
     RecyclerView recyclerView;
     PetCalendarAdapter adapter;
     ViewGroup rootView;
-    String email;
-    TextView textViewPlz;
+    String email,time;
+    TextView textViewPlz,textViewwhenDate;
     FirestoreRecyclerOptions<PetCalendarItem> options;
     PetCalendarFragment petCalendarFragment;
+    CalendarView calendarView;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/M/d");
+
 
 
     @Override
@@ -44,29 +54,44 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
         firestore = FirebaseFirestore.getInstance();
         mainActivity = (MainActivity) getActivity();
         email = auth.getCurrentUser().getEmail();
+        textViewwhenDate = rootView.findViewById(R.id.textViewwhenDate);
         textViewPlz = rootView.findViewById(R.id.textViewPlz);
-        Query query = firestore.collection("Calendar").whereEqualTo("email", email).orderBy("write_date", Query.Direction.DESCENDING);
-        options = new FirestoreRecyclerOptions.Builder<PetCalendarItem>().setQuery(query, PetCalendarItem.class).build();
-        adapter = new PetCalendarAdapter(options,this, petCalendarFragment);
-        recyclerView = rootView.findViewById(R.id.recyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        calendarView =rootView.findViewById(R.id.calendarView);
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        Date date = new Date();
+        time = simpleDateFormat.format(date);
+        textViewwhenDate.setText(time);
+
+        setRecyclerView(time);
+//
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.e("PetCalendarFragment 500", "count:" + adapter.getItemCount());
+//                if( adapter.getItemCount() > 0) {
+//                    //일정 1개이상 존재시
+//                    textViewPlz.setVisibility(View.GONE);
+//                }else if (adapter.getItemCount() == 0){
+//                    //일정 리스트에 없을때
+//                    textViewPlz.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        }, 500);
+
+
+        //날짜 선택 이벤트
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void run() {
-                Log.e("PetCalendarFragment 500", "count:" + adapter.getItemCount());
-                if( adapter.getItemCount() > 0) {
-                    //일정 1개이상 존재시
-                    textViewPlz.setVisibility(View.GONE);
-                }else if (adapter.getItemCount() == 0){
-                    //일정 리스트에 없을때
-                    textViewPlz.setVisibility(View.VISIBLE);
-                }
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                time = year + "/" +(month + 1) +"/" +dayOfMonth;
+                textViewwhenDate.setText(time); // 선택한 날짜로 설정
+
+                adapter.stopListening();
+                setRecyclerView(time);
+                adapter.startListening();
             }
-        }, 500);
+        });
 
 
         //일정추가하러가기
@@ -74,10 +99,14 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
             @Override
             public void onClick(View v) {
                 PetCalendarAddFragment petCalendarAddFragment = new PetCalendarAddFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("1",textViewwhenDate.getText().toString());
+                petCalendarAddFragment.setArguments(bundle);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, petCalendarAddFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
+
             }
         });
         return rootView;
@@ -90,23 +119,46 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.e("PetCalendarFragment 500", "count:" + adapter.getItemCount());
-                if( adapter.getItemCount() > 0) {
-                    //1개이상 존재시
-                    textViewPlz.setVisibility(View.GONE);
-                }else if (adapter.getItemCount() == 0){
-                    //리스트에 없을때
-                    textViewPlz.setVisibility(View.VISIBLE);
-                }
-            }
-        }, 500);
+//
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.e("PetCalendarFragment 500", "count:" + adapter.getItemCount());
+//                if( adapter.getItemCount() > 0) {
+//                    //1개이상 존재시
+//                    textViewPlz.setVisibility(View.GONE);
+//                }else if (adapter.getItemCount() == 0){
+//                    //리스트에 없을때
+//                    textViewPlz.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        }, 500);
     }//onResume
 
+    void setRecyclerView(String time){
+        Query query = firestore.collection("Calendar").whereEqualTo("email", email).whereEqualTo("write_date", time);
+        options = new FirestoreRecyclerOptions.Builder<PetCalendarItem>().setQuery(query, PetCalendarItem.class).build();
+        adapter = new PetCalendarAdapter(options,this, petCalendarFragment);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(queryDocumentSnapshots.getDocuments().size() == 0){
+                    Log.e("테스트", "없음");
+                    textViewPlz.setVisibility(View.VISIBLE);
+                }
+                else{
+                    Log.e("테스트", "있음");
+                    textViewPlz.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
 
     @Override
     public void onStart() {

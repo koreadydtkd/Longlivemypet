@@ -3,7 +3,6 @@ package com.mhj.longlivemypet;
 public class PetCalendarItem {
 
     String email;
-
     String title;
     String body;
     String write_date;
