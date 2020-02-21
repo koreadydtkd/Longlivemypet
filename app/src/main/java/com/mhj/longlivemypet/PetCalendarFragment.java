@@ -58,7 +58,7 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
         textViewPlz = rootView.findViewById(R.id.textViewPlz);
         calendarView =rootView.findViewById(R.id.calendarView);
 
-        final Date date = new Date();
+        Date date = new Date();
         time = simpleDateFormat.format(date);
         textViewwhenDate.setText(time); //텍스트뷰에 현재날짜 띄우기
 

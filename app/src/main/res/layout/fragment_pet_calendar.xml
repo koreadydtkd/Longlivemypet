@@ -12,16 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <CalendarView
+            android:background="@drawable/buttonsecond"
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="305dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginRight="0dp"
+            android:layout_margin="10dp"
             android:dateTextAppearance="@style/CalendarViewDateCustomText"
             android:weekDayTextAppearance="@style/CalendarViewWeekCustomText" />
 
@@ -40,7 +40,7 @@
             android:layout_below="@id/textViewwhenDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="추가된 일기장이 없습니다. "
+            android:text="추가된 일정이 없습니다. "
             android:textSize="25dp"
             android:layout_marginTop="100dp"
             android:gravity="center_horizontal"

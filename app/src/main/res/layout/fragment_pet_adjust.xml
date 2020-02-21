@@ -36,50 +36,38 @@
 
     <ImageView
         android:id="@+id/imageViewPet"
-        android:layout_width="280dp"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        app:layout_constraintEnd_toStartOf="@+id/button_Image"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_Adjust"
         app:srcCompat="@drawable/picture" />
 
     <Button
         android:id="@+id/button_rotateImage"
         android:layout_width="48dp"
-        android:layout_height="90dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/rotation2"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:drawable/ic_menu_rotate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_Cancel" />
-
-    <Button
-        android:id="@+id/button_Image"
-        android:layout_width="48dp"
-        android:layout_height="90dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_rotateImage" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
+        android:layout_margin="10dp"
         app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewPet"
-        app:layout_constraintBottom_toBottomOf="parent">
+        tools:layout_editor_absoluteX="8dp">
 
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="#B96548"
             android:orientation="vertical">
@@ -106,7 +94,6 @@
                     android:textSize="20dp" />
 
                 <EditText
-                    android:paddingLeft="8dp"
                     android:id="@+id/editText_Name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -117,6 +104,7 @@
                     android:hint="순심이"
                     android:inputType="textPersonName"
                     android:maxLength="4"
+                    android:paddingLeft="8dp"
                     android:textColor="#000000"
                     android:textSize="20dp" />
 
@@ -133,7 +121,6 @@
                     android:textSize="20dp" />
 
                 <EditText
-                    android:paddingLeft="8dp"
                     android:id="@+id/editText_Sex"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -143,7 +130,8 @@
                     android:ems="10"
                     android:hint="암컷"
                     android:inputType="textPersonName"
-                    android:maxLength="2"
+                    android:maxLength="3"
+                    android:paddingLeft="8dp"
                     android:textColor="#000000"
                     android:textSize="20dp" />
 
@@ -173,12 +161,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginRight="3dp"
-                    android:layout_weight="1"
-                    android:inputType="textPersonName"
                     android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
                     android:background="@drawable/buttonsecond2"
                     android:ems="10"
                     android:hint="990105"
+                    android:inputType="textPersonName"
                     android:maxLength="6"
                     android:paddingLeft="8dp"
                     android:textColor="#000000"
@@ -280,11 +268,11 @@
                     android:layout_marginRight="3dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:paddingLeft="8dp"
                     android:background="@drawable/buttonsecond2"
                     android:gravity="top"
-                    android:hint="-2월 10일 심장사상충약 먹이기 \n-2월 29일 미용예약"
+                    android:hint="-배변훈련완료 \n-양고기사료만먹음\n-성격온순함"
                     android:maxLength="100"
+                    android:paddingLeft="8dp"
                     android:textColor="#000000"
                     android:textSize="20dp" />
             </LinearLayout>

@@ -49,7 +49,7 @@ public class PetCalendarAddFragment extends Fragment {
     String email,whentime;
     ViewGroup rootView;
     ProgressDialog progressDialog;
-    TextView textViewWrite_date,textViewwhenDate;
+    TextView textViewWrite_date;
 
 
     @Override
