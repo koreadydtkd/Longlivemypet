@@ -1,6 +1,7 @@
 package com.mhj.longlivemypet;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -52,6 +53,7 @@ public class HomeFragment extends Fragment {
     static RequestQueue requestQueue;
     RecyclerView recyclerView;
     NewsAdapter adapter;
+    ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,10 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("잠시만 기다려주세요...");
 
         if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             //GPS 켜달라는 요청
@@ -101,7 +107,14 @@ public class HomeFragment extends Fragment {
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                progressDialog.show();
+                progressDialog.setCancelable(false);
+
                 setWhether();
+
+
+
             }
         });
 
@@ -133,8 +146,13 @@ public class HomeFragment extends Fragment {
                 tellMetheWeather2(weather2);
                 tellMetheStation(dust_station);
 
+                if(progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
+
             }
         }, 500);
+
     }
     public void setTime(Date date) {
         String now = hourText.format(date);
