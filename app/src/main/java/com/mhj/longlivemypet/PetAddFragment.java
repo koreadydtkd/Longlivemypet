@@ -80,7 +80,7 @@ public class PetAddFragment extends Fragment {
 
 
         //갤러리에서이미지찾기버튼
-        rootView.findViewById(R.id.button_Image).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.imageViewPet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
