@@ -6,6 +6,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -26,8 +31,11 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeFragment extends Fragment {
+    private static final String TAG = "HomeFragment";
     ImageView imgWeather;
     TextView txtWeather, txtTemp, txtRain, txtWind, txtRainper, txtWet, txtDust, txtNanodust, txtLocation;
     String address, address2, address3, sKey ,row, basedate, basetime, basetime2, nx, ny ,tmx ,tmy, type, station, simpletime,simpletime2,today,yesterday;
@@ -36,7 +44,12 @@ public class HomeFragment extends Fragment {
     long numtime; //현재 시간
     LocationManager manager;
     private RequestQueue queue;
-    private static final String TAG = "HomeFragment";
+    private static String clientId = "RyFahfSSqpWCX29EC4Or";
+    private static String clientSecret = "KRGCcvYHDQ";
+    static RequestQueue requestQueue;
+    RecyclerView recyclerView;
+    NewsAdapter adapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +63,10 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getContext(), "위치 추적 기능을 켜주세요",Toast.LENGTH_SHORT).show();
         }
 
+        if (requestQueue == null){
+            requestQueue = Volley.newRequestQueue(getContext());
+        }
+
         imgWeather = rootView.findViewById(R.id.imgWeather);
         txtWeather = rootView.findViewById(R.id.txtWeather);
         txtTemp = rootView.findViewById(R.id.txtTemp);
@@ -60,6 +77,7 @@ public class HomeFragment extends Fragment {
         txtDust = rootView.findViewById(R.id.txtDust);
         txtNanodust = rootView.findViewById(R.id.txtNanodust);
         txtLocation = rootView.findViewById(R.id.txtLocation);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
 
         address = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?";
         address2 = "http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList?";
@@ -68,7 +86,13 @@ public class HomeFragment extends Fragment {
         row = "&numOfRows=100&dataType=JSON&pageNo=1";
         type = "&_returnType=json";
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new NewsAdapter();
+        recyclerView.setAdapter(adapter);
+
         setWhether();
+        jsonParse();
 
         return rootView;
     }
@@ -401,23 +425,41 @@ public class HomeFragment extends Fragment {
                     int nano_dust_level = Integer.parseInt(object.get("pm25Grade").toString());
                     int micro_dust_value = Integer.parseInt(object.get("pm10Value").toString());
                     int nano_dust_value = Integer.parseInt(object.get("pm25Value").toString());
+//                    if(micro_dust_level == 1){
+//                        txtDust.setText("좋음" + "(" + micro_dust_value + "㎍/㎥" + ")");
+//                    } else if(micro_dust_level == 2){
+//                        txtDust.setText("보통"+ "(" + micro_dust_value + "㎍/㎥" + ")");
+//                    } else if(micro_dust_level == 3){
+//                        txtDust.setText("나쁨"+ "(" + micro_dust_value + "㎍/㎥" + ")");
+//                    } else if(micro_dust_level == 4){
+//                        txtDust.setText("매우나쁨" + "(" + micro_dust_value + "㎍/㎥" + ")");
+//                    }
+//                    if(nano_dust_level == 1){
+//                        txtNanodust.setText("좋음" + "(" + nano_dust_value + "㎍/㎥" +")");
+//                    } else if(nano_dust_level == 2){
+//                        txtNanodust.setText("보통"+ "(" + nano_dust_value +"㎍/㎥" + ")");
+//                    } else if(nano_dust_level == 3){
+//                        txtNanodust.setText("나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
+//                    } else if(nano_dust_level == 4){
+//                        txtNanodust.setText("매우나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
+//                    }
                     if(micro_dust_level == 1){
-                        txtDust.setText("좋음" + "(" + micro_dust_value + "㎍/㎥" + ")");
+                        txtDust.setText("좋음" + "(" + micro_dust_value +")");
                     } else if(micro_dust_level == 2){
-                        txtDust.setText("보통"+ "(" + micro_dust_value + "㎍/㎥" + ")");
+                        txtDust.setText("보통"+ "(" + micro_dust_value + ")");
                     } else if(micro_dust_level == 3){
-                        txtDust.setText("나쁨"+ "(" + micro_dust_value + "㎍/㎥" + ")");
+                        txtDust.setText("나쁨"+ "(" + micro_dust_value + ")");
                     } else if(micro_dust_level == 4){
-                        txtDust.setText("매우나쁨" + "(" + micro_dust_value + "㎍/㎥" + ")");
+                        txtDust.setText("매우나쁨" + "(" + micro_dust_value + ")");
                     }
                     if(nano_dust_level == 1){
-                        txtNanodust.setText("좋음" + "(" + nano_dust_value + "㎍/㎥" +")");
+                        txtNanodust.setText("좋음" + "(" + nano_dust_value +")");
                     } else if(nano_dust_level == 2){
-                        txtNanodust.setText("보통"+ "(" + nano_dust_value +"㎍/㎥" + ")");
+                        txtNanodust.setText("보통"+ "(" + nano_dust_value + ")");
                     } else if(nano_dust_level == 3){
-                        txtNanodust.setText("나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
+                        txtNanodust.setText("나쁨"+ "(" + nano_dust_value + ")");
                     } else if(nano_dust_level == 4){
-                        txtNanodust.setText("매우나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
+                        txtNanodust.setText("매우나쁨"+ "(" + nano_dust_value + ")");
                     }
                     Log.e("미세먼지 단위:", "\n미세먼지:" + micro_dust_level + "\n초미세먼지:" + nano_dust_level);
                     Log.e("미세먼지 값:", "\n미세먼지농도:" + micro_dust_value + "\n초미세먼지농도" + nano_dust_value);
@@ -435,6 +477,48 @@ public class HomeFragment extends Fragment {
         jsonRequest4.setTag(TAG);
         queue.add(jsonRequest4);
     }
+
+    private void jsonParse(){
+        String url = "https://openapi.naver.com/v1/search/news?query=동물";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("items");
+                            for(int i = 0; i < jsonArray.length(); i++){
+                                JSONObject items = jsonArray.getJSONObject(i);
+                                String title = items.getString("title");
+                                String link = items.getString("link");
+                                String description = items.getString("description");
+                                adapter.addItem(new SearchDTO(title, link, description));
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }finally {
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), "기사를 받아오지 못했습니다.", Toast.LENGTH_SHORT).show();
+                        error.printStackTrace();
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap();
+                params.put("X-Naver-Client-Id", clientId);
+                params.put("X-Naver-Client-Secret", clientSecret);
+                return params;
+            }
+        };
+        requestQueue.add(request);
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -445,6 +529,3 @@ public class HomeFragment extends Fragment {
         super.onDetach();
     }
 }
-
-
-

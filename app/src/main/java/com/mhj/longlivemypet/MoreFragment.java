@@ -39,14 +39,6 @@ public class MoreFragment extends Fragment {
             }
         });
 
-        rootView.findViewById(R.id.cardViewNews).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NewsFragment newsFragment = new NewsFragment();
-                changeFragment(newsFragment);
-            }
-        });
-
         rootView.findViewById(R.id.cardViewSound).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
