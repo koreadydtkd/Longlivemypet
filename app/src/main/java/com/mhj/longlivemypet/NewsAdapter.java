@@ -49,16 +49,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>  {
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textNews_title, textNews_description;
 
-        public ViewHolder(@NonNull View itemView) { // 생성자
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textNews_title = itemView.findViewById(R.id.textNews_title);
             textNews_description = itemView.findViewById(R.id.textNews_description);
         }
 
-        public void setItem(SearchDTO item) { // 함수정의
+        public void setItem(SearchDTO item) {
             textNews_title.setText(Html.fromHtml(item.getTitle()));
             textNews_description.setText(Html.fromHtml(item.getDescription()));
         }
 
-    } // inner class ViewHolder
+    }
 }

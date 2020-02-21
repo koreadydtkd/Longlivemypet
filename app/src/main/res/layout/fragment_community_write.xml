@@ -75,35 +75,35 @@
                 android:entries="@array/community_classification"/>
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/button_rotateImage"
-            android:background="@android:drawable/ic_menu_rotate"
-            app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="24dp"
-            android:layout_width="35dp"
-            android:layout_height="35dp" />
-
         <ImageView
             android:id="@+id/imageViewAdd"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="32dp"
             android:scaleType="fitXY"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
-            app:srcCompat="@drawable/imageadd"
+            app:srcCompat="@drawable/picture"
             android:layout_marginHorizontal="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true" />
+
+        <Button
+            android:id="@+id/button_rotateImage"
+            android:background="@android:drawable/ic_menu_rotate"
+            app:layout_constraintTop_toTopOf="@id/imageViewAdd"
+            app:layout_constraintRight_toRightOf="@id/imageViewAdd"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
 
         <EditText
             android:id="@+id/editText_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewAdd"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:gravity="top"
             android:padding="12dp"
             android:layout_marginHorizontal="32dp"

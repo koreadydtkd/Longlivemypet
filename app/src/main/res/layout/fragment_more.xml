@@ -11,7 +11,7 @@
         android:id="@+id/cardViewMy"
         app:cardCornerRadius="12dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardViewAnnounce"
         android:layout_marginHorizontal="32dp"
         android:layout_width="match_parent"
         android:layout_height="65dp">
@@ -40,7 +40,7 @@
         android:id="@+id/cardViewAnnounce"
         app:cardCornerRadius="12dp"
         app:layout_constraintTop_toBottomOf="@+id/cardViewMy"
-        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@id/cardViewCare"
         android:layout_marginHorizontal="32dp"
         android:layout_width="match_parent"
         android:layout_height="65dp">
@@ -69,7 +69,7 @@
         android:id="@+id/cardViewCare"
         app:cardCornerRadius="12dp"
         app:layout_constraintTop_toBottomOf="@+id/cardViewAnnounce"
-        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardViewSound"
         android:layout_marginHorizontal="32dp"
         android:layout_width="match_parent"
         android:layout_height="65dp">
@@ -98,7 +98,7 @@
         android:id="@+id/cardViewSound"
         app:cardCornerRadius="12dp"
         app:layout_constraintTop_toBottomOf="@+id/cardViewCare"
-        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardViewAsk"
         android:layout_marginHorizontal="32dp"
         android:layout_width="match_parent"
         android:layout_height="65dp">
@@ -127,7 +127,7 @@
         android:id="@+id/cardViewAsk"
         app:cardCornerRadius="12dp"
         app:layout_constraintTop_toBottomOf="@+id/cardViewSound"
-        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginHorizontal="32dp"
         android:layout_width="match_parent"
         android:layout_height="65dp">
