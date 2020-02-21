@@ -3,6 +3,7 @@ package com.mhj.longlivemypet;
 import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -228,6 +229,15 @@ public class HomeFragment extends Fragment {
                 double latitude = location.getLatitude(); // 위도 - 가로좌표
                 double longitude = location.getLongitude(); // 경도 - 세로좌표
 
+                HomeFragment.GPSListener gpsListener = new HomeFragment.GPSListener();
+                long minTime = 10000; //10초 타임 아웃
+                float minDistance = 0; // 0미터 오차허용범위
+                manager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        minTime,
+                        minDistance,
+                        gpsListener); //리스너 등록
+
                 int lat = (int)latitude;
                 int lon = (int)longitude;
 
@@ -255,6 +265,24 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
+    class GPSListener implements LocationListener {
+        @Override
+        public void onLocationChanged(Location location) {
+            double latitude = location.getLatitude(); //위도
+            double longitude = location.getLongitude();// 경도
+            String message = "내 위치 -> Lat:" + latitude + "\nLon:" + longitude;
+            Log.e("MapActivity" , message);
+
+        }
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) { }
+        @Override
+        public void onProviderEnabled(String provider) { }
+        @Override
+        public void onProviderDisabled(String provider) { }
+    }
+
     public void tellMetheWeather(String url1) {
         Log.e("tellMetheWeather", "가동중");
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
