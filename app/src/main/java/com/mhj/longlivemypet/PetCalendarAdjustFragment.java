@@ -85,8 +85,6 @@ public class PetCalendarAdjustFragment extends Fragment {
     }//onCreateView
 
 
-
-
     //입력된펫정보 PetItem으로 넘긴 후 전화면으로가기 + 수정된내용 파이어베이스 업데이트
     void AddPetCalendarItem(){
         if(editText_title.length()<1){
@@ -128,7 +126,7 @@ public class PetCalendarAdjustFragment extends Fragment {
             textViewWrite_date.setText(getArguments().getString("write_date"));
             editText_title.setText(getArguments().getString("title"));
             editText_body.setText(getArguments().getString("body"));
-            }
+        }
     }//setArgument
 
 

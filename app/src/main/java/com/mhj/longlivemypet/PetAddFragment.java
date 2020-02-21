@@ -60,6 +60,7 @@ public class PetAddFragment extends Fragment {
     final int PICK_IMAGE_REQUEST = 0;
     ProgressDialog progressDialog;
     Bitmap bitmap = null;
+    Boolean isImagechange = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -146,6 +147,7 @@ public class PetAddFragment extends Fragment {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
                 imageViewPet.setImageBitmap(bitmap);
+                isImagechange =true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -178,6 +180,10 @@ public class PetAddFragment extends Fragment {
         imageViewPet.buildDrawingCache();
         Bitmap bitmap = ((BitmapDrawable) imageViewPet.getDrawable()).getBitmap();
 
+        if (isImagechange ==false){
+            Toast.makeText(mainActivity, "사진을 추가해주세요!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(editText_Name.length()<1){
             Toast.makeText(mainActivity, "이름을 확인해주세요.", Toast.LENGTH_SHORT).show();
             return;

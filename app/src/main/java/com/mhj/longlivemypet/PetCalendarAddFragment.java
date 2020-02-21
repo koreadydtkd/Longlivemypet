@@ -74,7 +74,7 @@ public class PetCalendarAddFragment extends Fragment {
 
 
 
-            rootView.findViewById(R.id.button_CancelCalender).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.button_CancelCalender).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "일정 추가가 취소되었습니다.", Toast.LENGTH_SHORT).show();
@@ -118,6 +118,7 @@ public class PetCalendarAddFragment extends Fragment {
         firestore.collection("Calendar").document().set(petCalendarItem);
         Toast.makeText(getContext(), "일정 추가가 완료되었습니다.", Toast.LENGTH_SHORT).show();
         mainActivity.replaceFragment(R.layout.fragment_pet_calendar);
+
         progressDialog.dismiss();
     }//AddPetCalendarItem
 
