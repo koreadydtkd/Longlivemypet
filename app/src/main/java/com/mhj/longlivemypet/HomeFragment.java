@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class HomeFragment extends Fragment {
     String address, address2, address3, sKey ,row, basedate, basetime, basetime2, nx, ny ,tmx ,tmy, type, station, simpletime,simpletime2,today,yesterday;
     SimpleDateFormat dateText = new SimpleDateFormat("yyyyMMdd"); //날짜 표시 형식
     SimpleDateFormat hourText = new SimpleDateFormat("HHmm"); //시간 표시 형식
+    Button btnRefresh;
     long numtime; //현재 시간
     LocationManager manager;
     private RequestQueue queue;
@@ -93,6 +95,14 @@ public class HomeFragment extends Fragment {
 
         setWhether();
         jsonParse();
+
+        btnRefresh = rootView.findViewById(R.id.btnRefresh);
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setWhether();
+            }
+        });
 
         return rootView;
     }
@@ -425,42 +435,26 @@ public class HomeFragment extends Fragment {
                     int nano_dust_level = Integer.parseInt(object.get("pm25Grade").toString());
                     int micro_dust_value = Integer.parseInt(object.get("pm10Value").toString());
                     int nano_dust_value = Integer.parseInt(object.get("pm25Value").toString());
-//                    if(micro_dust_level == 1){
-//                        txtDust.setText("좋음" + "(" + micro_dust_value + "㎍/㎥" + ")");
-//                    } else if(micro_dust_level == 2){
-//                        txtDust.setText("보통"+ "(" + micro_dust_value + "㎍/㎥" + ")");
-//                    } else if(micro_dust_level == 3){
-//                        txtDust.setText("나쁨"+ "(" + micro_dust_value + "㎍/㎥" + ")");
-//                    } else if(micro_dust_level == 4){
-//                        txtDust.setText("매우나쁨" + "(" + micro_dust_value + "㎍/㎥" + ")");
-//                    }
-//                    if(nano_dust_level == 1){
-//                        txtNanodust.setText("좋음" + "(" + nano_dust_value + "㎍/㎥" +")");
-//                    } else if(nano_dust_level == 2){
-//                        txtNanodust.setText("보통"+ "(" + nano_dust_value +"㎍/㎥" + ")");
-//                    } else if(nano_dust_level == 3){
-//                        txtNanodust.setText("나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
-//                    } else if(nano_dust_level == 4){
-//                        txtNanodust.setText("매우나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
-//                    }
+
                     if(micro_dust_level == 1){
-                        txtDust.setText("좋음" + "(" + micro_dust_value +")");
+                        txtDust.setText("좋음" + "(" + micro_dust_value + "㎍/㎥" + ")");
                     } else if(micro_dust_level == 2){
-                        txtDust.setText("보통"+ "(" + micro_dust_value + ")");
+                        txtDust.setText("보통"+ "(" + micro_dust_value + "㎍/㎥" + ")");
                     } else if(micro_dust_level == 3){
-                        txtDust.setText("나쁨"+ "(" + micro_dust_value + ")");
+                        txtDust.setText("나쁨"+ "(" + micro_dust_value + "㎍/㎥" + ")");
                     } else if(micro_dust_level == 4){
-                        txtDust.setText("매우나쁨" + "(" + micro_dust_value + ")");
+                        txtDust.setText("매우나쁨" + "(" + micro_dust_value + "㎍/㎥" + ")");
                     }
                     if(nano_dust_level == 1){
-                        txtNanodust.setText("좋음" + "(" + nano_dust_value +")");
+                        txtNanodust.setText("좋음" + "(" + nano_dust_value + "㎍/㎥" +")");
                     } else if(nano_dust_level == 2){
-                        txtNanodust.setText("보통"+ "(" + nano_dust_value + ")");
+                        txtNanodust.setText("보통"+ "(" + nano_dust_value +"㎍/㎥" + ")");
                     } else if(nano_dust_level == 3){
-                        txtNanodust.setText("나쁨"+ "(" + nano_dust_value + ")");
+                        txtNanodust.setText("나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
                     } else if(nano_dust_level == 4){
-                        txtNanodust.setText("매우나쁨"+ "(" + nano_dust_value + ")");
+                        txtNanodust.setText("매우나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
                     }
+
                     Log.e("미세먼지 단위:", "\n미세먼지:" + micro_dust_level + "\n초미세먼지:" + nano_dust_level);
                     Log.e("미세먼지 값:", "\n미세먼지농도:" + micro_dust_value + "\n초미세먼지농도" + nano_dust_value);
                 } catch (JSONException e) {

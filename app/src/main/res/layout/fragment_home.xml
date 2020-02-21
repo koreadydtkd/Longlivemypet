@@ -198,6 +198,7 @@
                     android:textSize="18sp" />
 
                 <Button
+                    android:id="@+id/btnRefresh"
                     android:background="@drawable/ic_autorenew"
                     android:layout_alignParentRight="true"
                     android:layout_width="25dp"
