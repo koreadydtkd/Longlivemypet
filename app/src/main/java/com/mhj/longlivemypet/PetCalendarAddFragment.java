@@ -70,10 +70,7 @@ public class PetCalendarAddFragment extends Fragment {
         }
         textViewWrite_date.setText(whentime);
 
-
-
-
-
+        //일정추가취소버튼
         rootView.findViewById(R.id.button_CancelCalender).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +90,7 @@ public class PetCalendarAddFragment extends Fragment {
     }//onCreateView
 
 
-    //입력된펫정보 PetItem으로 넘긴 후 전화면으로가기
+    //입력된일정정보 PetItem으로 넘긴 후 전화면으로가기
     void AddPetCalendarItem(){
 
         if(editText_title.length()<1){
@@ -121,11 +118,6 @@ public class PetCalendarAddFragment extends Fragment {
 
         progressDialog.dismiss();
     }//AddPetCalendarItem
-
-    void saveDiary(){
-
-    }
-
 
 
 }//class PetAddFragment

@@ -54,17 +54,17 @@ public class PetCalendarAdapter extends FirestoreRecyclerAdapter<PetCalendarItem
             }
         });
 
-        //펫삭제버튼
+        //일정삭제버튼
         myViewHolderr.button_Delete_Calender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(myViewHolderr.itemView.getContext());
-                builder.setMessage("삭제 하시겠습니까?");
+                builder.setMessage("해당 일정을 삭제 하시겠습니까?");
                 builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(myViewHolderr.itemView.getContext(), "삭제가 취소되었습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(myViewHolderr.itemView.getContext(), "일정삭제가 취소되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {

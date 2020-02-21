@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,7 +45,14 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
     CalendarView calendarView;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/M/d");
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        Date date = new Date();
+        time = simpleDateFormat.format(date);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,19 +66,22 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
         textViewPlz = rootView.findViewById(R.id.textViewPlz);
         calendarView =rootView.findViewById(R.id.calendarView);
 
-        Date date = new Date();
-        time = simpleDateFormat.format(date);
+        String selectedDate = time;
+        try {
+            calendarView.setDate(new SimpleDateFormat("yyyy/M/d").parse(selectedDate).getTime(), true, true);
+        }catch (Exception e) { }
+
+
         textViewwhenDate.setText(time); //텍스트뷰에 현재날짜 띄우기
 
         setRecyclerView(time);
 
-        //날짜 선택 이벤트
+        //날짜 선택시 텍스트뷰 선택날짜로 바꿔주는 이벤트
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 time = year + "/" +(month + 1) +"/" +dayOfMonth;
                 textViewwhenDate.setText(time); // 선택한 날짜로 설정
-
                 adapter.stopListening();
                 setRecyclerView(time);
                 adapter.startListening();
@@ -79,7 +90,7 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
         });
 
 
-        //일정추가하러가기
+        //일정추가하러가기버튼
         rootView.findViewById(R.id.button_AddCalender).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

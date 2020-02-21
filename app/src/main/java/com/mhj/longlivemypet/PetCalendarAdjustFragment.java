@@ -85,7 +85,7 @@ public class PetCalendarAdjustFragment extends Fragment {
     }//onCreateView
 
 
-    //입력된펫정보 PetItem으로 넘긴 후 전화면으로가기 + 수정된내용 파이어베이스 업데이트
+    //입력된 일정정보 PetCalendarItem 넘긴 후 전화면으로가기 + 수정된내용 파이어베이스 업데이트
     void AddPetCalendarItem(){
         if(editText_title.length()<1){
             Toast.makeText(mainActivity, "제목이 너무 짧습니다.", Toast.LENGTH_SHORT).show();
@@ -111,15 +111,15 @@ public class PetCalendarAdjustFragment extends Fragment {
         firestore.collection("Calendar").document(document).update("body",petCalendarItem.getBody());
         firestore.collection("Calendar").document(document).update("write_date",petCalendarItem.getWrite_date());
 
-        Toast.makeText(getContext(), "펫 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "일정 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
         mainActivity.replaceFragment(R.layout.fragment_pet_calendar);
         progressDialog.dismiss();
-    }//AdjustPetItem
+    }//PetCalendarAdjustFragment
 
 
 
 
-    //수정전 최초펫추가에서 입력받았던 정보 불러오기, 이화면 시작하자마자 실행
+    //수정전 최초 일정추가에서 입력받았던 정보 불러오기, 이화면 시작하자마자 실행
     public void setArgument() {
         if(getArguments() != null){
             document = getArguments().getString("document");
