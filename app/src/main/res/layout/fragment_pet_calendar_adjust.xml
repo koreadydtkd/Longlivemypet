@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,170 +7,143 @@
     android:background="#20FFAA00"
     tools:context=".PetCalendarAddFragment">
 
+    <TextView
+        android:id="@+id/textViewWrite_date"
+        android:gravity="center"
+        android:layout_width="126dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:text="2020-02-02"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <Button
+        android:id="@+id/button_AdjustCalender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button"
+        android:text="수정"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintRight_toLeftOf="@+id/button_CancelCalender"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_CancelCalender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button"
+        android:text="취소"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/button_AdjustCalender"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="1dp">
 
-        <Button
-            android:id="@+id/button_AdjustCalender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/button"
-            android:text="수정"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/button_CancelCalender"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/button_CancelCalender"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/button"
-            android:text="취소"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView2"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="420dp"
-            android:layout_marginTop="44dp"
-            app:cardCornerRadius="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/button_AdjustCalender"
-            tools:layout_editor_absoluteX="1dp">
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="#B96548"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
 
             <LinearLayout
-                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="#B96548"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="8dp"
-                        android:layout_weight="4"
-                        android:background="#B96548"
-                        android:gravity="center"
-                        android:shadowColor="#D80303"
-                        android:text="날짜"
-                        android:textColor="#000000"
-                        android:textColorHighlight="#E40404"
-                        android:textSize="20dp" />
-
-                    <TextView
-                        android:id="@+id/textViewWrite_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/buttonsecond2"
-                        android:ems="10"
-                        android:paddingLeft="8dp"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="8dp"
-                        android:layout_weight="4"
-                        android:background="#B96548"
-                        android:gravity="center"
-                        android:text="제목"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-
-                    <EditText
-                        android:id="@+id/editText_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/buttonsecond2"
-                        android:ems="10"
-                        android:hint="버들이일정"
-                        android:inputType="textPersonName"
-                        android:maxLength="20"
-                        android:paddingLeft="8dp"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-                </LinearLayout>
-
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textView8"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="4"
+                    android:background="#B96548"
+                    android:gravity="center"
+                    android:text="제목"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp" />
 
-                    <TextView
-                        android:id="@+id/textView10"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="4"
-                        android:background="#B96548"
-                        android:gravity="center"
-                        android:text="내용
-"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-
-                    <EditText
-                        android:id="@+id/editText_body"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="3dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/buttonsecond2"
-                        android:gravity="top"
-                        android:hint="심장사상충약 먹이기 \n미용예약"
-                        android:maxLength="100"
-                        android:paddingLeft="8dp"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-                </LinearLayout>
-
-
+                <EditText
+                    android:id="@+id/editText_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonsecond2"
+                    android:ems="10"
+                    android:hint="버들이일정"
+                    android:inputType="textPersonName"
+                    android:maxLength="20"
+                    android:paddingLeft="8dp"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="4"
+                    android:background="#B96548"
+                    android:gravity="center"
+                    android:text="내용"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp" />
+
+                <EditText
+                    android:id="@+id/editText_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonsecond2"
+                    android:gravity="top"
+                    android:hint="심장사상충약 먹이기 \n미용예약"
+                    android:maxLength="100"
+                    android:paddingLeft="8dp"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

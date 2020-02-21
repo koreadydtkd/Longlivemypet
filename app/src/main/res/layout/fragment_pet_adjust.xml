@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,300 +7,290 @@
     android:background="#20FFAA00"
     tools:context="PetAddFragment">
 
+    <Button
+        android:id="@+id/button_Adjust"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button"
+        android:text="수정"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/button_Cancel"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <Button
+        android:id="@+id/button_Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button"
+        android:text="취소"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/imageViewPet"
+        android:layout_width="280dp"
+        android:layout_height="200dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="12dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toStartOf="@+id/button_Image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_Adjust"
+        app:srcCompat="@drawable/picture" />
+
+    <Button
+        android:id="@+id/button_rotateImage"
+        android:layout_width="48dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/rotation2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_Cancel" />
+
+    <Button
+        android:id="@+id/button_Image"
+        android:layout_width="48dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_rotateImage" />
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewPet"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <Button
-            android:id="@+id/button_Adjust"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="22dp"
-            android:background="@drawable/button"
-            android:text="수정"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/button_Cancel"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/button_Cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/button"
-            android:text="취소"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <ImageView
-            android:id="@+id/imageViewPet"
-            android:layout_width="280dp"
-            android:layout_height="200dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="12dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            app:layout_constraintEnd_toStartOf="@+id/button_Image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_Adjust"
-            app:srcCompat="@drawable/picture" />
-
-        <Button
-            android:id="@+id/button_rotateImage"
-            android:layout_width="48dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/rotation2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_Cancel" />
-
-        <Button
-            android:id="@+id/button_Image"
-            android:layout_width="48dp"
-            android:layout_height="110dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/search"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_rotateImage" />
-
-        <androidx.cardview.widget.CardView
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            app:cardCornerRadius="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewPet"
-            tools:layout_editor_absoluteX="5dp">
+            android:layout_gravity="center"
+            android:background="#B96548"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="#B96548"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textView5"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="#B96548"
+                    android:gravity="center"
+                    android:shadowColor="#D80303"
+                    android:text="이름"
+                    android:textColor="#000000"
+                    android:textColorHighlight="#E40404"
+                    android:textSize="20dp" />
 
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="8dp"
-                        android:layout_weight="1"
-                        android:background="#B96548"
-                        android:gravity="center"
-                        android:shadowColor="#D80303"
-                        android:text="이름"
-                        android:textColor="#000000"
-                        android:textColorHighlight="#E40404"
-                        android:textSize="20dp" />
-
-                    <EditText
-                        android:paddingLeft="8dp"
-                        android:id="@+id/editText_Name"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/buttonsecond2"
-                        android:ems="10"
-                        android:hint="순심이"
-                        android:inputType="textPersonName"
-                        android:maxLength="4"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="8dp"
-                        android:layout_weight="1"
-                        android:background="#B96548"
-                        android:gravity="center"
-                        android:text="성별"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-
-                    <EditText
-                        android:paddingLeft="8dp"
-                        android:id="@+id/editText_Sex"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/buttonsecond2"
-                        android:ems="10"
-                        android:hint="암컷"
-                        android:inputType="textPersonName"
-                        android:maxLength="2"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                <EditText
+                    android:paddingLeft="8dp"
+                    android:id="@+id/editText_Name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonsecond2"
+                    android:ems="10"
+                    android:hint="순심이"
+                    android:inputType="textPersonName"
+                    android:maxLength="4"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
 
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="8dp"
-                        android:layout_weight="1"
-                        android:background="#B96548"
-                        android:gravity="center"
-                        android:text="생일"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-
-                    <EditText
-                        android:paddingLeft="8dp"
-                        android:id="@+id/editText_Date"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/buttonsecond2"
-                        android:ems="10"
-                        android:hint="990105"
-                        android:inputType="textPersonName"
-                        android:layout_marginBottom="5dp"
-                        android:maxLength="6"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="1"
-                        android:background="#B96548"
-                        android:gravity="center"
-                        android:text="체중"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-
-                    <EditText
-                        android:id="@+id/editText_Weight"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="3dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/buttonsecond2"
-                        android:ems="10"
-                        android:hint="5kg"
-                        android:inputType="textPersonName"
-                        android:maxLength="3"
-                        android:paddingLeft="8dp"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textView6"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="#B96548"
+                    android:gravity="center"
+                    android:text="성별"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
 
-                    <TextView
-                        android:id="@+id/textView7"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="8dp"
-                        android:layout_weight="3"
-                        android:background="#B96548"
-                        android:gravity="center"
-                        android:text="품종"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-
-                    <EditText
-                        android:id="@+id/editText_Breed"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/buttonsecond2"
-                        android:ems="10"
-                        android:hint="말티즈"
-                        android:inputType="textPersonName"
-                        android:maxLength="6"
-                        android:paddingLeft="8dp"
-                        android:textColor="#000000"
-                        android:textSize="20sp" />
-                </LinearLayout>
-
-
-                <LinearLayout
+                <EditText
+                    android:paddingLeft="8dp"
+                    android:id="@+id/editText_Sex"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonsecond2"
+                    android:ems="10"
+                    android:hint="암컷"
+                    android:inputType="textPersonName"
+                    android:maxLength="2"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
 
-                    <TextView
-                        android:id="@+id/textView10"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="3"
-                        android:background="#B96548"
-                        android:gravity="center"
-                        android:text="메모"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
+            </LinearLayout>
 
-                    <EditText
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
-                        android:id="@+id/editText_Memo"
-                        android:layout_width="match_parent"
-                        android:layout_height="215dp"
-                        android:layout_marginRight="3dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="1"
-                        android:paddingLeft="8dp"
-                        android:background="@drawable/buttonsecond2"
-                        android:gravity="top"
-                        android:hint="-2월 10일 심장사상충약 먹이기 \n-2월 29일 미용예약"
-                        android:maxLength="100"
-                        android:textColor="#000000"
-                        android:textSize="20dp" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="#B96548"
+                    android:gravity="center"
+                    android:text="생일"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
+
+                <EditText
+                    android:id="@+id/editText_Date"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:inputType="textPersonName"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/buttonsecond2"
+                    android:ems="10"
+                    android:hint="990105"
+                    android:maxLength="6"
+                    android:paddingLeft="8dp"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="#B96548"
+                    android:gravity="center"
+                    android:text="체중"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
+
+                <EditText
+                    android:id="@+id/editText_Weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonsecond2"
+                    android:ems="10"
+                    android:hint="5kg"
+                    android:inputType="textPersonName"
+                    android:maxLength="3"
+                    android:paddingLeft="8dp"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
 
 
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
-</FrameLayout>
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="3"
+                    android:background="#B96548"
+                    android:gravity="center"
+                    android:text="품종"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
+
+                <EditText
+                    android:id="@+id/editText_Breed"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttonsecond2"
+                    android:ems="10"
+                    android:hint="말티즈"
+                    android:inputType="textPersonName"
+                    android:maxLength="6"
+                    android:paddingLeft="8dp"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="3"
+                    android:background="#B96548"
+                    android:gravity="center"
+                    android:text="메모"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
+
+                <EditText
+                    android:id="@+id/editText_Memo"
+                    android:layout_width="match_parent"
+                    android:layout_height="215dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="8dp"
+                    android:background="@drawable/buttonsecond2"
+                    android:gravity="top"
+                    android:hint="-2월 10일 심장사상충약 먹이기 \n-2월 29일 미용예약"
+                    android:maxLength="100"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

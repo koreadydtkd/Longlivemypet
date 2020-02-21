@@ -40,7 +40,6 @@ public class PetCalendarAdapter extends FirestoreRecyclerAdapter<PetCalendarItem
     protected void onBindViewHolder(@NonNull final PetCalendarAdapter.MyViewHolderr myViewHolderr, final int position, @NonNull final PetCalendarItem petCalendarItem) {
         myViewHolderr.textViewTitle.setText(petCalendarItem.getTitle());
         myViewHolderr.textViewBody.setText(petCalendarItem.getBody());
-        myViewHolderr.textViewWrite_date.setText(petCalendarItem.getWrite_date());
 
 
         //일정수정버튼(수정하기프레그먼트진입)
