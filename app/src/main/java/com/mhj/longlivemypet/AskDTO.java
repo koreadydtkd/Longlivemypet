@@ -1,24 +1,16 @@
 package com.mhj.longlivemypet;
 
-public class AskItem {
-    String email, title, question;
+public class AskDTO {
+    String title, question;
     long date;
 
-    public AskItem(){}
+    public AskDTO() {
+    }
 
-    public AskItem(String email, String title, String question, long date) {
-        this.email = email;
+    public AskDTO(String title, String question, long date) {
         this.title = title;
         this.question = question;
         this.date = date;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getTitle() {

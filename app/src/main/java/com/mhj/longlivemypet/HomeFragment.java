@@ -519,7 +519,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void jsonParse(){
-        String url = "https://openapi.naver.com/v1/search/news?query=동물";
+        String url = "https://openapi.naver.com/v1/search/news?query=반려동물";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override

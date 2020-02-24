@@ -14,11 +14,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,9 +39,9 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
         mainActivity = (MainActivity) getActivity();
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
-        getUserNick();
         recyclerView = rootView.findViewById(R.id.recyclerView);
         progressbar = rootView.findViewById(R.id.progressbar);
+        getUserNick();
 
         Query query = firestore.collection("Community").orderBy("date", Query.Direction.DESCENDING);
         PagedList.Config config = new PagedList.Config.Builder().setEnablePlaceholders(false).setPrefetchDistance(10).setPageSize(10).build();
@@ -55,6 +52,16 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                int itemTotalCount = recyclerView.getAdapter().getItemCount() - 1;
+                if (lastPosition == itemTotalCount) {
+                    Toast.makeText(getContext(), "마지막입니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         rootView.findViewById(R.id.textView_hospital).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,7 +166,16 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("itemDetail", recyclerView.getVerticalScrollbarPosition() + "");
+    }
+
+    @Override
     public void itemDetail(String document, String classification, String title, String userNick, String content, String date, String imgURL, boolean like) {
+        Log.d("itemDetail", recyclerView.getVerticalScrollbarPosition() + "");
+
+
         CommunityDetailFragment detailFragment = new CommunityDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString("document", document);
