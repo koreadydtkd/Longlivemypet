@@ -253,7 +253,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
                                     LinearLayout info = new LinearLayout(getContext());
                                     info.setOrientation(LinearLayout.VERTICAL);
-                                    info.setBackgroundColor(Color.parseColor("#20FFAA00"));
+                                    info.setBackgroundColor(Color.parseColor("#FFFFFF"));
                                     TextView title = new TextView(getContext());
                                     title.setTextColor(Color.parseColor("#B96548"));
                                     title.setGravity(Gravity.CENTER);
@@ -386,7 +386,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
                                     LinearLayout info = new LinearLayout(getContext());
                                     info.setOrientation(LinearLayout.VERTICAL);
-                                    info.setBackgroundColor(Color.parseColor("#20FFAA00"));
+                                    info.setBackgroundColor(Color.parseColor("#FFFFFF"));
                                     TextView title = new TextView(getContext());
                                     title.setTextColor(Color.parseColor("#B96548"));
                                     title.setGravity(Gravity.CENTER);
