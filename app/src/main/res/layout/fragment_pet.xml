@@ -10,16 +10,17 @@
 
 
     <Button
-        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/button_AddPet"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="5dp"
-        android:background="@drawable/buttonsecond"
+        android:background="@drawable/button"
         android:text="나의펫 추가하기"
-        android:textColor="@color/mainColor"
+        android:textColor="#FFFFFF"
         android:textSize="20dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="5dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         app:layout_constraintTop_toBottomOf="@id/button_AddPet"

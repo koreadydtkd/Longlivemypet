@@ -7,69 +7,38 @@
     android:background="#20FFAA00"
     tools:context="PetAddFragment">
 
-    <Button
-        android:id="@+id/button_Add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/button"
-        android:text="추가"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/button_Cancel"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_Cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/button"
-        android:text="취소"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
     <ImageView
         android:id="@+id/imageViewPet"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        app:layout_constraintTop_toBottomOf="@+id/button_Add"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:srcCompat="@drawable/picture" />
 
     <Button
         android:id="@+id/button_rotateImage"
         android:layout_width="48dp"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
         android:background="@android:drawable/ic_menu_rotate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_Cancel" />
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewPet"
-        tools:layout_editor_absoluteX="8dp">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
+            android:layout_marginBottom="10dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/button_Add"
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="#B96548"
             android:orientation="vertical">
 
             <LinearLayout
@@ -85,7 +54,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
-                    android:background="#B96548"
+                    android:background="@drawable/button"
                     android:gravity="center"
                     android:shadowColor="#D80303"
                     android:text="이름"
@@ -99,7 +68,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="3dp"
                     android:layout_weight="1"
-                    android:background="@drawable/buttonsecond2"
+                    android:background="@drawable/buttonsecond"
                     android:ems="10"
                     android:hint="순심이"
                     android:inputType="textPersonName"
@@ -114,7 +83,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
-                    android:background="#B96548"
+                    android:background="@drawable/button"
                     android:gravity="center"
                     android:text="성별"
                     android:textColor="#000000"
@@ -126,7 +95,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="3dp"
                     android:layout_weight="1"
-                    android:background="@drawable/buttonsecond2"
+                    android:background="@drawable/buttonsecond"
                     android:ems="10"
                     android:hint="암컷"
                     android:inputType="textPersonName"
@@ -150,7 +119,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
-                    android:background="#B96548"
+                    android:background="@drawable/button"
                     android:gravity="center"
                     android:text="생일"
                     android:textColor="#000000"
@@ -163,7 +132,7 @@
                     android:layout_marginRight="3dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/buttonsecond2"
+                    android:background="@drawable/buttonsecond"
                     android:ems="10"
                     android:hint="990105"
                     android:inputType="textPersonName"
@@ -179,7 +148,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:background="#B96548"
+                    android:background="@drawable/button"
                     android:gravity="center"
                     android:text="체중"
                     android:textColor="#000000"
@@ -192,7 +161,7 @@
                     android:layout_marginRight="3dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/buttonsecond2"
+                    android:background="@drawable/buttonsecond"
                     android:ems="10"
                     android:hint="5kg"
                     android:inputType="textPersonName"
@@ -217,7 +186,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="8dp"
                     android:layout_weight="3"
-                    android:background="#B96548"
+                    android:background="@drawable/button"
                     android:gravity="center"
                     android:text="품종"
                     android:textColor="#000000"
@@ -229,7 +198,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="3dp"
                     android:layout_weight="1"
-                    android:background="@drawable/buttonsecond2"
+                    android:background="@drawable/buttonsecond"
                     android:ems="10"
                     android:hint="말티즈"
                     android:inputType="textPersonName"
@@ -255,7 +224,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="3"
-                    android:background="#B96548"
+                    android:background="@drawable/button"
                     android:gravity="center"
                     android:text="메모"
                     android:textColor="#000000"
@@ -264,11 +233,11 @@
                 <EditText
                     android:id="@+id/editText_Memo"
                     android:layout_width="match_parent"
-                    android:layout_height="215dp"
+                    android:layout_height="200dp"
                     android:layout_marginRight="3dp"
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/buttonsecond2"
+                    android:background="@drawable/buttonsecond"
                     android:gravity="top"
                     android:hint="-배변훈련완료 \n-양고기사료만먹음\n-성격온순함"
                     android:maxLength="100"
@@ -278,7 +247,34 @@
             </LinearLayout>
 
         </LinearLayout>
+    <Button
+        android:layout_marginLeft="70dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/button_Add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:text="추가"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </androidx.cardview.widget.CardView>
+    <Button
+
+        android:layout_marginRight="70dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/button_Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:background="@drawable/button"
+        android:text="취소"
+        android:textColor="#70000000"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
