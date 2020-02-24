@@ -70,7 +70,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/wolf"
         android:gravity="left|center"
-        android:text="늑대하울링"
+        android:text="늑대"
         android:textColor="#FFFFFF"
         android:textSize="30dp" />
 

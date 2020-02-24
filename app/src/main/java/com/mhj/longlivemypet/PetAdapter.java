@@ -84,13 +84,7 @@ public class PetAdapter extends FirestoreRecyclerAdapter<PetItem, PetAdapter.MyV
                 imageURL = getItem(myViewHolder.getAdapterPosition()).getImageURL();
                 AlertDialog.Builder builder = new AlertDialog.Builder(myViewHolder.itemView.getContext());
                 builder.setMessage("삭제 하시겠습니까?");
-                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(myViewHolder.itemView.getContext(), "삭제가 취소되었습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         storage.getReferenceFromUrl(imageURL).delete();
@@ -99,6 +93,12 @@ public class PetAdapter extends FirestoreRecyclerAdapter<PetItem, PetAdapter.MyV
                         String petname = myViewHolder.textViewName.getText().toString();
                         Toast.makeText(myViewHolder.itemView.getContext(), petname+"펫이 삭제되었습니다", Toast.LENGTH_SHORT).show();
                         petFragment.onResume();
+                    }
+                });
+                builder.setPositiveButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(myViewHolder.itemView.getContext(), "삭제가 취소되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
                 AlertDialog alertDialog = builder.create();

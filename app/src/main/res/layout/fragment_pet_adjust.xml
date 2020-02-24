@@ -58,7 +58,7 @@
                 android:gravity="center"
                 android:shadowColor="#D80303"
                 android:text="이름"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 android:textColorHighlight="#E40404"
                 android:textSize="20dp" />
 
@@ -70,7 +70,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/buttonsecond"
                 android:ems="10"
-                android:hint="순심이"
                 android:inputType="textPersonName"
                 android:maxLength="4"
                 android:paddingLeft="8dp"
@@ -86,7 +85,7 @@
                 android:background="@drawable/button"
                 android:gravity="center"
                 android:text="성별"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 android:textSize="20dp" />
 
             <EditText
@@ -97,7 +96,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/buttonsecond"
                 android:ems="10"
-                android:hint="암컷"
                 android:inputType="textPersonName"
                 android:maxLength="3"
                 android:paddingLeft="8dp"
@@ -122,7 +120,7 @@
                 android:background="@drawable/button"
                 android:gravity="center"
                 android:text="생일"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 android:textSize="20dp" />
 
             <EditText
@@ -134,7 +132,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/buttonsecond"
                 android:ems="10"
-                android:hint="990105"
                 android:inputType="textPersonName"
                 android:maxLength="6"
                 android:paddingLeft="8dp"
@@ -151,7 +148,7 @@
                 android:background="@drawable/button"
                 android:gravity="center"
                 android:text="체중"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 android:textSize="20dp" />
 
             <EditText
@@ -163,7 +160,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/buttonsecond"
                 android:ems="10"
-                android:hint="5kg"
                 android:inputType="textPersonName"
                 android:maxLength="3"
                 android:paddingLeft="8dp"
@@ -189,7 +185,7 @@
                 android:background="@drawable/button"
                 android:gravity="center"
                 android:text="품종"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 android:textSize="20dp" />
 
             <EditText
@@ -200,7 +196,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/buttonsecond"
                 android:ems="10"
-                android:hint="말티즈"
                 android:inputType="textPersonName"
                 android:maxLength="6"
                 android:paddingLeft="8dp"
@@ -227,7 +222,7 @@
                 android:background="@drawable/button"
                 android:gravity="center"
                 android:text="메모"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 android:textSize="20dp" />
 
             <EditText
@@ -239,7 +234,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/buttonsecond"
                 android:gravity="top"
-                android:hint="-배변훈련완료 \n-양고기사료만먹음\n-성격온순함"
                 android:maxLength="100"
                 android:paddingLeft="8dp"
                 android:textColor="#000000"
@@ -249,7 +243,7 @@
     </LinearLayout>
     <Button
         android:layout_marginLeft="70dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:id="@+id/button_Adjust"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -263,7 +257,7 @@
     <Button
 
         android:layout_marginRight="70dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:id="@+id/button_Cancel"
         android:layout_width="wrap_content"
         android:layout_height="48dp"

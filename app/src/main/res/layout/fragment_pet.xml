@@ -15,7 +15,7 @@
         android:layout_height="100dp"
         android:layout_margin="5dp"
         android:background="@drawable/button"
-        android:text="나의펫 추가하기"
+        android:text="나의 펫 추가하기"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -61,9 +61,9 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_margin="5dp"
-            android:background="@drawable/buttonsecond"
+            android:background="@drawable/button"
             android:text="나의 일정 보기"
-            android:textColor="@color/mainColor"
+            android:textColor="#FFFFFF"
             android:textSize="20dp"
             android:textStyle="bold"/>
 

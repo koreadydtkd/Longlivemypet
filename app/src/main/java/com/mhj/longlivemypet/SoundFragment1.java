@@ -166,6 +166,7 @@ public class SoundFragment1 extends Fragment {
                 Vibrator vibe = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
                 vibe.vibrate(1000); //1초 지속시간
                 Toast.makeText(getContext(), "소리를 최대한 키워주시고 \n 펫의 반응을 지켜보세요!", Toast.LENGTH_SHORT).show();
+
             }
         });
 

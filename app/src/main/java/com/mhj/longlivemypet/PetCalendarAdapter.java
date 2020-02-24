@@ -61,19 +61,19 @@ public class PetCalendarAdapter extends FirestoreRecyclerAdapter<PetCalendarItem
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(myViewHolderr.itemView.getContext());
                 builder.setMessage("해당 일정을 삭제 하시겠습니까?");
-                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(myViewHolderr.itemView.getContext(), "일정삭제가 취소되었습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         document = getSnapshots().getSnapshot(myViewHolderr.getAdapterPosition()).getId();
                         firestore.collection("Calendar").document(document).delete();
                         Toast.makeText(myViewHolderr.itemView.getContext(),"일정이 삭제되었습니다", Toast.LENGTH_SHORT).show();
                         petCalendarFragment.onResume();
+                    }
+                });
+                builder.setPositiveButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(myViewHolderr.itemView.getContext(), "일정삭제가 취소되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
                 AlertDialog alertDialog = builder.create();

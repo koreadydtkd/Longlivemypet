@@ -49,7 +49,7 @@ public class SoundFragment_Viewpager extends Fragment {
         final PageIndicatorView pageIndicatorView =rootView.findViewById(R.id.pageIndicatorView);
         pageIndicatorView.setCount(2);
         pageIndicatorView.setSelected(1);
-        pageIndicatorView.setAnimationType(AnimationType.WORM);
+        pageIndicatorView.setAnimationType(AnimationType.COLOR);
 
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

@@ -24,7 +24,6 @@ public class SoundFragment2 extends Fragment {
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_sound_fragment2, container, false);
         mainActivity = (MainActivity)getActivity();
 
-        killMediaPlayer();
         //청소기소리 재생(Play)
         Button buttonPlay7 = rootView.findViewById(R.id.buttonPlay7);
         buttonPlay7.setOnClickListener(new View.OnClickListener() {
