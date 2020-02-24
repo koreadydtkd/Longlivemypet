@@ -118,13 +118,12 @@ public class MyFragment extends Fragment {
     }
 
     private void setQuestions() {
-        firestore.collection("Questions").whereEqualTo("email", email)
-                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        firestore.collection("Questions").whereEqualTo("email", email).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for(QueryDocumentSnapshot snapshot : queryDocumentSnapshots){
-                    AskDTO askDTO = snapshot.toObject(AskDTO.class);
-                    adapter.addItem(new AskDTO(askDTO.getTitle(), askDTO.getQuestion(), askDTO.getDate()));
+                    AskItem askItem = snapshot.toObject(AskItem.class);
+                    adapter.addItem(new AskItem(askItem.getTitle(), askItem.getQuestion(), askItem.getDate()));
                 }
                 adapter.notifyDataSetChanged();
             }

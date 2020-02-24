@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
-    ArrayList<AskDTO> items = new ArrayList<AskDTO>();
+    ArrayList<AskItem> items = new ArrayList<AskItem>();
 
     @NonNull
     @Override
@@ -24,7 +24,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
 
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, int position) {
-        AskDTO item = items.get(position);
+        AskItem item = items.get(position);
         holder.setItem(item);
     }
 
@@ -33,7 +33,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
         return items.size();
     }
 
-    public void addItem(AskDTO item){
+    public void addItem(AskItem item){
         items.add(item);
     }
 
@@ -47,7 +47,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
             textView_date = itemView.findViewById(R.id.textView_date);
         }
 
-        public void setItem(AskDTO item) {
+        public void setItem(AskItem item) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 hh:mm:ss a");
             textView_title.setText(item.getTitle());
             textView_question.setText(item.getQuestion());

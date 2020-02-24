@@ -6,6 +6,12 @@ public class AskItem {
 
     public AskItem(){}
 
+    public AskItem(String title, String question, long date) {
+        this.title = title;
+        this.question = question;
+        this.date = date;
+    }
+
     public AskItem(String email, String title, String question, long date) {
         this.email = email;
         this.title = title;

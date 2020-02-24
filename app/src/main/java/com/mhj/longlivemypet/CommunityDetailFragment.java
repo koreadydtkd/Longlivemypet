@@ -33,6 +33,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -46,7 +47,7 @@ public class CommunityDetailFragment extends Fragment {
     private FirebaseFirestore firestore;
     private FirebaseStorage storage;
     private String email;
-    TextView textView_userNick, textView_classification, textView_date, textView_title, textView_content;
+    TextView textView_userNick, textView_classification, textView_date, textView_title, textView_content, textView_noComment;
     EditText editText_comment;
     ImageView imageView;
     CommunityDetailAdapter detailAdapter;
@@ -67,12 +68,22 @@ public class CommunityDetailFragment extends Fragment {
         storage = FirebaseStorage.getInstance();
         mainActivity = (MainActivity) getActivity();
         button_like = rootView.findViewById(R.id.button_like);
+        textView_noComment = rootView.findViewById(R.id.textView_noComment);
         getUserNick();
         setArgument();
 
         Query query = firestore.collection("Community").document(document).collection("Comment").orderBy("date", Query.Direction.ASCENDING);
         FirestoreRecyclerOptions<CommunityDetailItem> options = new FirestoreRecyclerOptions.Builder<CommunityDetailItem>().setQuery(query, CommunityDetailItem.class).build();
-        detailAdapter = new CommunityDetailAdapter(options, document);
+        detailAdapter = new CommunityDetailAdapter(options, document){
+            @Override
+            public void onDataChanged() {
+                if(detailAdapter.getItemCount() == 0){
+                    textView_noComment.setVisibility(View.VISIBLE);
+                }else{
+                    textView_noComment.setVisibility(View.GONE);
+                }
+            }
+        };
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
