@@ -54,11 +54,10 @@ public class CommunityFragmentWrite extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_community_write, container, false);
-        rootView.setEnabled(false);
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         mainActivity = (MainActivity) getActivity();
-        getUserEmail();
+        getUserNick();
 
         imageViewAdd = rootView.findViewById(R.id.imageViewAdd);
         editText_title = rootView.findViewById(R.id.editText_title);
@@ -107,7 +106,7 @@ public class CommunityFragmentWrite extends Fragment {
         return rootView;
     }
 
-    private void getUserEmail(){
+    private void getUserNick(){
         String email = auth.getCurrentUser().getEmail();
         firestore.collection("Users").document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

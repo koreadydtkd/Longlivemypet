@@ -20,7 +20,6 @@ import com.pedro.library.AutoPermissions;
 import com.pedro.library.AutoPermissionsListener;
 
 public class MainActivity extends AppCompatActivity implements AutoPermissionsListener {
-    private final static String TAG = "MainActivity";
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     PetFragment petFragment;
@@ -91,8 +90,6 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
 
     }
 
-
-
     public void replaceFragment(int resID) {
         if(resID == R.id.navigation_pet){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, petFragment).commit();
@@ -112,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         AutoPermissions.Companion.parsePermissions(this, requestCode, permissions, this);
     }
 
@@ -120,22 +116,12 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
 
     @Override
     public void onDenied(int requestCode, String[] permissions){
-        StringBuilder sb = new StringBuilder();
-        for(String permission : permissions){
-            sb.append(permission);
-            sb.append(",");
-            //Toast.makeText(this,sb.toString(),Toast.LENGTH_SHORT).show();
-        }
+
     }
 
     @Override
     public void onGranted(int requestCode, String[] permissions){
-        StringBuilder sb = new StringBuilder();
-        for(String permission : permissions){
-            sb.append(permission);
-            sb.append(",");
-            //Toast.makeText(this,sb.toString(),Toast.LENGTH_SHORT).show();
-        }
+
     }
 
 }

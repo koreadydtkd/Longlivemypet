@@ -33,14 +33,12 @@ public class LoginActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN = 9001;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
-
     EditText editText_Email, editText_Pw;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
 
         editText_Email = findViewById(R.id.editText_Email);
         editText_Pw = findViewById(R.id.editText_Pw);
@@ -128,14 +126,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         auth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Log.d(TAG, "signInWithCredential:success");
-
                     firestore.collection("Users").document(auth.getCurrentUser().getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -148,9 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                     });
-
                 } else {
-                    // If sign in fails, display a message to the user.
                     Log.d(TAG, "signInWithCredential:failure", task.getException());
                 }
             }

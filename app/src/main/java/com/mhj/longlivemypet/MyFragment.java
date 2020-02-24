@@ -35,7 +35,7 @@ public class MyFragment extends Fragment {
     EditText editText_nick, editText_phone;
     RecyclerView recyclerView;
     MyAdapter adapter;
-    String email;
+    private String email;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,10 +49,10 @@ public class MyFragment extends Fragment {
         textView_birth = rootView.findViewById(R.id.textView_birth);
         editText_nick = rootView.findViewById(R.id.editText_nick);
         editText_phone = rootView.findViewById(R.id.editText_phone);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
 
         getUserInfo();
 
-        recyclerView = rootView.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         adapter = new MyAdapter();

@@ -57,6 +57,7 @@ public class JoinSecondActivity extends AppCompatActivity {
             Toast.makeText(JoinSecondActivity.this, "2자 이상입력해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
+
         final String nick = editText_Nick.getText().toString();
         firestore.collection("Users").whereEqualTo("nick", nick).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -82,27 +83,32 @@ public class JoinSecondActivity extends AppCompatActivity {
             Toast.makeText(JoinSecondActivity.this, "별명을 중복확인해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
+
         final String email = auth.getCurrentUser().getEmail();
         final String nick = editText_Nick.getText().toString();
         if(nick.length() < 2){
             Toast.makeText(JoinSecondActivity.this, "2자이상 입력해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
+
         final String name = editText_Name.getText().toString();
         if(name.length() < 2){
             Toast.makeText(JoinSecondActivity.this, "잘못된 입력입니다.\n다시 입력해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
+
         final String birth = editText_Birth.getText().toString();
         if(birth.length() < 6){
             Toast.makeText(JoinSecondActivity.this, "생년월일 앞 6자리를 입력해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
+
         final String phone = editText_Phone.getText().toString();
         if(phone.length() < 10){
             Toast.makeText(JoinSecondActivity.this, "잘못된 입력입니다.\n다시 입력해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
+
         final boolean sex = radioButton.isChecked();
 
         UserDTO userDTO = new UserDTO(email, nick, name, birth, phone, sex);

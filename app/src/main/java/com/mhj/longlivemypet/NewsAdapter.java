@@ -54,11 +54,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>  {
             textNews_title = itemView.findViewById(R.id.textNews_title);
             textNews_description = itemView.findViewById(R.id.textNews_description);
         }
-
         public void setItem(SearchDTO item) {
             textNews_title.setText(Html.fromHtml(item.getTitle()));
             textNews_description.setText(Html.fromHtml(item.getDescription()));
         }
-
     }
+
 }

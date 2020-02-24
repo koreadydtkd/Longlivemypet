@@ -22,10 +22,8 @@ public class FindActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
-
         editText_findId = findViewById(R.id.editText_Find_Id);
         editText_findPw = findViewById(R.id.editText_Find_Pw);
-
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 

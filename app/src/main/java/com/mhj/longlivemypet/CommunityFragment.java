@@ -1,6 +1,8 @@
 package com.mhj.longlivemypet;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.paging.PagedList;
@@ -32,6 +35,8 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
     private FirebaseFirestore firestore;
     ProgressBar progressbar;
     String nick;
+    LinearLayoutManager layoutManager;
+    private Parcelable recyclerViewState;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -49,7 +54,8 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
 
         adapter = new CommunityAdapter(options, this);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -62,6 +68,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
                 }
             }
         });
+
 
         rootView.findViewById(R.id.textView_hospital).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +161,19 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+            }
+        }, 500);
+
+    }
+
+
+    @Override
     public void onStart() {
         super.onStart();
         adapter.startListening();
@@ -166,15 +186,8 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("itemDetail", recyclerView.getVerticalScrollbarPosition() + "");
-    }
-
-    @Override
     public void itemDetail(String document, String classification, String title, String userNick, String content, String date, String imgURL, boolean like) {
-        Log.d("itemDetail", recyclerView.getVerticalScrollbarPosition() + "");
-
+        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
 
         CommunityDetailFragment detailFragment = new CommunityDetailFragment();
         Bundle bundle = new Bundle();

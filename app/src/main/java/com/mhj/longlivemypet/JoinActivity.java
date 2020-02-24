@@ -50,6 +50,7 @@ public class JoinActivity extends AppCompatActivity {
             Toast.makeText(JoinActivity.this, "동의후에 가입이 가능합니다.", Toast.LENGTH_SHORT).show();
             return;
         }
+
         final String email = editText_Email.getText().toString();
         final String pw = editText_Pw.getText().toString();
         final String pw_check = editText_Pw_Check.getText().toString();
@@ -58,6 +59,7 @@ public class JoinActivity extends AppCompatActivity {
             Toast.makeText(JoinActivity.this, "아이디 또는 비밀번호를 다시 입력해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
+
         if(!pw.equals(pw_check)){
             Toast.makeText(JoinActivity.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
             return;
@@ -85,4 +87,4 @@ public class JoinActivity extends AppCompatActivity {
 
     }
 
-}//class
+}

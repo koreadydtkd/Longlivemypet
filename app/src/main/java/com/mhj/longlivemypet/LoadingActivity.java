@@ -24,7 +24,7 @@ public class LoadingActivity extends Activity {
                 finish();
             }
 
-        }, 2000);
+        }, 500);
     }
 }
 
