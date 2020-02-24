@@ -3,7 +3,6 @@ package com.mhj.longlivemypet;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.paging.PagedList;
@@ -161,6 +159,12 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+            recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         new Handler().postDelayed(new Runnable() {
@@ -187,8 +191,6 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
 
     @Override
     public void itemDetail(String document, String classification, String title, String userNick, String content, String date, String imgURL, boolean like) {
-        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
-
         CommunityDetailFragment detailFragment = new CommunityDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString("document", document);
