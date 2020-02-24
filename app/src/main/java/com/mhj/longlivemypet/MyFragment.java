@@ -60,6 +60,30 @@ public class MyFragment extends Fragment {
 
         setQuestions();
 
+        rootView.findViewById(R.id.button_passwordChange).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("비밀번호 변경");
+                builder.setMessage("메일을 통해 변경이 가능합니다.\n변경하시겠습니까?");
+                builder.setPositiveButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(), "변경이 취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        auth.sendPasswordResetEmail(email);
+                        Toast.makeText(getContext(), "이메일로 발송되었으니\n확인 부탁드립니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
+
         rootView.findViewById(R.id.button_logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

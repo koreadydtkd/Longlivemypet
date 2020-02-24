@@ -89,6 +89,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <Button
+                android:id="@+id/button_passwordChange"
+                android:text="비밀번호 변경"
+                android:background="@drawable/button"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBaseline_toBaselineOf="@+id/text2"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_width="110dp"
+                android:layout_height="30dp" />
+
             <TextView
                 android:id="@+id/text3"
                 android:textSize="20sp"
