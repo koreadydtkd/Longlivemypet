@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <Button
+        android:layout_weight="1"
+        android:id="@+id/buttonPlay7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/cleaner"
+        android:gravity="left|center"
+        android:text="청소기"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp" />
+
+    <Button
+        android:layout_weight="1"
+        android:id="@+id/buttonPlay8"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/harmonica"
+        android:gravity="left|center"
+        android:text="하모니카"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp" />
+
+    <Button
+        android:layout_weight="1"
+        android:id="@+id/buttonPlay9"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/horse"
+        android:gravity="left|center"
+        android:text="말"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp" />
+
+    <Button
+        android:layout_weight="1"
+        android:id="@+id/buttonPlay10"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/monkey"
+        android:gravity="left|center"
+        android:text="원숭이"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp" />
+
+    <Button
+        android:layout_weight="1"
+        android:id="@+id/buttonPlay11"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/toy"
+        android:gravity="left|center"
+        android:text="장난감"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp" />
+
+    <Button
+        android:layout_weight="1"
+        android:id="@+id/buttonPlay12"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/wolf"
+        android:gravity="left|center"
+        android:text="늑대하울링"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp" />
+
+</LinearLayout>
+
+
+

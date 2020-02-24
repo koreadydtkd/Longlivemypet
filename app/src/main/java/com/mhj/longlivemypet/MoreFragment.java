@@ -42,8 +42,8 @@ public class MoreFragment extends Fragment {
         rootView.findViewById(R.id.cardViewSound).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SoundFragment soundFragment = new SoundFragment();
-                changeFragment(soundFragment);
+                SoundFragment_Viewpager soundFragment_viewpager = new SoundFragment_Viewpager();
+                changeFragment(soundFragment_viewpager);
             }
         });
 
