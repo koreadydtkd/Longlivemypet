@@ -53,7 +53,7 @@ public class AskFragment extends Fragment {
     }
 
     public void doAdd(){
-        AskItem askItem = new AskItem(email, editText_content.getText().toString(), editText_title.getText().toString(), System.currentTimeMillis());
+        AskItem askItem = new AskItem(email, editText_title.getText().toString(), editText_content.getText().toString(), System.currentTimeMillis());
         firestore.collection("Questions").document().set(askItem);
         Toast.makeText(getContext(), "작성완료되었습니다." ,Toast.LENGTH_SHORT).show();
         mainActivity.replaceFragment(R.id.navigation_more);
