@@ -124,7 +124,23 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
             @Override
             public void onReselectItem(MeowBottomNavigation.Model item) {
-                return;
+                switch (item.getId()) {
+                    case ID_PET:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, petFragment).commit();
+                        break;
+                    case ID_MAP:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
+                        break;
+                    case ID_HOME:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
+                        break;
+                    case ID_FORUM:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, communityFragment).commit();
+                        break;
+                    case ID_MORE:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, moreFragment).commit();
+                        break;
+                }
             }
         });
 
