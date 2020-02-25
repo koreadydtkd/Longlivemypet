@@ -67,10 +67,6 @@ public class HomeFragment extends Fragment {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setMessage("잠시만 기다려주세요...");
 
-        if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            //GPS 켜달라는 요청
-            Toast.makeText(getContext(), "위치 추적 기능을 켜주세요",Toast.LENGTH_SHORT).show();
-        }
 
         if (requestQueue == null){
             requestQueue = Volley.newRequestQueue(getContext());
@@ -100,18 +96,32 @@ public class HomeFragment extends Fragment {
         adapter = new NewsAdapter();
         recyclerView.setAdapter(adapter);
 
-        setWhether();
+
         getNaverNews();
 
-        btnRefresh = rootView.findViewById(R.id.btnRefresh);
-        btnRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressDialog.show();
-                progressDialog.setCancelable(false);
-                setWhether();
-            }
-        });
+        if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            //GPS 켜달라는 요청
+            Toast.makeText(getContext(), "위치 추적 기능을 켜주세요",Toast.LENGTH_SHORT).show();
+        } else if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            setWhether();
+
+            btnRefresh = rootView.findViewById(R.id.btnRefresh);
+            btnRefresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                        //GPS 켜달라는 요청
+                        Toast.makeText(getContext(), "위치 추적 기능을 켜주세요",Toast.LENGTH_SHORT).show();
+                    } else {
+                        progressDialog.show();
+                        progressDialog.setCancelable(false);
+                        setWhether();
+                    }
+                }
+            });
+        }
+
+
 
         return rootView;
     }
