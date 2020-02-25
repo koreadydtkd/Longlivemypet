@@ -21,14 +21,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 
-public class CommunityDetailAdapter extends FirestoreRecyclerAdapter<CommunityDetailItem, CommunityDetailAdapter.CommunityDetailHolder> {
+public class CommunityCommentAdapter extends FirestoreRecyclerAdapter<CommunityDetailItem, CommunityCommentAdapter.CommunityDetailHolder> {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
     String document, documentcomment, nick;
 
-    public CommunityDetailAdapter(@NonNull FirestoreRecyclerOptions<CommunityDetailItem> options, String document) {
+    public CommunityCommentAdapter(@NonNull FirestoreRecyclerOptions<CommunityDetailItem> options, String document) {
         super(options);
         this.document = document;
     }

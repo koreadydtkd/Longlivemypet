@@ -1,11 +1,14 @@
 package com.mhj.longlivemypet;
 
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class JoinActivity extends AppCompatActivity {
     EditText editText_Email, editText_Pw, editText_Pw_Check;
-    CheckBox checkBox;
+    CheckBox checkBox, checkBox2;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
 
@@ -32,6 +35,7 @@ public class JoinActivity extends AppCompatActivity {
         editText_Pw = findViewById(R.id.editText_Pw);
         editText_Pw_Check = findViewById(R.id.editText_Pw_Check);
         checkBox = findViewById(R.id.checkbox);
+        checkBox2 = findViewById(R.id.checkbox2);
 
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -46,11 +50,6 @@ public class JoinActivity extends AppCompatActivity {
     }//onCreate
 
     public void userjoin() { //회원가입
-        if(!checkBox.isChecked()){
-            Toast.makeText(JoinActivity.this, "동의후에 가입이 가능합니다.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         final String email = editText_Email.getText().toString();
         final String pw = editText_Pw.getText().toString();
         final String pw_check = editText_Pw_Check.getText().toString();
@@ -62,6 +61,11 @@ public class JoinActivity extends AppCompatActivity {
 
         if(!pw.equals(pw_check)){
             Toast.makeText(JoinActivity.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(!checkBox.isChecked() || !checkBox2.isChecked()){
+            Toast.makeText(JoinActivity.this, "동의후에 가입이 가능합니다.", Toast.LENGTH_SHORT).show();
             return;
         }
 

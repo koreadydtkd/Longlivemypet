@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -67,8 +68,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
             }
         });
 
-
-        rootView.findViewById(R.id.textView_hospital).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.chip_hospital).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 adapter.stopListening();
@@ -77,7 +77,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
             }
         });
 
-        rootView.findViewById(R.id.textView_cafe).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.chip_cafe).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 adapter.stopListening();
@@ -86,7 +86,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
             }
         });
 
-        rootView.findViewById(R.id.textView_all).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.chip_all).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 adapter.stopListening();
@@ -95,7 +95,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
             }
         });
 
-        rootView.findViewById(R.id.textView_food).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.chip_boast).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 adapter.stopListening();
@@ -104,7 +104,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
             }
         });
 
-        rootView.findViewById(R.id.textView_question).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.chip_question).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 adapter.stopListening();
