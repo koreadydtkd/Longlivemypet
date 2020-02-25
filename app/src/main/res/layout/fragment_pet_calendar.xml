@@ -12,18 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <CalendarView
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:layout_margin="8dp"
             android:background="@drawable/buttonsecond"
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="305dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
-            android:dateTextAppearance="@style/CalendarViewDateCustomText"
-            android:weekDayTextAppearance="@style/CalendarViewWeekCustomText" />
+            android:layout_height="400dp"
+            app:mcv_selectionColor="#A600F0"
+            app:mcv_showOtherDates="defaults" />
 
         <TextView
             android:id="@+id/textViewwhenDate"
@@ -42,7 +38,7 @@
             android:layout_height="wrap_content"
             android:text="추가된 일정이 없습니다. "
             android:textSize="25dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="60dp"
             android:gravity="center_horizontal"
             android:visibility="gone"
             />

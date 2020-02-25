@@ -35,7 +35,7 @@
 
         android:layout_marginTop="20dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageViewPet"
         app:layout_constraintRight_toRightOf="parent"
@@ -53,7 +53,7 @@
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="@drawable/button"
                 android:gravity="center"
@@ -65,7 +65,7 @@
             <EditText
                 android:id="@+id/editText_Name"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="@drawable/buttonsecond"
                 android:hint="순심이"
@@ -78,7 +78,7 @@
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="@drawable/button"
                 android:gravity="center"
@@ -89,7 +89,7 @@
             <EditText
                 android:id="@+id/editText_Sex"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="@drawable/buttonsecond"
                 android:hint="암컷"
@@ -110,7 +110,7 @@
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="@drawable/button"
                 android:gravity="center"
@@ -121,7 +121,7 @@
             <EditText
                 android:id="@+id/editText_Date"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="@drawable/buttonsecond"
                 android:hint="990105"
@@ -134,7 +134,7 @@
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="@drawable/button"
                 android:gravity="center"
@@ -145,7 +145,7 @@
             <EditText
                 android:id="@+id/editText_Weight"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="@drawable/buttonsecond"
                 android:hint="5kg"
@@ -167,7 +167,7 @@
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_weight="3"
                 android:background="@drawable/button"
                 android:gravity="center"
@@ -178,7 +178,7 @@
             <EditText
                 android:id="@+id/editText_Breed"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="@drawable/buttonsecond"
                 android:hint="말티즈"
@@ -199,7 +199,7 @@
             <TextView
                 android:id="@+id/textView10"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_gravity="top"
                 android:layout_weight="3"
                 android:background="@drawable/button"

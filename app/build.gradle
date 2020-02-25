@@ -68,6 +68,7 @@ dependencies {
 
     implementation 'com.romandanylyk:pageindicatorview:1.0.0@aar'
     implementation 'com.etebarian:meow-bottom-navigation-java:1.2.0'
+    compile 'com.prolificinteractive:material-calendarview:1.4.3'
 }
 
 apply plugin: 'com.google.gms.google-services'

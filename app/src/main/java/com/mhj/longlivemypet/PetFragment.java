@@ -93,7 +93,6 @@ public class PetFragment extends Fragment implements PetAdapter.PetItemDetailLis
         rootView.findViewById(R.id.button_AddCalender).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 mainActivity.replaceFragment(R.layout.fragment_pet_calendar);
 
             }

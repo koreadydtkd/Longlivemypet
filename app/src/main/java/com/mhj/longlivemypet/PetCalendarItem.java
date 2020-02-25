@@ -8,13 +8,10 @@ public class PetCalendarItem {
     String write_date;
 
     public PetCalendarItem(){
-
     }
-
 
     public PetCalendarItem(String email, String title, String body, String write_date) {
         this.email = email;
-
         this.title = title;
         this.body = body;
         this.write_date = write_date;

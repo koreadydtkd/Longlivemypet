@@ -43,7 +43,7 @@ public class PetCalendarAdapter extends FirestoreRecyclerAdapter<PetCalendarItem
 
 
         //일정수정버튼(수정하기프레그먼트진입)
-        myViewHolderr.button_Adjust_Calender.setOnClickListener(new View.OnClickListener() {
+        myViewHolderr.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 document = getSnapshots().getSnapshot(position).getId();
@@ -54,10 +54,9 @@ public class PetCalendarAdapter extends FirestoreRecyclerAdapter<PetCalendarItem
             }
         });
 
-        //일정삭제버튼
-        myViewHolderr.button_Delete_Calender.setOnClickListener(new View.OnClickListener() {
+        myViewHolderr.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(myViewHolderr.itemView.getContext());
                 builder.setMessage("해당 일정을 삭제 하시겠습니까?");
@@ -78,8 +77,10 @@ public class PetCalendarAdapter extends FirestoreRecyclerAdapter<PetCalendarItem
                 });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
+                return false;
             }
         });
+
     }//onBindViewHolder
 
 
@@ -97,15 +98,14 @@ public class PetCalendarAdapter extends FirestoreRecyclerAdapter<PetCalendarItem
     // 리사이클러뷰에 들어갈 뷰 홀더, 그리고 그 뷰 홀더에 들어갈 아이템들을 지정
     public class MyViewHolderr extends RecyclerView.ViewHolder{
         TextView textViewTitle,textViewBody,textViewWrite_date;
-        Button button_Delete_Calender, button_Adjust_Calender;
+
 
         public MyViewHolderr(View view){
             super(view);
             textViewTitle = view.findViewById(R.id.textViewTitle);
             textViewBody = view.findViewById(R.id.textViewBody);
             textViewWrite_date = view.findViewById(R.id.textViewWrite_date);
-            button_Delete_Calender = view.findViewById(R.id.button_Delete_Calender);
-            button_Adjust_Calender = view.findViewById(R.id.button_Adjust_Calender);
+
         }// MyViewHolder
     }// class MyViewHolder
 
