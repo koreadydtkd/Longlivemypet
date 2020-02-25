@@ -104,22 +104,23 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getContext(), "위치 추적 기능을 켜주세요",Toast.LENGTH_SHORT).show();
         } else if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             setWhether();
-
-            btnRefresh = rootView.findViewById(R.id.btnRefresh);
-            btnRefresh.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                        //GPS 켜달라는 요청
-                        Toast.makeText(getContext(), "위치 추적 기능을 켜주세요",Toast.LENGTH_SHORT).show();
-                    } else {
-                        progressDialog.show();
-                        progressDialog.setCancelable(false);
-                        setWhether();
-                    }
-                }
-            });
         }
+
+        btnRefresh = rootView.findViewById(R.id.btnRefresh);
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                    //GPS 켜달라는 요청
+                    Toast.makeText(getContext(), "위치 추적 기능을 켜주세요",Toast.LENGTH_SHORT).show();
+                } else if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                    progressDialog.show();
+                    progressDialog.setCancelable(false);
+                    setWhether();
+                }
+            }
+        });
+
 
 
 
@@ -483,11 +484,25 @@ public class HomeFragment extends Fragment {
                 try {
                     JSONArray list = response.getJSONArray("list");
                     JSONObject object = list.getJSONObject(0);
-                    int micro_dust_level = Integer.parseInt(object.get("pm10Grade").toString());
-                    int nano_dust_level = Integer.parseInt(object.get("pm25Grade").toString());
-                    int micro_dust_value = Integer.parseInt(object.get("pm10Value").toString());
-                    int nano_dust_value = Integer.parseInt(object.get("pm25Value").toString());
+                    double micro_dust_level;
+                    double nano_dust_level;
+                    double micro_dust_value;
+                    double nano_dust_value;
+                    if(object.get("pm10Grade").toString().equals("") || object.get("pm25Grade").toString().equals("")) {
+                        micro_dust_level = 0;
+                        nano_dust_level = 0;
+                    } else{
+                        micro_dust_level = Double.parseDouble(object.get("pm10Grade").toString());
+                        nano_dust_level = Double.parseDouble(object.get("pm25Grade").toString());
+                    }
 
+                    if(object.get("pm10Value").toString().equals("-") || object.get("pm25Value").toString().equals("-")){
+                        micro_dust_value = 0;
+                        nano_dust_value = 0;
+                    }else {
+                        micro_dust_value = Double.parseDouble(object.get("pm10Value").toString());
+                        nano_dust_value = Double.parseDouble(object.get("pm25Value").toString());
+                    }
                     if(micro_dust_level == 1){
                         txtDust.setText("좋음" + "(" + micro_dust_value + "㎍/㎥" + ")");
                     } else if(micro_dust_level == 2){
@@ -496,6 +511,8 @@ public class HomeFragment extends Fragment {
                         txtDust.setText("나쁨"+ "(" + micro_dust_value + "㎍/㎥" + ")");
                     } else if(micro_dust_level == 4){
                         txtDust.setText("매우나쁨" + "(" + micro_dust_value + "㎍/㎥" + ")");
+                    } else{
+                        txtDust.setText("층정중");
                     }
 
                     if(nano_dust_level == 1){
@@ -506,6 +523,8 @@ public class HomeFragment extends Fragment {
                         txtNanodust.setText("나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
                     } else if(nano_dust_level == 4){
                         txtNanodust.setText("매우나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
+                    } else{
+                        txtNanodust.setText("층정중");
                     }
 
                     Log.e("미세먼지 단위:", "\n미세먼지:" + micro_dust_level + "\n초미세먼지:" + nano_dust_level);
