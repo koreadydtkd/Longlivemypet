@@ -172,7 +172,7 @@ public class CommunityFragment extends Fragment implements CommunityAdapter.item
             public void run() {
                 recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
             }
-        }, 500);
+        }, 800);
 
     }
 

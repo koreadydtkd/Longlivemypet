@@ -9,7 +9,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -28,6 +30,12 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     CommunityFragment communityFragment;
     MoreFragment moreFragment;
     PetCalendarFragment petCalendarFragment;
+
+    private final static int ID_PET = 1;
+    private final static int ID_MAP = 2;
+    private final static int ID_HOME = 3;
+    private final static int ID_FORUM = 4;
+    private final static int ID_MORE = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,36 +65,70 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         petCalendarFragment = new PetCalendarFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, homeFragment).commit();
 
-        final BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        MeowBottomNavigation bottomNavigation = findViewById(R.id.bottomNavigation);
+        bottomNavigation.add(new MeowBottomNavigation.Model(ID_PET, R.drawable.ic_person));
+        bottomNavigation.add(new MeowBottomNavigation.Model(ID_MAP, R.drawable.ic_map));
+        bottomNavigation.add(new MeowBottomNavigation.Model(ID_HOME, R.drawable.ic_home));
+        bottomNavigation.add(new MeowBottomNavigation.Model(ID_FORUM, R.drawable.ic_forum));
+        bottomNavigation.add(new MeowBottomNavigation.Model(ID_MORE, R.drawable.more));
+
+        bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.navigation_pet:
-                        menuItem.setChecked(true);
+            public void onClickItem(MeowBottomNavigation.Model item) {
+                switch (item.getId()) {
+                    case ID_PET:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, petFragment).commit();
                         break;
-                    case R.id.navigation_map:
-                        menuItem.setChecked(true);
+                    case ID_MAP:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
                         break;
-                    case R.id.navigation_home:
-                        menuItem.setChecked(true);
+                    case ID_HOME:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
                         break;
-                    case R.id.navigation_community:
-                        menuItem.setChecked(true);
+                    case ID_FORUM:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, communityFragment).commit();
                         break;
-                    case R.id.navigation_more:
-                        menuItem.setChecked(true);
+                    case ID_MORE:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, moreFragment).commit();
                         break;
                 }
-                return false;
             }
         });
+
+        bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
+           @Override
+           public void onShowItem(MeowBottomNavigation.Model item) {
+               String name;
+               switch (item.getId()) {
+                   case ID_PET:
+                       name = "PET";
+                       break;
+                   case ID_MAP:
+                       name = "MAP";
+                       break;
+                   case ID_HOME:
+                       name = "HOME";
+                       break;
+                   case ID_FORUM:
+                       name = "FORUM";
+                       break;
+                   case ID_MORE:
+                       name = "MORE";
+                       break;
+                   default:
+                       name = "";
+               }
+           }
+        });
+
+        bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
+            @Override
+            public void onReselectItem(MeowBottomNavigation.Model item) {
+                return;
+            }
+        });
+
+        bottomNavigation.show(ID_HOME, true);
 
     }
 
@@ -111,8 +153,6 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         AutoPermissions.Companion.parsePermissions(this, requestCode, permissions, this);
     }
-
-
 
     @Override
     public void onDenied(int requestCode, String[] permissions){
