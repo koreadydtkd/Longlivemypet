@@ -55,7 +55,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     MapView mapView;
     GoogleMap map;
     BottomNavigationView bottomNavigationView;
-    MarkerOptions myLocationMarker, hLocationMarker, pLocationMarker;
+    MarkerOptions hLocationMarker, pLocationMarker;
     LocationManager manager;
     MainActivity mainActivity;
 
@@ -73,7 +73,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
         /*Fragment내에서는 mapView로 지도를 실행*/
-        mapView = (MapView)rootView.findViewById(R.id.map);
+        mapView = rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this); // 비동기적 방식으로 구글 맵 실행
