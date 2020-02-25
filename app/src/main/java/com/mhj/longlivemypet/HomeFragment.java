@@ -307,10 +307,12 @@ public class HomeFragment extends Fragment {
     }
 
     public void tellMetheWeather(String url1) {
+
         Log.e("tellMetheWeather", "가동중");
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                double rain = 0;
                 try {
                     JSONObject list = response.getJSONObject("response");
                     JSONObject body = list.getJSONObject("body");
@@ -318,7 +320,7 @@ public class HomeFragment extends Fragment {
                     JSONArray item = items.getJSONArray("item");
                     for (int i = 0; i < item.length(); i++) {
                         JSONObject object = item.getJSONObject(i);
-                        double rain = 0;
+
                         if(object.getString("fcstTime").equals(simpletime) && object.getString("fcstDate").equals(today) ) {
                             Log.e("WeatherFragment", object.getString("category"));
 
@@ -330,36 +332,9 @@ public class HomeFragment extends Fragment {
                             if(object.getString("category").equals("PTY")){
                                 Log.e("WeatherFragment", object.get("fcstValue").toString());
                                 rain = Double.parseDouble(object.get("fcstValue").toString());
-                                if(rain == 0) {
-                                    if(object.getString("category").equals("SKY")) {
 
-                                        int sky = Integer.parseInt(object.get("fcstValue").toString());
-                                        Log.e("WeatherFragment", sky + "단계");
-
-                                        if (sky == 1 || sky == 2) {
-                                            Log.e("WeatherFragment", numtime + "시");
-                                            if (numtime >= 0600 && numtime < 1800) {
-                                                imgWeather.setImageResource(R.drawable.sunny);
-                                                txtWeather.setText("맑음");
-                                            } else {
-                                                imgWeather.setImageResource(R.drawable.night);
-                                                txtWeather.setText("맑음");
-                                            }
-                                        } else if (sky == 3) {
-                                            if (numtime >= 0600 && numtime < 1800) {
-                                                imgWeather.setImageResource(R.drawable.cloud);
-                                                txtWeather.setText("구름 조금");
-                                            } else {
-                                                imgWeather.setImageResource(R.drawable.cloudnight_118960);
-                                                txtWeather.setText("구름 조금");
-                                            }
-                                        } else if (sky == 4) {
-                                            imgWeather.setImageResource(R.drawable.cloundy_118962);
-                                            txtWeather.setText("흐림");
-                                        }
-
-                                    }
-                                }else if(rain >= 1 && rain < 2){
+                                Log.e("WeatherFragment", rain + "날씨");
+                                if(rain >= 1 && rain < 2){
                                     imgWeather.setImageResource(R.drawable.rain);
                                     txtWeather.setText("비");
                                 } else if(rain >= 2 && rain < 3){
@@ -379,7 +354,39 @@ public class HomeFragment extends Fragment {
                                 Log.e("WeatherFragment", object.get("fcstValue").toString() + "%");
                             }
 
-
+                            if(object.getString("category").equals("SKY")) {
+                                Log.e("WeatherFragment", object.get("fcstValue").toString());
+                                int sky = Integer.parseInt(object.get("fcstValue").toString());
+                                Log.e("WeatherFragment", sky + "단계");
+                                Log.e("rain:", rain + "비?");
+                                if(rain == 0) {
+                                    Log.e("시간:", numtime + "시");
+                                    if (numtime >= 600 && numtime < 1800) {
+                                        if (sky == 1 || sky == 2) {
+                                            imgWeather.setImageResource(R.drawable.sunny);
+                                            txtWeather.setText("맑음");
+                                        } else if (sky == 3) {
+                                            imgWeather.setImageResource(R.drawable.cloud);
+                                            txtWeather.setText("구름 조금");
+                                        } else if (sky == 4) {
+                                            imgWeather.setImageResource(R.drawable.cloundy_118962);
+                                            txtWeather.setText("흐림");
+                                        }
+                                    }
+                                    else {
+                                        if (sky == 1 || sky == 2) {
+                                            imgWeather.setImageResource(R.drawable.night);
+                                            txtWeather.setText("맑음");
+                                        } else if (sky == 3) {
+                                            imgWeather.setImageResource(R.drawable.cloudnight_118960);
+                                            txtWeather.setText("구름 조금");
+                                        } else if (sky == 4) {
+                                            imgWeather.setImageResource(R.drawable.cloundy_118962);
+                                            txtWeather.setText("흐림");
+                                        }
+                                    }
+                                }
+                            }
 
                             if (object.getString("category").equals("T3H")) {
                                 txtTemp.setText(object.get("fcstValue").toString() + "ºc");
@@ -484,22 +491,34 @@ public class HomeFragment extends Fragment {
                 try {
                     JSONArray list = response.getJSONArray("list");
                     JSONObject object = list.getJSONObject(0);
-                    int micro_dust_level;
-                    int nano_dust_level;
-                    int micro_dust_value;
-                    int nano_dust_value;
-                    if(object.get("pm10Grade").toString().equals("") || object.get("pm25Grade").toString().equals("")) {
+                    int micro_dust_level = 0;
+                    int nano_dust_level = 0;
+                    int micro_dust_value = 0;
+                    int nano_dust_value = 0;
+                    if(object.get("pm10Grade").toString().equals("") && object.get("pm25Grade").toString().equals("")) {
                         micro_dust_level = 0;
                         nano_dust_level = 0;
-                    } else{
+                    } else if (object.get("pm25Grade").toString().equals("")) {
+                        nano_dust_level = 0;
+                        micro_dust_level = Integer.parseInt(object.get("pm10Grade").toString());
+                    } else if (object.get("pm10Grade").toString().equals("")) {
+                        micro_dust_level = 0;
+                        nano_dust_level = Integer.parseInt(object.get("pm25Grade").toString());
+                    } else {
                         micro_dust_level = Integer.parseInt(object.get("pm10Grade").toString());
                         nano_dust_level = Integer.parseInt(object.get("pm25Grade").toString());
                     }
 
-                    if(object.get("pm10Value").toString().equals("-") || object.get("pm25Value").toString().equals("-")){
+                    if(object.get("pm10Value").toString().equals("-") && object.get("pm25Value").toString().equals("-")){
                         micro_dust_value = 0;
                         nano_dust_value = 0;
-                    }else {
+                    } else if(object.get("pm10Value").toString().equals("-")){
+                        nano_dust_value = 0;
+                        micro_dust_value = Integer.parseInt(object.get("pm10Value").toString());
+                    } else  if(object.get("pm25Value").toString().equals("-")){
+                        micro_dust_value = 0;
+                        nano_dust_value = Integer.parseInt(object.get("pm25Value").toString());
+                    } else {
                         micro_dust_value = Integer.parseInt(object.get("pm10Value").toString());
                         nano_dust_value = Integer.parseInt(object.get("pm25Value").toString());
                     }
