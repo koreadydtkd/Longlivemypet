@@ -319,13 +319,42 @@ public class HomeFragment extends Fragment {
                             if(object.getString("category").equals("PTY")){
                                 Log.e("WeatherFragment", object.get("fcstValue").toString());
                                 rain = Double.parseDouble(object.get("fcstValue").toString());
-                                if(rain >= 1){
+                                if(rain == 0) {
+                                    if(object.getString("category").equals("SKY")) {
+
+                                        int sky = Integer.parseInt(object.get("fcstValue").toString());
+                                        Log.e("WeatherFragment", sky + "단계");
+
+                                        if (sky == 1 || sky == 2) {
+                                            Log.e("WeatherFragment", numtime + "시");
+                                            if (numtime >= 0600 && numtime < 1800) {
+                                                imgWeather.setImageResource(R.drawable.sunny);
+                                                txtWeather.setText("맑음");
+                                            } else {
+                                                imgWeather.setImageResource(R.drawable.night);
+                                                txtWeather.setText("맑음");
+                                            }
+                                        } else if (sky == 3) {
+                                            if (numtime >= 0600 && numtime < 1800) {
+                                                imgWeather.setImageResource(R.drawable.cloud);
+                                                txtWeather.setText("구름 조금");
+                                            } else {
+                                                imgWeather.setImageResource(R.drawable.cloudnight_118960);
+                                                txtWeather.setText("구름 조금");
+                                            }
+                                        } else if (sky == 4) {
+                                            imgWeather.setImageResource(R.drawable.cloundy_118962);
+                                            txtWeather.setText("흐림");
+                                        }
+
+                                    }
+                                }else if(rain >= 1 && rain < 2){
                                     imgWeather.setImageResource(R.drawable.rain);
                                     txtWeather.setText("비");
-                                } else if(rain >= 2 ){
+                                } else if(rain >= 2 && rain < 3){
                                     imgWeather.setImageResource(R.drawable.alert);
                                     txtWeather.setText("비또는 눈");
-                                } else if(rain >= 3){
+                                } else if(rain >= 3 && rain < 4){
                                     imgWeather.setImageResource(R.drawable.snow);
                                     txtWeather.setText("눈");
                                 } else if(rain >= 4){
@@ -339,34 +368,7 @@ public class HomeFragment extends Fragment {
                                 Log.e("WeatherFragment", object.get("fcstValue").toString() + "%");
                             }
 
-                            if(object.getString("category").equals("SKY")) {
-                                if(rain == 0) {
-                                    int sky = Integer.parseInt(object.get("fcstValue").toString());
-                                    Log.e("WeatherFragment", sky + "단계");
 
-                                    if (sky == 1 || sky == 2) {
-                                        Log.e("WeatherFragment", numtime + "시");
-                                        if (numtime >= 0600 && numtime < 1800) {
-                                            imgWeather.setImageResource(R.drawable.sunny);
-                                            txtWeather.setText("맑음");
-                                        } else {
-                                            imgWeather.setImageResource(R.drawable.night);
-                                            txtWeather.setText("맑음");
-                                        }
-                                    } else if (sky == 3) {
-                                        if (numtime >= 0600 && numtime < 1800) {
-                                            imgWeather.setImageResource(R.drawable.cloud);
-                                            txtWeather.setText("구름 조금");
-                                        } else {
-                                            imgWeather.setImageResource(R.drawable.cloudnight_118960);
-                                            txtWeather.setText("구름 조금");
-                                        }
-                                    } else if (sky == 4) {
-                                        imgWeather.setImageResource(R.drawable.cloundy_118962);
-                                        txtWeather.setText("흐림");
-                                    }
-                                }
-                            }
 
                             if (object.getString("category").equals("T3H")) {
                                 txtTemp.setText(object.get("fcstValue").toString() + "ºc");
