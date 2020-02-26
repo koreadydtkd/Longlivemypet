@@ -1,8 +1,6 @@
 package com.mhj.longlivemypet;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -13,20 +11,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -48,7 +39,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-
 public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.PetCalendarItemDetailListener {
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
     private FirebaseFirestore firestore;
@@ -69,7 +59,6 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
         super.onCreate(savedInstanceState);
         Date date = new Date();
         time = simpleDateFormat.format(date);
-
     }
 
     @Override
@@ -92,12 +81,10 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
         setRecyclerView(time); //함수따로만들어놓음, 리싸이클러뷰 선택한날짜로 셋팅해서 띄우기
 
         //캘린더 시작년도~ 마지막년도 셋팅
-        materialCalendarView.state().edit()
-                .setFirstDayOfWeek(Calendar.SUNDAY)
+        materialCalendarView.state().edit().setFirstDayOfWeek(Calendar.SUNDAY)
                 .setMinimumDate(CalendarDay.from(2017, 0, 1)) // 달력의 시작
                 .setMaximumDate(CalendarDay.from(2030, 11, 31)) // 달력의 끝
-                .setCalendarDisplayMode(CalendarMode.MONTHS)
-                .commit();
+                .setCalendarDisplayMode(CalendarMode.MONTHS).commit();
 
         //캘린더에 데코레이터 클래스 셋팅
         materialCalendarView.addDecorators(new SundayDecorator(),new SaturdayDecorator(), oneDayDecorator);
@@ -110,7 +97,6 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
                 for(QueryDocumentSnapshot snapshot : queryDocumentSnapshots){
                     PetCalendarItem item = snapshot.toObject(PetCalendarItem.class);
                     arrayList.add(item.getWrite_date());
-                    Log.d("TEST@@@@@@@", item.getWrite_date());
                 }
                 arrayList.add("2000/1/1");
             }
@@ -126,9 +112,10 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
                 int Month = date.getMonth() + 1;
                 int Day = date.getDay();
 
-                time= Year + "/" + Month + "/" + Day;
+                time = Year + "/" + Month + "/" + Day;
                 materialCalendarView.clearSelection();
                 textViewwhenDate.setText(time); // 선택한 날짜로 설정
+
                 adapter.stopListening();
                 setRecyclerView(time);
                 adapter.startListening();
@@ -142,13 +129,10 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
             public void onClick(View v) {
                 PetCalendarAddFragment petCalendarAddFragment = new PetCalendarAddFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("1",textViewwhenDate.getText().toString());
+                bundle.putString("whentime", textViewwhenDate.getText().toString());
                 petCalendarAddFragment.setArguments(bundle);
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, petCalendarAddFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
 
+                changeFragment(petCalendarAddFragment);
             }
         });
         return rootView;
@@ -178,13 +162,13 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
                 CalendarDay calendarDay = CalendarDay.from(calendar);
                 String time = (String) Time_Result.get(i);
 
-                String[] tt = time.split("/");
-                int year = Integer.parseInt(tt[0]);
-                int month = Integer.parseInt(tt[1]);
-                int day = Integer.parseInt(tt[2]);
+                String[] times = time.split("/");
+                int year = Integer.parseInt(times[0]);
+                int month = Integer.parseInt(times[1]);
+                int day = Integer.parseInt(times[2]);
 
                 dates.add(calendarDay);
-                calendar.set(year,month-1,day);
+                calendar.set(year, month - 1, day);
             }
             return dates;
         }
@@ -204,39 +188,29 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
     public void onResume() {
         super.onResume();
         Query query = firestore.collection("Calendar").whereEqualTo("email", email).whereEqualTo("write_date", time);
-        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (queryDocumentSnapshots.getDocuments().size() == 0) {
-                    Log.e("테스트", "없음");
-                    textViewPlz.setVisibility(View.VISIBLE);
-                } else {
-                    Log.e("테스트", "있음");
-                    textViewPlz.setVisibility(View.GONE);
-                }
-            }
-        });
+        doquery(query);
     }//onResume
 
     void setRecyclerView(String time){
         Query query = firestore.collection("Calendar").whereEqualTo("email", email).whereEqualTo("write_date", time);
         options = new FirestoreRecyclerOptions.Builder<PetCalendarItem>().setQuery(query, PetCalendarItem.class).build();
         adapter = new PetCalendarAdapter(options,this, petCalendarFragment);
+
         recyclerView = rootView.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+        doquery(query);
+    }
+
+    void doquery(Query query){
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
                 if(queryDocumentSnapshots.getDocuments().size() == 0){
-                    Log.e("테스트", "없음");
                     textViewPlz.setVisibility(View.VISIBLE);
-                }
-                else{
-                    Log.e("테스트", "있음");
+                }else{
                     textViewPlz.setVisibility(View.GONE);
                 }
             }
@@ -249,13 +223,11 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
         adapter.startListening();
     }//onStart
 
-
     @Override
     public void onStop() {
         super.onStop();
         adapter.stopListening();
     }//onStop
-
 
     @Override
     public void petCalendaritemDetail(String document, String title, String body, String write_date) {
@@ -266,13 +238,15 @@ public class PetCalendarFragment extends Fragment implements PetCalendarAdapter.
         bundle.putString("body", body);
         bundle.putString("write_date", write_date);
         petCalendarAdjustFragment.setArguments(bundle);
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, petCalendarAdjustFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+
+        changeFragment(petCalendarAdjustFragment);
     }//petCalenderitemDetail
 
+    public void changeFragment(Fragment fragment){
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
 }//class PetCalendarFragment
-
-

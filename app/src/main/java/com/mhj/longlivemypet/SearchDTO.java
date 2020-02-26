@@ -1,9 +1,7 @@
 package com.mhj.longlivemypet;
 
 public class SearchDTO {
-    String title;
-    String link;
-    String description;
+    String title, link, description;
 
     public SearchDTO() {
     }

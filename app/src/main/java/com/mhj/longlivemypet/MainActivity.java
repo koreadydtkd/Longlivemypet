@@ -3,6 +3,7 @@ package com.mhj.longlivemypet;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     private final static int ID_HOME = 3;
     private final static int ID_FORUM = 4;
     private final static int ID_MORE = 5;
+
+    private long pressedTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,19 +80,19 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
                 switch (item.getId()) {
-                    case ID_PET:
+                    case ID_PET :
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, petFragment).commit();
                         break;
-                    case ID_MAP:
+                    case ID_MAP :
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
                         break;
-                    case ID_HOME:
+                    case ID_HOME :
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
                         break;
-                    case ID_FORUM:
+                    case ID_FORUM :
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, communityFragment).commit();
                         break;
-                    case ID_MORE:
+                    case ID_MORE :
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, moreFragment).commit();
                         break;
                 }
@@ -100,22 +104,22 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
            public void onShowItem(MeowBottomNavigation.Model item) {
                String name;
                switch (item.getId()) {
-                   case ID_PET:
+                   case ID_PET :
                        name = "PET";
                        break;
-                   case ID_MAP:
+                   case ID_MAP :
                        name = "MAP";
                        break;
-                   case ID_HOME:
+                   case ID_HOME :
                        name = "HOME";
                        break;
-                   case ID_FORUM:
+                   case ID_FORUM :
                        name = "FORUM";
                        break;
-                   case ID_MORE:
+                   case ID_MORE :
                        name = "MORE";
                        break;
-                   default:
+                   default :
                        name = "";
                }
            }
@@ -125,19 +129,19 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
             @Override
             public void onReselectItem(MeowBottomNavigation.Model item) {
                 switch (item.getId()) {
-                    case ID_PET:
+                    case ID_PET :
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, petFragment).commit();
                         break;
-                    case ID_MAP:
+                    case ID_MAP :
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mapFragment).commit();
                         break;
-                    case ID_HOME:
+                    case ID_HOME :
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
                         break;
-                    case ID_FORUM:
+                    case ID_FORUM :
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, communityFragment).commit();
                         break;
-                    case ID_MORE:
+                    case ID_MORE :
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, moreFragment).commit();
                         break;
                 }
@@ -145,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         });
 
         bottomNavigation.show(ID_HOME, true);
-
     }
 
     public void replaceFragment(int resID) {
@@ -171,13 +174,26 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     }
 
     @Override
-    public void onDenied(int requestCode, String[] permissions){
-
-    }
+    public void onDenied(int requestCode, String[] permissions){ }
+    @Override
+    public void onGranted(int requestCode, String[] permissions){ }
 
     @Override
-    public void onGranted(int requestCode, String[] permissions){
-
+    public void onBackPressed() {
+        for(Fragment fragment : getSupportFragmentManager().getFragments()){
+            if(fragment == petFragment){
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }else if(fragment == mapFragment){
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }else if(fragment == homeFragment){
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }else if(fragment == communityFragment){
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }else if(fragment == moreFragment){
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }
+        }
+        super.onBackPressed();
     }
 
 }

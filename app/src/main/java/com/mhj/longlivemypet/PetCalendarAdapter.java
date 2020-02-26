@@ -2,12 +2,9 @@ package com.mhj.longlivemypet;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.picasso.Picasso;
 
 public class PetCalendarAdapter extends FirestoreRecyclerAdapter<PetCalendarItem, PetCalendarAdapter.MyViewHolderr> {
     View itemView;
@@ -34,13 +30,11 @@ public class PetCalendarAdapter extends FirestoreRecyclerAdapter<PetCalendarItem
         this.petCalendarFragment = petCalendarFragment;
     }
 
-
     // 실제 각 뷰 홀더에 데이터를 연결해주는 함수
     @Override
     protected void onBindViewHolder(@NonNull final PetCalendarAdapter.MyViewHolderr myViewHolderr, final int position, @NonNull final PetCalendarItem petCalendarItem) {
         myViewHolderr.textViewTitle.setText(petCalendarItem.getTitle());
         myViewHolderr.textViewBody.setText(petCalendarItem.getBody());
-
 
         //일정수정버튼(수정하기프레그먼트진입)
         myViewHolderr.itemView.setOnClickListener(new View.OnClickListener() {
@@ -83,8 +77,6 @@ public class PetCalendarAdapter extends FirestoreRecyclerAdapter<PetCalendarItem
 
     }//onBindViewHolder
 
-
-
     // 리사이클러뷰에 들어갈 뷰 홀더를 할당하는 함수, 뷰 홀더는 실제 레이아웃 파일과 매핑되어야하며, extends의 Adater<>에서 <>안에들어가는 타입을 따른다.
     @NonNull
     @Override
@@ -94,25 +86,21 @@ public class PetCalendarAdapter extends FirestoreRecyclerAdapter<PetCalendarItem
         return new MyViewHolderr(itemView);
     }//onCreateViewHolder
 
-
     // 리사이클러뷰에 들어갈 뷰 홀더, 그리고 그 뷰 홀더에 들어갈 아이템들을 지정
     public class MyViewHolderr extends RecyclerView.ViewHolder{
         TextView textViewTitle,textViewBody,textViewWrite_date;
-
 
         public MyViewHolderr(View view){
             super(view);
             textViewTitle = view.findViewById(R.id.textViewTitle);
             textViewBody = view.findViewById(R.id.textViewBody);
             textViewWrite_date = view.findViewById(R.id.textViewWrite_date);
-
         }// MyViewHolder
-    }// class MyViewHolder
 
+    }// class MyViewHolder
 
     interface PetCalendarItemDetailListener{
         void petCalendaritemDetail(String document,String title,String body,String write_date);
     }//PetCalendarItemDetailListener
-
 
 }

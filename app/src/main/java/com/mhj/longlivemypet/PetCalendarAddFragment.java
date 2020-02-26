@@ -1,47 +1,21 @@
 package com.mhj.longlivemypet;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Date;
-
-import static android.app.Activity.RESULT_OK;
 
 public class PetCalendarAddFragment extends Fragment {
-
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
     MainActivity mainActivity;
@@ -50,7 +24,6 @@ public class PetCalendarAddFragment extends Fragment {
     ViewGroup rootView;
     ProgressDialog progressDialog;
     TextView textViewWrite_date;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,7 +39,7 @@ public class PetCalendarAddFragment extends Fragment {
         Bundle extra = this.getArguments();
         if(extra != null) {
             extra = getArguments();
-            whentime =extra.getString("1");
+            whentime = extra.getString("whentime");
         }
         textViewWrite_date.setText(whentime);
 
@@ -89,15 +62,13 @@ public class PetCalendarAddFragment extends Fragment {
         return rootView;
     }//onCreateView
 
-
     //입력된일정정보 PetItem으로 넘긴 후 전화면으로가기
     void AddPetCalendarItem(){
-
-        if(editText_title.length()<1){
+        if(editText_title.length() < 1){
             Toast.makeText(mainActivity, "제목이 너무 짧습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(editText_body.length()<1){
+        if(editText_body.length() < 1){
             Toast.makeText(mainActivity, "내용이 너무 짧습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -107,17 +78,18 @@ public class PetCalendarAddFragment extends Fragment {
         progressDialog.setMessage("잠시만 기다려주세요.");
         progressDialog.show();
         progressDialog.setCancelable(false);
+
         PetCalendarItem petCalendarItem = new PetCalendarItem();
         petCalendarItem.setWrite_date(textViewWrite_date.getText().toString());
         petCalendarItem.setTitle(editText_title.getText().toString());
         petCalendarItem.setBody(editText_body.getText().toString());
         petCalendarItem.setEmail(email);
+
         firestore.collection("Calendar").document().set(petCalendarItem);
         Toast.makeText(getContext(), "일정 추가가 완료되었습니다.", Toast.LENGTH_SHORT).show();
         mainActivity.replaceFragment(R.layout.fragment_pet_calendar);
 
         progressDialog.dismiss();
     }//AddPetCalendarItem
-
 
 }//class PetAddFragment

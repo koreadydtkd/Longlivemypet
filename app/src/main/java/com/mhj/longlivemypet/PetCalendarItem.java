@@ -1,11 +1,7 @@
 package com.mhj.longlivemypet;
 
 public class PetCalendarItem {
-
-    String email;
-    String title;
-    String body;
-    String write_date;
+    String email, title, body, write_date;
 
     public PetCalendarItem(){
     }

@@ -1,47 +1,21 @@
 package com.mhj.longlivemypet;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Date;
-
-import static android.app.Activity.RESULT_OK;
-
 
 public class PetCalendarAdjustFragment extends Fragment {
-
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
     MainActivity mainActivity;
@@ -50,7 +24,6 @@ public class PetCalendarAdjustFragment extends Fragment {
     ViewGroup rootView;
     ProgressDialog progressDialog;
     TextView textViewWrite_date;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,7 +46,6 @@ public class PetCalendarAdjustFragment extends Fragment {
             }
         });
 
-
         //일정추가완료버튼
         rootView.findViewById(R.id.button_AdjustCalender).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +55,6 @@ public class PetCalendarAdjustFragment extends Fragment {
         });
         return rootView;
     }//onCreateView
-
 
     //입력된 일정정보 PetCalendarItem 넘긴 후 전화면으로가기 + 수정된내용 파이어베이스 업데이트
     void AddPetCalendarItem(){
@@ -107,17 +78,14 @@ public class PetCalendarAdjustFragment extends Fragment {
         petCalendarItem.setTitle(editText_title.getText().toString());
         petCalendarItem.setBody(editText_body.getText().toString());
         petCalendarItem.setEmail(email);
-        firestore.collection("Calendar").document(document).update("title",petCalendarItem.getTitle());
-        firestore.collection("Calendar").document(document).update("body",petCalendarItem.getBody());
-        firestore.collection("Calendar").document(document).update("write_date",petCalendarItem.getWrite_date());
+
+        firestore.collection("Calendar")
+                .document(document).update("title",petCalendarItem.getTitle(), "body",petCalendarItem.getBody(), "write_date",petCalendarItem.getWrite_date());
 
         Toast.makeText(getContext(), "일정 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
         mainActivity.replaceFragment(R.layout.fragment_pet_calendar);
         progressDialog.dismiss();
     }//PetCalendarAdjustFragment
-
-
-
 
     //수정전 최초 일정추가에서 입력받았던 정보 불러오기, 이화면 시작하자마자 실행
     public void setArgument() {
@@ -128,6 +96,5 @@ public class PetCalendarAdjustFragment extends Fragment {
             editText_body.setText(getArguments().getString("body"));
         }
     }//setArgument
-
 
 }//class PetAdjustFragment

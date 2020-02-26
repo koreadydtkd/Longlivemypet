@@ -1,7 +1,5 @@
 package com.mhj.longlivemypet;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -20,7 +18,6 @@ import com.rd.animation.type.AnimationType;
 import java.util.ArrayList;
 
 public class SoundFragment_Viewpager extends Fragment {
-
     ViewGroup rootView;
     MainActivity mainActivity;
     ViewPager pager;
@@ -31,10 +28,8 @@ public class SoundFragment_Viewpager extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_sound_fragment__viewpager, container, false);
-
         pager= rootView.findViewById(R.id.pager);
         pager.setOffscreenPageLimit(2); //페이지갯수
 
@@ -51,12 +46,9 @@ public class SoundFragment_Viewpager extends Fragment {
         pageIndicatorView.setSelected(1);
         pageIndicatorView.setAnimationType(AnimationType.COLOR);
 
-
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 
             @Override
             public void onPageSelected(int position) {
@@ -64,13 +56,10 @@ public class SoundFragment_Viewpager extends Fragment {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) { }
         });
         return rootView;
     }
-
 
     class MypagerAdapter extends FragmentStatePagerAdapter {
         ArrayList<Fragment> items = new ArrayList<Fragment>();
@@ -90,6 +79,6 @@ public class SoundFragment_Viewpager extends Fragment {
         public int getCount() {
             return items.size();
         }
+    }
 
-
-    }}
+}

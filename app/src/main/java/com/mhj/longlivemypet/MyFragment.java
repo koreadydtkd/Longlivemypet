@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -152,7 +150,6 @@ public class MyFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
-
     }
 
     private void changeNick(){
@@ -190,7 +187,6 @@ public class MyFragment extends Fragment {
                     }
                     textView_birth.setText(task.getResult().get("birth").toString());
                     editText_phone.setText(task.getResult().get("phone").toString());
-
                 }
             }
         });

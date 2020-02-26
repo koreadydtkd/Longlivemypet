@@ -1,37 +1,27 @@
 package com.mhj.longlivemypet;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
@@ -39,17 +29,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-
 public class PetAddFragment extends Fragment {
-
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
     MainActivity mainActivity;
@@ -76,8 +61,6 @@ public class PetAddFragment extends Fragment {
         editText_Breed = rootView.findViewById(R.id.editText_Breed);
         editText_Memo = rootView.findViewById(R.id.editText_Memo);
         imageViewPet = rootView.findViewById(R.id.imageViewPet);
-
-
 
         //갤러리에서이미지찾기버튼
         rootView.findViewById(R.id.imageViewPet).setOnClickListener(new View.OnClickListener() {
@@ -120,7 +103,6 @@ public class PetAddFragment extends Fragment {
         return rootView;
     }//onCreateView
 
-
     //이미지뷰 돌리기
     private Bitmap getRotatedBitmap(int degree) {
         Matrix matrix = new Matrix();
@@ -136,7 +118,6 @@ public class PetAddFragment extends Fragment {
         }
         return bitmap;
     }//getRotatedBitmap
-
 
     //갤러리에서 찾은사진 이미지뷰에 띄우기
     @Override
@@ -154,7 +135,6 @@ public class PetAddFragment extends Fragment {
         }
     }//onActivityResult
 
-
     //입력된펫정보 PetItem으로 넘긴 후 전화면으로가기
     void AddPetItem(){
         PetItem petItem = new PetItem();
@@ -166,13 +146,11 @@ public class PetAddFragment extends Fragment {
         petItem.setMemo(editText_Memo.getText().toString());
         petItem.setEmail(email);
         petItem.setImageURL(imageURL);
+
         firestore.collection("Pet").document().set(petItem);
-        String petname = petItem.getName();
-        Toast.makeText(getContext(), petname + "펫 추가가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), editText_Name.getText().toString() + "펫 추가가 완료되었습니다.", Toast.LENGTH_SHORT).show();
         mainActivity.replaceFragment(R.id.navigation_pet);
     }//AddPetItem
-
-
 
     //펫등록(사진+정보) 최종완료
     void AddPet_Complete(){
@@ -184,23 +162,23 @@ public class PetAddFragment extends Fragment {
             Toast.makeText(mainActivity, "사진을 추가해주세요!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(editText_Name.length()<1){
+        if(editText_Name.length() < 1){
             Toast.makeText(mainActivity, "이름을 확인해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(editText_Sex.length()<2){
+        if(editText_Sex.length() < 2){
             Toast.makeText(mainActivity, "성별을 확인해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(editText_Date.length()<6){
+        if(editText_Date.length() < 6){
             Toast.makeText(mainActivity, "생일을 확인해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(editText_Weight.length()<3){
+        if(editText_Weight.length() < 1){
             Toast.makeText(mainActivity, "몸무게를 확인해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(editText_Breed.length()<1){
+        if(editText_Breed.length() < 1){
             Toast.makeText(mainActivity, "종을 확인해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -210,17 +188,20 @@ public class PetAddFragment extends Fragment {
         progressDialog.show();
         progressDialog.setCancelable(false);
 
-        if (bitmap !=null){
+        if (bitmap != null){
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // 100은 100% 품질
             byte[] data = baos.toByteArray();
+
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
+
             Date date = new Date();
             long timestamp = date.getTime();
             String imageFilename = "image" + timestamp + ".jpg";
             final StorageReference imageRef = storageRef.child(imageFilename);
             StorageMetadata metadata = new StorageMetadata.Builder().setContentType("image/jpg").build();
+
             UploadTask uploadTask = imageRef.putBytes( data, metadata );
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override

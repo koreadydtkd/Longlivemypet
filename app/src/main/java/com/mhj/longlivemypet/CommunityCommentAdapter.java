@@ -24,7 +24,6 @@ import java.text.SimpleDateFormat;
 public class CommunityCommentAdapter extends FirestoreRecyclerAdapter<CommunityDetailItem, CommunityCommentAdapter.CommunityDetailHolder> {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
     String document, documentcomment, nick;
 

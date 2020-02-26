@@ -1,8 +1,7 @@
 package com.mhj.longlivemypet;
 
 public class CommunityDetailItem {
-    String nick;
-    String commnet;
+    String nick, commnet;
     long date;
 
     public CommunityDetailItem() {

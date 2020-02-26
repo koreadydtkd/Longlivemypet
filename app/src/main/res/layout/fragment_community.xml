@@ -80,6 +80,7 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_hospital"
             android:text="#병원"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_marginHorizontal="6dp"
@@ -95,6 +96,7 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_cafe"
             android:text="#카페"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_weight="1"
@@ -109,6 +111,7 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_all"
             android:text="#전체"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_marginHorizontal="6dp"
@@ -125,6 +128,7 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_boast"
             android:text="#자랑"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_weight="1"
@@ -139,6 +143,7 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_question"
             android:text="#궁금"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_marginHorizontal="6dp"

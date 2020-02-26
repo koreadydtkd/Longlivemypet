@@ -1,18 +1,9 @@
 package com.mhj.longlivemypet;
 
 public class PetItem {
-
-    String name;
-    String sex;
-    String breed;
-    String date;
-    String weight;
-    String email;
-    String memo;
-    String imageURL;
+    String name, sex, breed, date, weight, email, memo, imageURL;
 
     public PetItem(){
-
     }
 
     public PetItem(String name, String sex, String breed, String date, String weight, String email, String memo, String imageURL) {
@@ -90,5 +81,3 @@ public class PetItem {
         this.imageURL = imageURL;
     }
 }
-
-

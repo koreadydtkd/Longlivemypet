@@ -53,6 +53,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
             textView_question.setText(item.getQuestion());
             textView_date.setText("작성일 : " + dateFormat.format(item.getDate()));
         }
-
     }
+
 }

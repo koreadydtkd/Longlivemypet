@@ -1,7 +1,6 @@
 package com.mhj.longlivemypet;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -37,9 +36,7 @@ import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
-
 public class PetAdjustFragment extends Fragment {
-
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
     private FirebaseStorage storage;
@@ -110,7 +107,6 @@ public class PetAdjustFragment extends Fragment {
         return rootView;
     }//onCreateView
 
-
     //이미지뷰 돌리기
     private Bitmap getRotatedBitmap(int degree) {
         Matrix matrix = new Matrix();
@@ -127,7 +123,6 @@ public class PetAdjustFragment extends Fragment {
         return bitmap;
     }//getRotatedBitmap
 
-
     //갤러리에서 찾은사진 이미지뷰에 띄우기
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -143,8 +138,6 @@ public class PetAdjustFragment extends Fragment {
         }
     }//onActivityResult
 
-
-
     //입력된펫정보 PetItem으로 넘긴 후 전화면으로가기 + 수정된내용 파이어베이스 업데이트
     void AdjustPetItem(){
         PetItem petItem = new PetItem();
@@ -156,42 +149,35 @@ public class PetAdjustFragment extends Fragment {
         petItem.setMemo(editText_Memo.getText().toString());
         petItem.setEmail(email);
         petItem.setImageURL(imageURL);
-        firestore.collection("Pet").document(document).update("name",petItem.getName());
-        firestore.collection("Pet").document(document).update("sex",petItem.getSex());
-        firestore.collection("Pet").document(document).update("breed",petItem.getBreed());
-        firestore.collection("Pet").document(document).update("date",petItem.getDate());
-        firestore.collection("Pet").document(document).update("weight",petItem.getWeight());
-        firestore.collection("Pet").document(document).update("memo",petItem.getMemo());
-        firestore.collection("Pet").document(document).update("imageURL",petItem.getImageURL());
-        String petname = petItem.getName();
-        Toast.makeText(getContext(), petname + "펫 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+        firestore.collection("Pet").document(document).set(petItem);
+
+        Toast.makeText(getContext(), editText_Name.getText().toString() + "펫 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
         mainActivity.replaceFragment(R.id.navigation_pet);
-
     }//AdjustPetItem
-
 
     //펫수정(사진+정보) 최종완료
     void AdjustPet_Complete(){
         imageViewPet.setDrawingCacheEnabled(true);
         imageViewPet.buildDrawingCache();
         Bitmap bitmap = ((BitmapDrawable) imageViewPet.getDrawable()).getBitmap();
-        if(editText_Name.length()<1){
+        if(editText_Name.length() < 1){
             Toast.makeText(mainActivity, "이름을 확인해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(editText_Sex.length()<2){
+        if(editText_Sex.length() < 2){
             Toast.makeText(mainActivity, "성별을 확인해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(editText_Date.length()<6){
+        if(editText_Date.length() < 6){
             Toast.makeText(mainActivity, "생일을 확인해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(editText_Weight.length()<3){
+        if(editText_Weight.length() < 1){
             Toast.makeText(mainActivity, "몸무게를 확인해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(editText_Breed.length()<1){
+        if(editText_Breed.length() < 1){
             Toast.makeText(mainActivity, "종을 확인해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -207,13 +193,16 @@ public class PetAdjustFragment extends Fragment {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // 100은 100% 품질
             byte[] data = baos.toByteArray();
+
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
+
             Date date = new Date();
             long timestamp = date.getTime();
             String imageFilename = "image" + timestamp + ".jpg";
             final StorageReference imageRef = storageRef.child(imageFilename);
             StorageMetadata metadata = new StorageMetadata.Builder().setContentType("image/jpg").build();
+
             UploadTask uploadTask = imageRef.putBytes( data, metadata );
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override

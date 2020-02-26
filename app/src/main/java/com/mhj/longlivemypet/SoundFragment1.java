@@ -16,8 +16,6 @@ public class SoundFragment1 extends Fragment {
     MainActivity mainActivity;
     MediaPlayer mediaPlayer = new MediaPlayer();
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_sound_fragment1, container, false);
@@ -35,7 +33,6 @@ public class SoundFragment1 extends Fragment {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mediaPlayer.start();//재생시작!
-
                         }
                     });
                 }catch(Exception e){
@@ -46,7 +43,6 @@ public class SoundFragment1 extends Fragment {
                 Toast.makeText(getContext(), "소리를 최대한 키워주시고 \n 펫의 반응을 지켜보세요!", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         //초인종소리 재생(Play)
         Button buttonPlay2 = rootView.findViewById(R.id.buttonPlay2);
@@ -60,7 +56,6 @@ public class SoundFragment1 extends Fragment {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mediaPlayer.start();//재생시작!
-
                         }
                     });
                 }catch(Exception e){
@@ -71,7 +66,6 @@ public class SoundFragment1 extends Fragment {
                 Toast.makeText(getContext(), "소리를 최대한 키워주시고 \n 펫의 반응을 지켜보세요!", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         //새소리 재생(Play)
         Button buttonPlay3 = rootView.findViewById(R.id.buttonPlay3);
@@ -85,7 +79,6 @@ public class SoundFragment1 extends Fragment {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mediaPlayer.start();//재생시작!
-
                         }
                     });
                 }catch(Exception e){
@@ -109,7 +102,6 @@ public class SoundFragment1 extends Fragment {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mediaPlayer.start();//재생시작!
-
                         }
                     });
                 }catch(Exception e){
@@ -133,7 +125,6 @@ public class SoundFragment1 extends Fragment {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mediaPlayer.start();//재생시작!
-
                         }
                     });
                 }catch(Exception e){
@@ -157,7 +148,6 @@ public class SoundFragment1 extends Fragment {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mediaPlayer.start();//재생시작!
-
                         }
                     });
                 }catch(Exception e){
@@ -166,15 +156,11 @@ public class SoundFragment1 extends Fragment {
                 Vibrator vibe = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
                 vibe.vibrate(1000); //1초 지속시간
                 Toast.makeText(getContext(), "소리를 최대한 키워주시고 \n 펫의 반응을 지켜보세요!", Toast.LENGTH_SHORT).show();
-
             }
         });
 
         return rootView;
     }
-
-
-
 
     void killMediaPlayer(){
         if (mediaPlayer != null){
@@ -185,6 +171,5 @@ public class SoundFragment1 extends Fragment {
             }
         }
     }
-
 
 }

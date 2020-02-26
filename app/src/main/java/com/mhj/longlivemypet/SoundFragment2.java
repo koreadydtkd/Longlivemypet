@@ -13,11 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-
 public class SoundFragment2 extends Fragment {
     MainActivity mainActivity;
     MediaPlayer mediaPlayer = new MediaPlayer();
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,7 +34,6 @@ public class SoundFragment2 extends Fragment {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mediaPlayer.start();//재생시작!
-
                         }
                     });
                 }catch(Exception e){
@@ -47,7 +44,6 @@ public class SoundFragment2 extends Fragment {
                 Toast.makeText(getContext(), "소리를 최대한 키워주시고 \n 펫의 반응을 지켜보세요!", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         //하모니카소리 재생(Play)
         Button buttonPlay8 = rootView.findViewById(R.id.buttonPlay8);
@@ -61,7 +57,6 @@ public class SoundFragment2 extends Fragment {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mediaPlayer.start();//재생시작!
-
                         }
                     });
                 }catch(Exception e){
@@ -72,7 +67,6 @@ public class SoundFragment2 extends Fragment {
                 Toast.makeText(getContext(), "소리를 최대한 키워주시고 \n 펫의 반응을 지켜보세요!", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         //말울음소리 재생(Play)
         Button buttonPlay9 = rootView.findViewById(R.id.buttonPlay9);
@@ -86,7 +80,6 @@ public class SoundFragment2 extends Fragment {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mediaPlayer.start();//재생시작!
-
                         }
                     });
                 }catch(Exception e){
@@ -97,7 +90,6 @@ public class SoundFragment2 extends Fragment {
                 Toast.makeText(getContext(), "소리를 최대한 키워주시고 \n 펫의 반응을 지켜보세요!", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         //원숭이울음소리 재생(Play)
         Button buttonPlay10 = rootView.findViewById(R.id.buttonPlay10);
@@ -111,7 +103,6 @@ public class SoundFragment2 extends Fragment {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mediaPlayer.start();//재생시작!
-
                         }
                     });
                 }catch(Exception e){
@@ -122,7 +113,6 @@ public class SoundFragment2 extends Fragment {
                 Toast.makeText(getContext(), "소리를 최대한 키워주시고 \n 펫의 반응을 지켜보세요!", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         //장난감소리 재생(Play)
         Button buttonPlay11 = rootView.findViewById(R.id.buttonPlay11);
@@ -136,7 +126,6 @@ public class SoundFragment2 extends Fragment {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mediaPlayer.start();//재생시작!
-
                         }
                     });
                 }catch(Exception e){
@@ -161,7 +150,6 @@ public class SoundFragment2 extends Fragment {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
                             mediaPlayer.start();//재생시작!
-
                         }
                     });
                 }catch(Exception e){
@@ -176,11 +164,6 @@ public class SoundFragment2 extends Fragment {
         return rootView;
     }
 
-
-
-
-
-
     void killMediaPlayer(){
         if (mediaPlayer != null){
             try{
@@ -190,6 +173,5 @@ public class SoundFragment2 extends Fragment {
             }
         }
     }
-
 
 }
