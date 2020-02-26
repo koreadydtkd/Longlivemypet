@@ -513,11 +513,11 @@ public class HomeFragment extends Fragment {
                         micro_dust_value = 0;
                         nano_dust_value = 0;
                     } else if(object.get("pm10Value").toString().equals("-")){
-                        nano_dust_value = 0;
-                        micro_dust_value = Integer.parseInt(object.get("pm10Value").toString());
-                    } else  if(object.get("pm25Value").toString().equals("-")){
                         micro_dust_value = 0;
                         nano_dust_value = Integer.parseInt(object.get("pm25Value").toString());
+                    } else  if(object.get("pm25Value").toString().equals("-")){
+                        nano_dust_value = 0;
+                        micro_dust_value = Integer.parseInt(object.get("pm10Value").toString());
                     } else {
                         micro_dust_value = Integer.parseInt(object.get("pm10Value").toString());
                         nano_dust_value = Integer.parseInt(object.get("pm25Value").toString());
