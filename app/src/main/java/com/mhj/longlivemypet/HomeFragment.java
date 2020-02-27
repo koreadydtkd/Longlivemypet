@@ -67,7 +67,6 @@ public class HomeFragment extends Fragment {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setMessage("잠시만 기다려주세요...");
 
-
         if (requestQueue == null){
             requestQueue = Volley.newRequestQueue(getContext());
         }
@@ -96,7 +95,6 @@ public class HomeFragment extends Fragment {
         adapter = new NewsAdapter();
         recyclerView.setAdapter(adapter);
 
-
         getNaverNews();
 
         if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
@@ -121,11 +119,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-
-
         return rootView;
     }
+
     private void setWhether() {
         Date today = new Date();
         setTime(today);
@@ -139,10 +135,6 @@ public class HomeFragment extends Fragment {
                 String weather = address + sKey + row + basedate + basetime + nx + ny;
                 String weather2 = address + sKey + row + basedate + basetime2 + nx + ny;
                 String dust_station = address2 + tmx + tmy + sKey + type;
-
-                Log.e("날씨 api:", weather);
-                Log.e("강수량 api:", weather2);
-                Log.e("측정소 api:", dust_station);
 
                 //여기에 딜레이 후 시작할 작업들을 입력
                 tellMetheWeather(weather);
@@ -274,13 +266,6 @@ public class HomeFragment extends Fragment {
                 tmx = "tmX=" + tm_pt.getX();
                 tmy = "&tmY="+ tm_pt.getY() + "&";
 
-                String message = "startLocationService() 최근 위치\nLat: " + latitude + "\nLon: " + longitude;
-                String message2 = "geo in : xGeo="  + in_pt.getX() + ", yGeo=" + in_pt.getY();
-                String message3 = "tm : xTM=" + tm_pt.getX() + ", yTM=" + tm_pt.getY();
-
-                Log.e(TAG, message);
-                Log.e(TAG, message2);
-                Log.e(TAG, message3);
             }else{
                 Log.e(TAG, "위치로드 실패");
             }
@@ -295,8 +280,6 @@ public class HomeFragment extends Fragment {
         public void onLocationChanged(Location location) {
             double latitude = location.getLatitude(); //위도
             double longitude = location.getLongitude();// 경도
-            String message = "내 위치 -> Lat:" + latitude + "\nLon:" + longitude;
-            Log.e("MapActivity" , message);
         }
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) { }
@@ -307,8 +290,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void tellMetheWeather(String url1) {
-
-        Log.e("tellMetheWeather", "가동중");
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -322,18 +303,14 @@ public class HomeFragment extends Fragment {
                         JSONObject object = item.getJSONObject(i);
 
                         if(object.getString("fcstTime").equals(simpletime) && object.getString("fcstDate").equals(today) ) {
-                            Log.e("WeatherFragment", object.getString("category"));
 
                             if(object.getString("category").equals("POP")){
                                 txtRainper.setText(object.get("fcstValue").toString() + "%");
-                                Log.e("WeatherFragment", object.get("fcstValue").toString());
                             }
 
                             if(object.getString("category").equals("PTY")){
-                                Log.e("WeatherFragment", object.get("fcstValue").toString());
                                 rain = Double.parseDouble(object.get("fcstValue").toString());
 
-                                Log.e("WeatherFragment", rain + "날씨");
                                 if(rain >= 1 && rain < 2){
                                     imgWeather.setImageResource(R.drawable.rain);
                                     txtWeather.setText("비");
@@ -351,16 +328,11 @@ public class HomeFragment extends Fragment {
 
                             if(object.getString("category").equals("REH")){
                                 txtWet.setText(object.get("fcstValue").toString() + "%");
-                                Log.e("WeatherFragment", object.get("fcstValue").toString() + "%");
                             }
 
                             if(object.getString("category").equals("SKY")) {
-                                Log.e("WeatherFragment", object.get("fcstValue").toString());
                                 int sky = Integer.parseInt(object.get("fcstValue").toString());
-                                Log.e("WeatherFragment", sky + "단계");
-                                Log.e("rain:", rain + "비?");
                                 if(rain == 0) {
-                                    Log.e("시간:", numtime + "시");
                                     if (numtime >= 600 && numtime < 1800) {
                                         if (sky == 1 || sky == 2) {
                                             imgWeather.setImageResource(R.drawable.sunny);
@@ -390,7 +362,6 @@ public class HomeFragment extends Fragment {
 
                             if (object.getString("category").equals("T3H")) {
                                 txtTemp.setText(object.get("fcstValue").toString() + "ºc");
-                                Log.e("WeatherFragment", object.get("fcstValue").toString() + "ºc");
                             }
 
                             if(object.getString("category").equals("WSD")){
@@ -414,7 +385,7 @@ public class HomeFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TEST", "오류");
+                Log.e(TAG, "tellMetheWeather 오류");
                 error.printStackTrace();
             }
         });
@@ -423,7 +394,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void tellMetheWeather2(String url2) {
-        Log.e("tellMetheWeather2", "가동중");
         final JsonObjectRequest jsonRequest2 = new JsonObjectRequest(Request.Method.GET, url2, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -435,7 +405,6 @@ public class HomeFragment extends Fragment {
                     for (int i = 0; i < item.length(); i++) {
                         JSONObject object = item.getJSONObject(i);
                         if(object.getString("fcstTime").equals(simpletime2) && object.getString("fcstDate").equals(today) ) {
-                            Log.e("WeatherFragment", object.getString("category"));
                             if(object.getString("category").equals("R06")){
                                 txtRain.setText(object.get("fcstValue").toString() + "mm");
                             }
@@ -448,7 +417,7 @@ public class HomeFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TEST", "오류");
+                Log.e(TAG, "tellMetheWeather2 오류");
                 error.printStackTrace();
             }
         });
@@ -465,9 +434,7 @@ public class HomeFragment extends Fragment {
                         JSONObject object = list.getJSONObject(0);
                         station = "stationName=" + object.get("stationName").toString();
                         txtLocation.setText(object.get("stationName").toString());
-                        Log.e("스테이션", station);
                         String dust_level = address3 + station + "&dataTerm=month&pageNo=1&numOfRows=10&" + sKey + "&ver=1.3" + type;
-                        Log.e("미세먼지 api:", dust_level);
                         tellMetheDustlevel(dust_level);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -476,7 +443,7 @@ public class HomeFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TEST", "오류");
+                Log.e(TAG, "tellMetheStation 오류");
                 error.printStackTrace();
             }
         });
@@ -546,8 +513,6 @@ public class HomeFragment extends Fragment {
                         txtNanodust.setText("측정중");
                     }
 
-                    Log.e("미세먼지 단위:", "\n미세먼지:" + micro_dust_level + "\n초미세먼지:" + nano_dust_level);
-                    Log.e("미세먼지 값:", "\n미세먼지농도:" + micro_dust_value + "\n초미세먼지농도" + nano_dust_value);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -555,7 +520,7 @@ public class HomeFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TEST", "오류");
+                Log.e(TAG, "tellMetheDustlevel 오류");
                 error.printStackTrace();
             }
         });
