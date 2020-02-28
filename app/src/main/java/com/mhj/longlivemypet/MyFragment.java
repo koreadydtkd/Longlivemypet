@@ -130,7 +130,9 @@ public class MyFragment extends Fragment {
         builder.setNegativeButton("네", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                firestore.collection("Users").document(email).delete();
                 auth.getCurrentUser().delete();
+                auth.signOut();
                 MainActivity activity = (MainActivity) getActivity();
                 activity.finishAffinity();
             }
