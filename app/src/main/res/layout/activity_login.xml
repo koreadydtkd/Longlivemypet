@@ -91,7 +91,7 @@
 
         <Button
             android:id="@+id/button_login"
-            android:layout_width="110dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:background="@drawable/button"
@@ -101,6 +101,7 @@
             android:textSize="18sp" />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/button_Google"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
