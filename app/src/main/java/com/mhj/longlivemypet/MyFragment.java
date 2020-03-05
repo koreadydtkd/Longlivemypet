@@ -137,12 +137,11 @@ public class MyFragment extends Fragment {
                     @Override
                     public void run() {
                         auth.getCurrentUser().delete();
-                        auth.signOut();
                         MainActivity activity = (MainActivity) getActivity();
                         activity.finishAffinity();
                     }
 
-                }, 500);
+                }, 800);
             }
         });
         AlertDialog alertDialog = builder.create();

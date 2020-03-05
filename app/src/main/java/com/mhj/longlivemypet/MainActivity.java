@@ -32,14 +32,13 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     CommunityFragment communityFragment;
     MoreFragment moreFragment;
     PetCalendarFragment petCalendarFragment;
+    private String email;
 
     private final static int ID_PET = 1;
     private final static int ID_MAP = 2;
     private final static int ID_HOME = 3;
     private final static int ID_FORUM = 4;
     private final static int ID_MORE = 5;
-
-    private long pressedTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +47,14 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
 
         AutoPermissions.Companion.loadAllPermissions(this, 100);
 
-        String email = auth.getCurrentUser().getEmail();
+        email = auth.getCurrentUser().getEmail();
         firestore.collection("Users").document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     String name = (String) task.getResult().get("name");
                     if (name == null) {
-                        startActivity(new Intent(getApplicationContext(), JoinSecondActivity.class));
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                     }
                 }
             }
@@ -177,6 +176,23 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     public void onDenied(int requestCode, String[] permissions){ }
     @Override
     public void onGranted(int requestCode, String[] permissions){ }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        email = auth.getCurrentUser().getEmail();
+        firestore.collection("Users").document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    String name = (String) task.getResult().get("name");
+                    if (name == null) {
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     public void onBackPressed() {

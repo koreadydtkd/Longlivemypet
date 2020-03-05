@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class JoinSecondActivity extends AppCompatActivity {
     EditText editText_Nick, editText_Name, editText_Birth, editText_Phone;
     RadioButton radioButton; // true = 여자, false = 남자
+    CheckBox checkBox, checkBox2;
     boolean nick_ck = true;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
@@ -32,6 +34,8 @@ public class JoinSecondActivity extends AppCompatActivity {
         radioButton = findViewById(R.id.radiobutton_W);
         editText_Birth = findViewById(R.id.editText_Birth);
         editText_Phone = findViewById(R.id.editText_Phone);
+        checkBox = findViewById(R.id.checkbox);
+        checkBox2 = findViewById(R.id.checkbox2);
 
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -106,6 +110,11 @@ public class JoinSecondActivity extends AppCompatActivity {
         final String phone = editText_Phone.getText().toString();
         if(phone.length() < 10){
             Toast.makeText(JoinSecondActivity.this, "잘못된 입력입니다.\n다시 입력해주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(!checkBox.isChecked() || !checkBox2.isChecked()){
+            Toast.makeText(JoinSecondActivity.this, "동의후에 가입이 가능합니다.", Toast.LENGTH_SHORT).show();
             return;
         }
 
