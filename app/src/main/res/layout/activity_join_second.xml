@@ -8,162 +8,226 @@
     android:background="#20FFAA00"
     tools:context=".JoinSecondActivity">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/text1"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:gravity="center_horizontal"
+        android:text="회원정보 입력"
+        android:textSize="28sp" />
 
-        <TextView
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        app:layout_constraintTop_toBottomOf="@+id/text1"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="24dp">
+
+        <EditText
+            android:id="@+id/editText_Nick"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="회원정보 입력"
-            android:textSize="32sp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="40dp">
-
-            <EditText
-                android:id="@+id/editText_Nick"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/buttonsecond"
-                android:hint="닉네임(2자이상)"
-                android:inputType="textPersonName"
-                android:maxLength="8"
-                android:padding="10dp" />
-
-            <Button
-                android:id="@+id/button_Nick_Check"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/button"
-                android:text="중복확인"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="24dp">
-
-            <EditText
-                android:id="@+id/editText_Name"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/buttonsecond"
-                android:hint="이름"
-                android:inputType="textPersonName"
-                android:maxLength="10"
-                android:padding="10dp" />
-
-            <RadioGroup
-                android:id="@+id/radioGroup_sex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radiobutton_W"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:checked="true"
-                    android:text="여자" />
-
-                <RadioButton
-                    android:id="@+id/radiobutton_M"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="남자" />
-            </RadioGroup>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="24dp">
-
-            <EditText
-                android:id="@+id/editText_Birth"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/buttonsecond"
-                android:hint="생년월일(앞 6자리)"
-                android:inputType="number"
-                android:maxLength="6"
-                android:padding="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="18dp"
-                android:gravity="center"
-                android:text="예) 701010"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="24dp">
-
-            <EditText
-                android:id="@+id/editText_Phone"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/buttonsecond"
-                android:hint="핸드폰번호"
-                android:inputType="number"
-                android:maxLength="11"
-                android:padding="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="32dp"
-                android:gravity="center"
-                android:text="' - '제외"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
+            android:background="@drawable/buttonsecond"
+            android:hint="닉네임(2자이상)"
+            android:inputType="textPersonName"
+            android:maxLength="8"
+            android:padding="10dp" />
 
         <Button
-            android:id="@+id/button_Join_Ok"
-            android:layout_width="140dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="32dp"
+            android:id="@+id/button_Nick_Check"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:background="@drawable/button"
-            android:text="가입완료"
+            android:text="중복확인"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
             android:textStyle="bold" />
 
-    </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp">
+
+        <EditText
+            android:id="@+id/editText_Name"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonsecond"
+            android:hint="이름"
+            android:inputType="textPersonName"
+            android:maxLength="10"
+            android:padding="10dp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radiobutton_W"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="6dp"
+                android:checked="true"
+                android:text="여자" />
+
+            <RadioButton
+                android:id="@+id/radiobutton_M"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="남자" />
+        </RadioGroup>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp">
+
+        <EditText
+            android:id="@+id/editText_Birth"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonsecond"
+            android:hint="생년월일(앞 6자리)"
+            android:inputType="number"
+            android:maxLength="6"
+            android:padding="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="18dp"
+            android:gravity="center"
+            android:text="예) 701010"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout3"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="24dp">
+
+        <EditText
+            android:id="@+id/editText_Phone"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonsecond"
+            android:hint="핸드폰번호"
+            android:inputType="number"
+            android:maxLength="11"
+            android:padding="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="32dp"
+            android:gravity="center"
+            android:text="' - '제외"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout4"
+        app:layout_constraintBottom_toTopOf="@+id/button_Join_Ok"
+        android:layout_marginHorizontal="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="110dp">
+
+            <TextView
+                android:background="@drawable/jointext"
+                android:padding="4dp"
+                android:text="@string/agree1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </ScrollView>
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            app:layout_constraintTop_toBottomOf="@+id/scrollView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="개인정보처리방침 표준약관 동의"
+            android:checked="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="110dp">
+
+            <TextView
+                android:background="@drawable/jointext"
+                android:padding="4dp"
+                android:text="@string/agree2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </ScrollView>
+
+        <CheckBox
+            android:id="@+id/checkbox2"
+            app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="디지털콘텐츠 이용 표준약관 동의"
+            android:checked="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/button_Join_Ok"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button"
+        android:text="가입완료"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
