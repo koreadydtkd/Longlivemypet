@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
     ImageView imgWeather;
     TextView txtWeather, txtTemp, txtRain, txtWind, txtRainper, txtWet, txtDust, txtNanodust, txtLocation;
-    String address, address2, address3, sKey ,row, basedate, basetime, basetime2, nx, ny ,tmx ,tmy, type, station, simpletime,simpletime2,today,yesterday;
+    String address, address2, address3, sKey ,row, basedate, basetime, basetime2, nx, ny ,tmx ,tmy, type, type0, station, simpletime,simpletime2,today,yesterday;
     SimpleDateFormat dateText = new SimpleDateFormat("yyyyMMdd"); //날짜 표시 형식
     SimpleDateFormat hourText = new SimpleDateFormat("HHmm"); //시간 표시 형식
     Button btnRefresh;
@@ -83,12 +83,16 @@ public class HomeFragment extends Fragment {
         txtLocation = rootView.findViewById(R.id.txtLocation);
         recyclerView = rootView.findViewById(R.id.recyclerView);
 
-        address = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?";
-        address2 = "http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList?";
-        address3 = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?";
+        //address = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?";
+        address = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?";
+        //address2 = "http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList?";
+        address2 = "http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getNearbyMsrstnList?";
+        //address3 = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?";
+        address3 = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?";
         sKey = "serviceKey=swlEfys72fvDOcvi5LfN3wFzJEdZoWn0QblHo2VWxkyff4hoQ83W5mEI5MGXQ2TRkYK%2BXR%2B8NtErVqrp%2BOUIGg%3D%3D";
         row = "&numOfRows=100&dataType=JSON&pageNo=1";
-        type = "&_returnType=json";
+        type0 = "&_returnType=json";
+        type = "returnType=json&";
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -133,12 +137,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void run() {
                 String weather = address + sKey + row + basedate + basetime + nx + ny;
+                Log.e("날씨1 api:", weather);
                 String weather2 = address + sKey + row + basedate + basetime2 + nx + ny;
-                String dust_station = address2 + tmx + tmy + sKey + type;
+                //String dust_station = address2 + tmx + tmy + sKey + type;
+                String dust_station = address2 + tmx + tmy + type + sKey;
 
                 //여기에 딜레이 후 시작할 작업들을 입력
                 tellMetheWeather(weather);
-                tellMetheWeather2(weather2);
+                //tellMetheWeather2(weather2);
                 tellMetheStation(dust_station);
 
                 if(progressDialog.isShowing()){
@@ -308,6 +314,10 @@ public class HomeFragment extends Fragment {
                                 txtRainper.setText(object.get("fcstValue").toString() + "%");
                             }
 
+                            if(object.getString("category").equals("PCP")){
+                                txtRain.setText(object.get("fcstValue").toString());
+                            }
+
                             if(object.getString("category").equals("PTY")){
                                 rain = Double.parseDouble(object.get("fcstValue").toString());
 
@@ -393,7 +403,7 @@ public class HomeFragment extends Fragment {
         queue.add(jsonRequest);
     }
 
-    public void tellMetheWeather2(String url2) {
+   /* public void tellMetheWeather2(String url2) {
         final JsonObjectRequest jsonRequest2 = new JsonObjectRequest(Request.Method.GET, url2, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -423,19 +433,27 @@ public class HomeFragment extends Fragment {
         });
         jsonRequest2.setTag(TAG);
         queue.add(jsonRequest2);
-    }
+    }*/
 
     public void tellMetheStation(String url3){
         final JsonObjectRequest jsonRequest3 = new JsonObjectRequest(Request.Method.GET, url3, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONArray list = response.getJSONArray("list");
-                        JSONObject object = list.getJSONObject(0);
-                        station = "stationName=" + object.get("stationName").toString();
-                        txtLocation.setText(object.get("stationName").toString());
-                        String dust_level = address3 + station + "&dataTerm=month&pageNo=1&numOfRows=10&" + sKey + "&ver=1.3" + type;
-                        tellMetheDustlevel(dust_level);
+                    //JSONArray list = response.getJSONArray("list");
+                    //JSONObject object = list.getJSONObject(0);
+                    JSONObject list = response.getJSONObject("response");
+                    JSONObject body = list.getJSONObject("body");
+                    //JSONObject items = body.getJSONObject("items");
+                    JSONArray items = body.getJSONArray("items");
+                    JSONObject object = items.getJSONObject(0);
+                    station = "stationName=" + object.get("stationName").toString();
+                    txtLocation.setText(object.get("stationName").toString());
+                    Log.e("스테이션", station);
+                    //String dust_level = address3 + station + "&dataTerm=month&pageNo=1&numOfRows=10&" + sKey + "&ver=1.3" + type0;
+                    String dust_level = address3 + station + "&dataTerm=month&pageNo=1&numOfRows=10&" + type + sKey;
+                    Log.e("미세먼지 api:", dust_level);
+                    tellMetheDustlevel(dust_level);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -456,39 +474,38 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONArray list = response.getJSONArray("list");
-                    JSONObject object = list.getJSONObject(0);
+                    JSONObject list = response.getJSONObject("response");
+                    JSONObject body = list.getJSONObject("body");
+                    JSONArray items = body.getJSONArray("items");
+                    JSONObject object = items.getJSONObject(0);
+
                     int micro_dust_level = 0;
-                    int nano_dust_level = 0;
+                    int ozone_level = 0;
                     int micro_dust_value = 0;
-                    int nano_dust_value = 0;
-                    if(object.get("pm10Grade").toString().equals("") && object.get("pm25Grade").toString().equals("")) {
+                    double ozone_value = 0;
+
+                    if(object.get("pm10Grade").toString().equals("null")) {
                         micro_dust_level = 0;
-                        nano_dust_level = 0;
-                    } else if (object.get("pm25Grade").toString().equals("")) {
-                        nano_dust_level = 0;
+                    } else{
                         micro_dust_level = Integer.parseInt(object.get("pm10Grade").toString());
-                    } else if (object.get("pm10Grade").toString().equals("")) {
-                        micro_dust_level = 0;
-                        nano_dust_level = Integer.parseInt(object.get("pm25Grade").toString());
-                    } else {
-                        micro_dust_level = Integer.parseInt(object.get("pm10Grade").toString());
-                        nano_dust_level = Integer.parseInt(object.get("pm25Grade").toString());
+                    }
+                    if(object.get("o3Grade").toString().equals("null")) {
+                        ozone_level = 0;
+                    } else{
+                        ozone_level = Integer.parseInt(object.get("o3Grade").toString());;
+                    }
+                    if(object.get("pm10Value").toString().equals("null")||object.get("pm10Value").toString().equals("-")) {
+                        micro_dust_value = 0;
+                    } else{
+                        micro_dust_value = Integer.parseInt(object.get("pm10Value").toString());;
+                    }
+                    if(object.get("o3Value").toString().equals("null")) {
+                        ozone_value = 0.0;
+                    } else{
+                        ozone_value = Double.parseDouble(object.get("o3Value").toString());
                     }
 
-                    if(object.get("pm10Value").toString().equals("-") && object.get("pm25Value").toString().equals("-")){
-                        micro_dust_value = 0;
-                        nano_dust_value = 0;
-                    } else if(object.get("pm10Value").toString().equals("-")){
-                        micro_dust_value = 0;
-                        nano_dust_value = Integer.parseInt(object.get("pm25Value").toString());
-                    } else  if(object.get("pm25Value").toString().equals("-")){
-                        nano_dust_value = 0;
-                        micro_dust_value = Integer.parseInt(object.get("pm10Value").toString());
-                    } else {
-                        micro_dust_value = Integer.parseInt(object.get("pm10Value").toString());
-                        nano_dust_value = Integer.parseInt(object.get("pm25Value").toString());
-                    }
+
                     if(micro_dust_level == 1){
                         txtDust.setText("좋음" + "(" + micro_dust_value + "㎍/㎥" + ")");
                     } else if(micro_dust_level == 2){
@@ -501,18 +518,20 @@ public class HomeFragment extends Fragment {
                         txtDust.setText("측정중");
                     }
 
-                    if(nano_dust_level == 1){
-                        txtNanodust.setText("좋음" + "(" + nano_dust_value + "㎍/㎥" +")");
-                    } else if(nano_dust_level == 2){
-                        txtNanodust.setText("보통"+ "(" + nano_dust_value +"㎍/㎥" + ")");
-                    } else if(nano_dust_level == 3){
-                        txtNanodust.setText("나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
-                    } else if(nano_dust_level == 4){
-                        txtNanodust.setText("매우나쁨"+ "(" + nano_dust_value +"㎍/㎥" + ")");
+                    if(ozone_level == 1){
+                        txtNanodust.setText("좋음" + "(" + ozone_value + "ppm" +")");
+                    } else if(ozone_level == 2){
+                        txtNanodust.setText("보통"+ "(" + ozone_value +"ppm" + ")");
+                    } else if(ozone_level == 3){
+                        txtNanodust.setText("나쁨"+ "(" + ozone_value +"ppm" + ")");
+                    } else if(ozone_level == 4){
+                        txtNanodust.setText("매우나쁨"+ "(" + ozone_value +"ppm" + ")");
                     } else{
                         txtNanodust.setText("측정중");
                     }
 
+                    Log.e("미세먼지 단위:", "\n미세먼지:" + micro_dust_level + "\n오존:" + ozone_level);
+                    Log.e("미세먼지 값:", "\n미세먼지농도:" + micro_dust_value + "\n오존농도" + ozone_value);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -520,7 +539,7 @@ public class HomeFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "tellMetheDustlevel 오류");
+                Log.e("TEST", "오류");
                 error.printStackTrace();
             }
         });

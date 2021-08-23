@@ -187,7 +187,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="초미세먼지 : "
+                    android:text="오존 : "
                     android:textSize="18sp" />
 
                 <TextView
